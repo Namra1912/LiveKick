@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@600;700&family=Outfit:wght@700;800;900&display=swap');
+
+:root {
+  /* Canvas & Surface */
+  --bg-base:             #0a0e14;
+  --bg-surface:           #121820;
+  --bg-surface-elevated:  #1a222d;
+  --border-subtle:        #26303d;
+  --border-focus:         #00B370;
+
+  /* Typography */
+  --text-primary:         #f1f5f9;
+  --text-secondary:       #94a3b8;
+  --text-faint:           #475569;
+
+  /* Brand & Semantic */
+  --color-pitch-green:    #00B370;
+  --color-pitch-hover:    #00cc80;
+  --color-live-red:       #f87171;  /* lightened from #ef4444 */
+  --color-favorite-gold:  #f59e0b;
+
+  /* Match Events */
+  --color-win:            #00B370;
+  --color-draw:            #64748b;
+  --color-loss:            #f87171;
+  --color-card-yellow:     #eab308;
+  --color-card-red:        #dc2626;
+
+  /* Score Cell */
+  --score-box-bg:          #06090e;
+  --score-box-text:        #ffffff;
+
+  /* Info / Utility */
+  --color-info-blue:        #3b82f6;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Outfit', sans-serif;
+}
+
+.font-mono, .font-tabular {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
