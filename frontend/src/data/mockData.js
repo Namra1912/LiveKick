@@ -3,32 +3,42 @@
 // frontend use — your real API layer will map snake_case Postgres columns to
 // this same shape when Phase 1 wires up the real backend).
 //
-// Crest/avatar URLs use ui-avatars.com — a free, keyless placeholder service
-// that generates a colored initials badge. Swap these for real crestUrl /
-// photoUrl values from football-data.org / TheSportsDB / the FotMob wrapper
-// once real data sourcing is wired up (PRD §4a). Nothing else needs to change
-// on the frontend side — same field name, just a different URL string.
+// Crest/avatar URLs use ui-avatars.com / raw.githubusercontent — keyless
+// placeholder service that generates initial badges or real team crests.
 
-const crest = (name, bg) =>
-  `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${bg}&color=fff&size=64&bold=true&format=svg`;
+const photoSeed = (id, width, height) =>
+  `https://picsum.photos/seed/${id}/${width}/${height}`;
 
-const player = (name, bg) =>
-  `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${bg}&color=fff&size=96&format=svg`;
+const player = (name, bg = "00B370") =>
+  `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${bg}&color=fff&size=128&bold=true&format=svg`;
 
 // ---------------------------------------------------------------- teams ----
 export const teams = [
-  { id: 1, name: "Arsenal", shortName: "ARS", crestUrl: crest("ARS", "dc2626"), league: "Premier League", country: "England" },
-  { id: 2, name: "Man City", shortName: "MCI", crestUrl: crest("MCI", "60a5fa"), league: "Premier League", country: "England" },
-  { id: 3, name: "Liverpool", shortName: "LIV", crestUrl: crest("LIV", "b91c1c"), league: "Premier League", country: "England" },
-  { id: 4, name: "Chelsea", shortName: "CHE", crestUrl: crest("CHE", "1d4ed8"), league: "Premier League", country: "England" },
-  { id: 5, name: "Tottenham", shortName: "TOT", crestUrl: crest("TOT", "e5e7eb"), league: "Premier League", country: "England" },
-  { id: 6, name: "Man United", shortName: "MUN", crestUrl: crest("MUN", "dc2626"), league: "Premier League", country: "England" },
-  { id: 7, name: "Real Madrid", shortName: "RMA", crestUrl: crest("RMA", "e5e7eb"), league: "La Liga", country: "Spain" },
-  { id: 8, name: "Atletico Madrid", shortName: "ATM", crestUrl: crest("ATM", "dc2626"), league: "La Liga", country: "Spain" },
-  { id: 9, name: "Barcelona", shortName: "BAR", crestUrl: crest("BAR", "7c2d12"), league: "La Liga", country: "Spain" },
-  { id: 10, name: "Real Betis", shortName: "BET", crestUrl: crest("BET", "166534"), league: "La Liga", country: "Spain" },
-  { id: 11, name: "Borussia Dortmund", shortName: "BVB", crestUrl: crest("BVB", "f59e0b"), league: "Champions League", country: "Germany" },
-  { id: 12, name: "Inter Milan", shortName: "INT", crestUrl: crest("INT", "0ea5e9"), league: "Champions League", country: "Italy" },
+  { id: 1, name: "Arsenal", shortName: "ARS", league: "Premier League", country: "England", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Arsenal%20FC.png", primaryColor: "#EF0107", secondaryColor: "#063672" },
+  { id: 2, name: "Man City", shortName: "MCI", league: "Premier League", country: "England", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Manchester%20City.png", primaryColor: "#6CABDD", secondaryColor: "#1C2C5B" },
+  { id: 3, name: "Liverpool", shortName: "LIV", league: "Premier League", country: "England", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Liverpool%20FC.png", primaryColor: "#C8102E", secondaryColor: "#00B2A9" },
+  { id: 4, name: "Chelsea", shortName: "CHE", league: "Premier League", country: "England", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Chelsea%20FC.png", primaryColor: "#034694", secondaryColor: "#DBA111" },
+  { id: 5, name: "Tottenham", shortName: "TOT", league: "Premier League", country: "England", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Tottenham%20Hotspur.png", primaryColor: "#132257", secondaryColor: "#FFFFFF" },
+  { id: 6, name: "Man United", shortName: "MUN", league: "Premier League", country: "England", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Manchester%20United.png", primaryColor: "#DA291C", secondaryColor: "#FBE122" },
+  { id: 7, name: "Real Madrid", shortName: "RMA", league: "La Liga", country: "Spain", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Real%20Madrid.png", primaryColor: "#FEBE10", secondaryColor: "#00529F" },
+  { id: 8, name: "Atletico Madrid", shortName: "ATM", league: "La Liga", country: "Spain", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Atl%C3%A9tico%20de%20Madrid.png", primaryColor: "#CB3524", secondaryColor: "#272E61" },
+  { id: 9, name: "Barcelona", shortName: "BAR", league: "La Liga", country: "Spain", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/FC%20Barcelona.png", primaryColor: "#004D98", secondaryColor: "#A50044" },
+  { id: 10, name: "Real Betis", shortName: "BET", league: "La Liga", country: "Spain", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Real%20Betis%20Balompi%C3%A9.png", primaryColor: "#00954C", secondaryColor: "#FFFFFF" },
+  { id: 11, name: "Borussia Dortmund", shortName: "BVB", league: "Champions League", country: "Germany", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/Borussia%20Dortmund.png", primaryColor: "#FDE100", secondaryColor: "#000000" },
+  { id: 12, name: "Inter Milan", shortName: "INT", league: "Champions League", country: "Italy", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/Inter%20Milan.png", primaryColor: "#0068A8", secondaryColor: "#000000" },
+  { id: 13, name: "Bayern Munich", shortName: "BAY", league: "Bundesliga", country: "Germany", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/Bayern%20Munich.png", primaryColor: "#DC052D", secondaryColor: "#0066B2" },
+  { id: 14, name: "RB Leipzig", shortName: "RBL", league: "Bundesliga", country: "Germany", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/RB%20Leipzig.png", primaryColor: "#DD013F", secondaryColor: "#0C2340" },
+  { id: 15, name: "Juventus", shortName: "JUV", league: "Serie A", country: "Italy", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/Juventus%20FC.png", primaryColor: "#e5e5e5", secondaryColor: "#000000" },
+  { id: 16, name: "AC Milan", shortName: "ACM", league: "Serie A", country: "Italy", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/AC%20Milan.png", primaryColor: "#AC122A", secondaryColor: "#000000" },
+];
+
+// -------------------------------------------------------------- leagues ----
+export const leagues = [
+  { id: 1, name: "Premier League", slug: "pl", matchday: 29, country: "England" },
+  { id: 2, name: "La Liga", slug: "laliga", matchday: 22, country: "Spain" },
+  { id: 3, name: "Champions League", slug: "ucl", matchday: 6, country: "Europe" },
+  { id: 4, name: "Bundesliga", slug: "bundesliga", matchday: 20, country: "Germany" },
+  { id: 5, name: "Serie A", slug: "seriea", matchday: 23, country: "Italy" },
 ];
 
 const t = (id) => teams.find((x) => x.id === id);
@@ -95,6 +105,96 @@ export const matches = [
     league: "Champions League", venue: "Signal Iduna Park", referee: "Felix Zwayer",
     lastSynced: new Date().toISOString(),
   },
+  {
+    id: 107,
+    homeTeam: t(13), awayTeam: t(14),
+    homeScore: 3, awayScore: 1,
+    status: "finished", minute: 90,
+    pressureHome: 68, pressureAway: 32,
+    matchDateUtc: "2026-07-31T18:30:00Z",
+    league: "Bundesliga", venue: "Allianz Arena", referee: "Felix Brych",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 108,
+    homeTeam: t(15), awayTeam: t(16),
+    homeScore: 1, awayScore: 2,
+    status: "finished", minute: 90,
+    pressureHome: 45, pressureAway: 55,
+    matchDateUtc: "2026-07-31T20:45:00Z",
+    league: "Serie A", venue: "Allianz Stadium", referee: "Daniele Orsato",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 109,
+    homeTeam: t(1), awayTeam: t(3),
+    homeScore: 0, awayScore: 0,
+    status: "upcoming", minute: 0,
+    pressureHome: 50, pressureAway: 50,
+    matchDateUtc: "2026-08-02T16:30:00Z",
+    league: "Premier League", venue: "Emirates Stadium", referee: "Anthony Taylor",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 110,
+    homeTeam: t(7), awayTeam: t(9),
+    homeScore: 0, awayScore: 0,
+    status: "upcoming", minute: 0,
+    pressureHome: 50, pressureAway: 50,
+    matchDateUtc: "2026-08-02T20:00:00Z",
+    league: "La Liga", venue: "Santiago Bernabéu", referee: "Mateu Lahoz",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 111,
+    homeTeam: t(13), awayTeam: t(11),
+    homeScore: 0, awayScore: 0,
+    status: "upcoming", minute: 0,
+    pressureHome: 50, pressureAway: 50,
+    matchDateUtc: "2026-08-05T18:30:00Z",
+    league: "Bundesliga", venue: "Allianz Arena", referee: "Tobias Stieler",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 112,
+    homeTeam: t(16), awayTeam: t(12),
+    homeScore: 0, awayScore: 0,
+    status: "upcoming", minute: 0,
+    pressureHome: 50, pressureAway: 50,
+    matchDateUtc: "2026-08-08T19:45:00Z",
+    league: "Serie A", venue: "San Siro", referee: "Marco Guida",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 113,
+    homeTeam: t(2), awayTeam: t(6),
+    homeScore: 0, awayScore: 0,
+    status: "upcoming", minute: 0,
+    pressureHome: 50, pressureAway: 50,
+    matchDateUtc: "2026-08-15T15:00:00Z",
+    league: "Premier League", venue: "Etihad Stadium", referee: "Michael Oliver",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 114,
+    homeTeam: t(4), awayTeam: t(5),
+    homeScore: 0, awayScore: 0,
+    status: "upcoming", minute: 0,
+    pressureHome: 50, pressureAway: 50,
+    matchDateUtc: "2026-08-22T17:30:00Z",
+    league: "Premier League", venue: "Stamford Bridge", referee: "Paul Tierney",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 115,
+    homeTeam: t(14), awayTeam: t(15),
+    homeScore: 1, awayScore: 1,
+    status: "live", minute: 62,
+    pressureHome: 54, pressureAway: 46,
+    matchDateUtc: "2026-08-02T19:00:00Z",
+    league: "Champions League", venue: "Red Bull Arena", referee: "Szymon Marciniak",
+    lastSynced: new Date().toISOString(),
+  },
 ];
 
 // ------------------------------------------------------------ standings ----
@@ -148,19 +248,19 @@ export const transfers = [
 export const news = [
   {
     id: 301, title: "Managerial shake-up imminent following disastrous derby defeat",
-    thumbnailUrl: crest("News", "334155"), source: "Analysis", publishedAt: "2026-08-01T17:00:00Z", category: "Analysis",
+    thumbnailUrl: photoSeed(301, 200, 150), source: "Analysis", publishedAt: "2026-08-01T17:00:00Z", category: "Analysis",
   },
   {
     id: 302, title: "Record-breaking transfer finalized for midfield prodigy",
-    thumbnailUrl: crest("News", "334155"), source: "Transfers", publishedAt: "2026-08-01T15:00:00Z", category: "Transfers",
+    thumbnailUrl: photoSeed(302, 200, 150), source: "Transfers", publishedAt: "2026-08-01T15:00:00Z", category: "Transfers",
   },
   {
     id: 303, title: "Injury doubt clears ahead of crucial European qualifier",
-    thumbnailUrl: crest("News", "334155"), source: "Team News", publishedAt: "2026-08-01T12:00:00Z", category: "Team News",
+    thumbnailUrl: photoSeed(303, 200, 150), source: "Team News", publishedAt: "2026-08-01T12:00:00Z", category: "Team News",
   },
   {
     id: 304, title: "Youth academy graduate handed shock first-team debut",
-    thumbnailUrl: crest("News", "334155"), source: "Feature", publishedAt: "2026-08-01T09:00:00Z", category: "Feature",
+    thumbnailUrl: photoSeed(304, 200, 150), source: "Feature", publishedAt: "2026-08-01T09:00:00Z", category: "Feature",
   },
 ];
 
@@ -169,7 +269,7 @@ export const currentUser = {
   id: 1, name: "Namra", email: "namra@example.com",
   matchdayCoins: 2450, lastLoginBonusDate: "2026-08-01",
   totalPredictions: 48, correctPredictions: 33,
-  favoriteTeamIds: [1, 7, 9],
+  favoriteTeamIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 };
 
 // ------------------------------------------------------ predictor cards ----
