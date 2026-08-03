@@ -1,0 +1,107 @@
+/* ============================================================
+   LeagueGroup.css — League section card with header + match rows
+   ============================================================ */
+
+.league-group {
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  box-shadow: var(--bezel-double);
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.league-group:hover {
+  box-shadow: var(--bezel-double-hover);
+}
+
+.league-group__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background-color: transparent;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 1px 0 var(--color-border-dim);
+}
+
+.league-group__header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.league-group__badge {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-badge);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  font-size: 9px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  border: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -1px 0 rgba(0, 0, 0, 0.4), var(--shadow-sm);
+  user-select: none;
+}
+
+.league-group__badge-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.league-group__badge-text {
+  position: relative;
+  z-index: 1;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.league-badge--pl      { background: var(--league-pl-bg);     border-color: var(--league-pl-border);     color: var(--league-pl-text); }
+.league-badge--laliga  { background: var(--league-laliga-bg); border-color: var(--league-laliga-border); color: var(--league-laliga-text); }
+.league-badge--ucl     { background: var(--league-ucl-bg);    border-color: var(--league-ucl-border);    color: var(--league-ucl-text); }
+.league-badge--default { background: var(--color-surface-elevated); border-color: var(--color-border); color: var(--color-secondary); }
+
+.league-group__name {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.league-group__matchday {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-faint);
+  letter-spacing: 0.05em;
+}
+
+.league-group__empty {
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+}
+
+.league-group__empty-text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-faint);
+}
+
+.league-group__rows {
+  /* container for match rows */
+}
+
+.league-group__row-divider {
+  border-top: 1px solid var(--color-border-dim);
+}

@@ -1,0 +1,201 @@
+/* ============================================================
+   DateSelector.css — Segmented pill date control + calendar popover
+   ============================================================ */
+
+/* Wrapper — position relative so popover anchors to it */
+.date-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+/* ── Segmented pill group ─────────────────────────────────── */
+.date-selector__group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.date-selector__btn {
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-family: var(--font-body);
+  transition: all 0.15s;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--color-draw);
+  font-weight: 400;
+}
+
+.date-selector__btn:active {
+  transform: scale(0.97);
+}
+
+.date-selector__btn--active {
+  background-color: var(--color-pitch-green);
+  color: var(--color-pitch-bg);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.date-selector__btn:not(.date-selector__btn--active):hover {
+  color: var(--color-secondary);
+}
+
+/* ── Calendar icon button ─────────────────────────────────── */
+.date-selector__calendar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  cursor: pointer;
+  transition: background-color 0.15s;
+  color: var(--color-faint);
+  position: relative;
+}
+
+.date-selector__calendar-btn:hover {
+  background-color: var(--color-surface-elevated);
+}
+
+.date-selector__calendar-btn--open {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-pitch-green);
+  color: var(--color-pitch-green);
+}
+
+/* ── Calendar popover ─────────────────────────────────────── */
+@keyframes cal-appear {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.date-selector__popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 200;
+  width: 256px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  padding: 12px;
+  animation: cal-appear 0.15s ease-out both;
+}
+
+/* Month navigation row */
+.cal__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.cal__nav-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-secondary);
+  transition: background-color 0.12s;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.cal__nav-btn:hover {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-primary);
+}
+
+.cal__month-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Day-of-week header row */
+.cal__dow-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 4px;
+}
+
+.cal__dow {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-faint);
+  letter-spacing: 0.04em;
+  padding-bottom: 4px;
+}
+
+/* Day grid */
+.cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.cal__day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-secondary);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: background-color 0.1s, color 0.1s;
+}
+
+.cal__day:hover {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-primary);
+}
+
+.cal__day--today {
+  color: var(--color-pitch-green);
+  font-weight: 700;
+}
+
+.cal__day--selected {
+  background-color: var(--color-pitch-green);
+  color: var(--color-pitch-bg);
+  font-weight: 700;
+}
+
+.cal__day--selected:hover {
+  background-color: var(--color-pitch-hover);
+}
+
+.cal__day--empty {
+  /* placeholder for leading/trailing empty cells */
+  cursor: default;
+}
+
+.cal__day--empty:hover {
+  background: transparent;
+}

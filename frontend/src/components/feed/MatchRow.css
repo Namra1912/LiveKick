@@ -1,0 +1,216 @@
+/* ============================================================
+   MatchRow.css — Individual match row in the feed
+   ============================================================ */
+
+/* Status column — fixed width for alignment */
+.match-row__status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 58px;
+  flex: none;
+}
+
+.match-row__live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 7px;
+  border-radius: var(--radius-badge);
+  background-color: rgba(248, 113, 113, 0.22);
+  border: 1px solid var(--color-live-red);
+  box-shadow: var(--glow-live);
+}
+
+.match-row__status-live {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-live-red-bright);
+  text-shadow: 0 0 6px rgba(248, 113, 113, 0.6);
+  line-height: 1;
+}
+
+.match-row__status-ft {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-faint);
+  line-height: 1;
+}
+
+.match-row__status-upcoming {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-faint);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.match-row__kickoff-slot {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-secondary);
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  padding: 6px 14px;
+  border-radius: var(--radius-badge);
+  min-width: 80px;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.match-row__league-tag {
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  padding: 2px 7px;
+  border-radius: var(--radius-badge);
+  flex-shrink: 0;
+}
+
+/* Main click row */
+.match-row__main {
+  display: flex;
+  align-items: center;
+  padding: 10px var(--space-4);
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+  gap: 10px;
+  border-left: 3px solid transparent;
+}
+
+.match-row__main--favorited {
+  border-left-color: var(--color-star);
+  background-color: rgba(234, 179, 8, 0.03);
+}
+
+.match-row__main:hover {
+  background-color: var(--color-surface-hover);
+  transform: translateY(-1px);
+}
+
+.match-row__main:active {
+  background-color: var(--color-surface-elevated);
+  transform: translateY(0) scale(0.99);
+}
+
+/* Home side */
+.match-row__home {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+/* Away side */
+.match-row__away {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-start;
+  min-width: 0;
+}
+
+/* Team name */
+.match-row__team-name {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--color-primary);
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 140px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.match-row__team-name--home {
+  text-align: right;
+}
+
+.match-row__team-name--away {
+  text-align: left;
+}
+
+.match-row__team-name:hover {
+  color: var(--color-pitch-green);
+}
+
+/* Badge wrapper — clickable */
+.match-row__badge-btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  transition: transform 0.15s ease;
+}
+
+.match-row__badge-btn:hover {
+  transform: scale(1.06);
+}
+
+/* Star toggle button */
+.match-row__star-btn {
+  flex: none;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.match-row__star-btn:hover {
+  background-color: var(--color-surface-hover);
+  transform: scale(1.1);
+}
+
+.match-row__star-btn:active {
+  transform: scale(0.95);
+}
+
+/* Pressure bar wrapper */
+.match-row__pressure {
+  padding: 0 var(--space-4) 10px;
+}
+
+/* Responsive match row adjustments for mobile */
+@media (max-width: 640px) {
+  .match-row__main {
+    padding: 8px var(--space-2);
+    gap: 6px;
+  }
+  .match-row__home,
+  .match-row__away {
+    gap: 6px;
+  }
+  .match-row__team-name {
+    font-size: 12.5px;
+    max-width: 85px;
+  }
+  .match-row__status {
+    width: 44px;
+  }
+}
