@@ -1,0 +1,33 @@
+/* ============================================================
+   AppLayout.css — Three-column shell layout
+   Fixed-height independent-scroll app shell.
+   The document never scrolls — each column scrolls independently.
+   ============================================================ */
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;        /* exact viewport height — no document scroll */
+  overflow: hidden;
+  background-color: var(--color-base);
+}
+
+.app-layout__body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;      /* clips children; each child scrolls itself */
+  max-width: 1440px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  /* min-height 0 prevents flex children from expanding beyond this box */
+  min-height: 0;
+}
+
+.app-layout__content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+}

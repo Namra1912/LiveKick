@@ -4,18 +4,18 @@
 Any implementation of LiveKick or premium dashboards must strictly follow these tailored color tokens, textures, and dimensions to avoid generic AI-look:
 
 ### A. Colors & Gradients
-*   **Base Background:** `#050a08` (OLED turf pitch shadow).
-*   **Main Page Wrapper:** `#0d1815` (Deep stadium pitch).
-*   **Surface Containers:** `#131f1a` (Standard cards, tabs, fields).
-*   **Raised Surface:** `#182720` (Hovered cards, active segments).
-*   **Hairlines & Borders:** `#233129` (Fine 1px grids).
-*   **Primary Text:** `#f4f1ea` (Bone white for high readability).
-*   **Muted Text:** `#8fa398` (Soft pitch mist).
-*   **Faint Text:** `#5c6d64` (Darker structural gray).
-*   **Accent Color (Floodlight):** `#f5b942` (Signature amber gold).
-*   **Accent Secondary (Turf):** `#4fae7a` (Grass green).
-*   **Accent Red (Loss):** `#c1554d` (Warning red).
-*   **Banned Colors:** Pure `#000` (except inside scoreboard digits), pure white text, typical AI-purple gradients, default slate/blue gray colors.
+*   **Base Background:** `#080c11` (Dark stadium navy/slate).
+*   **Main Page Wrapper:** `#0d1520` (Deep stadium surface).
+*   **Surface Containers:** `#0d1520` (Standard cards, tabs, fields).
+*   **Raised Surface:** `#111820` (Hovered cards, active segments).
+*   **Hairlines & Borders:** `#1e2a35` (Fine 1px grids).
+*   **Primary Text:** `#f1f5f9` (Bone white for high readability).
+*   **Muted Text:** `#94a3b8` (Secondary text gray).
+*   **Faint Text:** `#475569` (Darker structural gray).
+*   **Accent Color (Pitch Green):** `#00B370` (Signature pitch green primary accent).
+*   **Accent Secondary (Gold):** `#f59e0b` (Gold semantic accent for favorites, coins, MOTD).
+*   **Accent Red (Live/Loss):** `#f87171` (Warning red / live status dot).
+*   **Banned Colors:** Pure `#000` (except score cell background), pure white text, typical AI-purple gradients, default slate/blue gray colors.
 
 ### B. Ambient Stadium Glows
 *   **Signature Glows:** Use radial gradients to simulate stadium floodlights hitting the pitch:

@@ -1,14 +1,14 @@
-// src/pages/Transfers.jsx — Stub placeholder (Phase 1)
+// src/pages/Settings.jsx — Stub placeholder (Phase 1)
 import AppLayout from '../components/layout/AppLayout';
 import '../styles/StubPage.css';
 
-export default function Transfers() {
+export default function Settings() {
   return (
     <AppLayout>
       <main className="stub-page">
-        <h1 className="stub-page__heading">Transfer Radar</h1>
+        <h1 className="stub-page__heading">Settings</h1>
         <p className="stub-page__body">
-          Transfer feed with Tier 1/2/3 credibility badges coming in Phase 1.
+          Account settings and preferences coming in Phase 1.
         </p>
       </main>
     </AppLayout>

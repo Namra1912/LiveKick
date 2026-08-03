@@ -1,0 +1,122 @@
+/* ============================================================
+   MatchOfTheDayCard.css — Featured match card in right panel
+   ============================================================ */
+
+.motd-card {
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  box-shadow: var(--bezel-double);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+}
+
+.motd-card:hover {
+  border-color: rgba(0, 179, 112, 0.4);
+  transform: translateY(-2px);
+  box-shadow: var(--bezel-double-hover);
+}
+
+.motd-card:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.motd-card:focus-visible {
+  outline: 2px solid var(--color-pitch-green);
+  outline-offset: 2px;
+}
+
+/* Top section: self-contained "stadium floodlight" gradient — no external
+   image request, so this never blanks out on a slow network or ad-blocker.
+   Two radial "floodlights" + a faint pitch-line arc, per DESIGN.md theme. */
+.motd-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border-dim);
+  background:
+    radial-gradient(120% 140% at 12% -20%, rgba(0, 179, 112, 0.16), transparent 55%),
+    radial-gradient(120% 140% at 88% -20%, rgba(59, 130, 246, 0.14), transparent 55%),
+    linear-gradient(to bottom, var(--color-base) 0%, var(--color-scoreboard-bg) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Faint centre-circle arc, evoking the pitch without a photo */
+.motd-card__top::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -60px;
+  width: 180px;
+  height: 180px;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.motd-card__time-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.motd-card__time-label {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-secondary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.motd-card__time-box {
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  padding: 5px 14px;
+  min-width: 70px;
+  margin-top: 3px;
+}
+
+/* Bottom section: label + matchup + description */
+.motd-card__bottom {
+  padding: var(--space-4) var(--space-4);
+  background-color: var(--color-surface);
+}
+
+.motd-card__label {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--color-gold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.motd-card__matchup {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  margin-bottom: var(--space-1);
+  margin-top: 0;
+}
+
+.motd-card__desc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-faint);
+  line-height: 1.5;
+  margin: 0;
+}

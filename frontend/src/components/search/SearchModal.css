@@ -1,0 +1,113 @@
+/* ============================================================
+   SearchModal.css — Global search overlay
+   ============================================================ */
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modal-slide-down {
+  from { opacity: 0; transform: translate(-50%, -12px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Backdrop */
+.search-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background-color: rgba(8, 12, 17, 0.85);
+  backdrop-filter: blur(4px);
+  animation: modal-fade-in 0.15s ease-out both;
+}
+
+/* Modal panel */
+.search-modal__panel {
+  position: fixed;
+  left: 50%;
+  top: 15%;
+  transform: translateX(-50%);
+  z-index: 101;
+  width: 100%;
+  max-width: 560px;
+  padding: 0 var(--space-4);
+  animation: modal-slide-down 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.search-modal__box {
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-popover);
+}
+
+/* Search input row */
+.search-modal__input-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 14px var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.search-modal__input {
+  flex: 1;
+  background: transparent;
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--color-primary);
+  outline: none;
+  border: none;
+}
+
+.search-modal__input::placeholder {
+  color: var(--color-faint);
+}
+
+.search-modal__close-btn {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: var(--color-secondary);
+}
+
+.search-modal__close-btn:hover {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-primary);
+}
+
+.search-modal__close-btn:active {
+  transform: scale(0.95);
+}
+
+/* Empty state */
+.search-modal__empty {
+  padding: 32px var(--space-4);
+  text-align: center;
+}
+
+.search-modal__empty-primary {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-faint);
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+
+.search-modal__empty-secondary {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-border-focus);
+  opacity: 0.8;
+  margin: 0;
+}

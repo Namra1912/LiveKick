@@ -1,52 +1,149 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@600;700&family=Outfit:wght@700;800;900&display=swap');
+/* ============================================================
+   LiveKick — tokens.css
+   Single source of truth for all design tokens.
+   Every component must use var(--token-name). No hardcoded values.
+   This file must stay in sync with /DESIGN.md — same tokens, same values.
+   ============================================================ */
 
 :root {
   /* Canvas & Surface */
-  --bg-base:             #0a0e14;
-  --bg-surface:           #121820;
-  --bg-surface-elevated:  #1a222d;
-  --border-subtle:        #26303d;
-  --border-focus:         #00B370;
+  --color-base:              #080c11;
+  --color-surface:           #0d1520;
+  --color-surface-elevated:  #111820;
+  --color-surface-hover:     #18222d;
+  --color-header:            #080c11;
+
+  /* Borders */
+  --color-border:            #1e2a35;
+  --color-border-focus:      #00B370;
+  --color-border-dim:        #131c26;
 
   /* Typography */
-  --text-primary:         #f1f5f9;
-  --text-secondary:       #94a3b8;
-  --text-faint:           #475569;
+  --color-primary:           #f1f5f9;
+  --color-secondary:         #94a3b8;
+  --color-faint:             #475569;
+  --color-dimmer:            #334155;
 
-  /* Brand & Semantic */
-  --color-pitch-green:    #00B370;
-  --color-pitch-hover:    #00cc80;
-  --color-live-red:       #f87171;  /* lightened from #ef4444 */
-  --color-favorite-gold:  #f59e0b;
+  /* Brand */
+  --color-pitch-green:       #00B370;
+  --color-pitch-hover:       #00cc80;
+  --color-pitch-bg:          #071a11;
 
-  /* Match Events */
-  --color-win:            #00B370;
-  --color-draw:            #64748b;
-  --color-loss:            #f87171;
-  --color-card-yellow:     #eab308;
-  --color-card-red:        #dc2626;
+  /* Semantic */
+  --color-live-red:          #f87171;
+  --color-live-red-bright:   #ff4d4d;
+  --color-gold:              #f59e0b; /* Reserved ONLY for Matchday Coins currency */
+  --color-star:              #eab308; /* Star / Favorite icon accent */
+  --color-info-blue:         #3b82f6;
+  --color-win:                #00B370;
+  --color-draw:               #64748b;
+  --color-loss:                #f87171;
 
-  /* Score Cell */
-  --score-box-bg:          #06090e;
-  --score-box-text:        #ffffff;
+  /* Retro Scoreboard Digit */
+  --color-scoreboard-bg:          #050403;
+  --color-scoreboard-digit:       #f5b942;
+  --color-scoreboard-digit-dim:   #8a6a2e;
+  --color-scoreboard-border:      #2a2210;
+  --color-scoreboard-glow:        rgba(245, 185, 66, 0.35);
 
-  /* Info / Utility */
-  --color-info-blue:        #3b82f6;
+  /* Team Crest Fallback Gradient Tokens (zero inline styles in JSX) */
+  --team-1-bg:   linear-gradient(135deg, #3a1418 0%, #1f0b0d 100%);
+  --team-1-border: #5c1f26;
+  --team-1-text:   #f4a5ac;
+
+  --team-2-bg:   linear-gradient(135deg, #0f2740 0%, #081524 100%);
+  --team-2-border: #1a3c60;
+  --team-2-text:   #8fc4f0;
+
+  --team-3-bg:   linear-gradient(135deg, #3a1416 0%, #1f0b0c 100%);
+  --team-3-border: #5c1f22;
+  --team-3-text:   #f4a1a1;
+
+  --team-4-bg:   linear-gradient(135deg, #0f1f42 0%, #081024 100%);
+  --team-4-border: #1a2f63;
+  --team-4-text:   #94aef0;
+
+  --team-5-bg:   linear-gradient(135deg, #1a2530 0%, #0e151c 100%);
+  --team-5-border: #2c3d4d;
+  --team-5-text:   #e2e8f0;
+
+  --team-6-bg:   linear-gradient(135deg, #3a1418 0%, #1f0b0d 100%);
+  --team-6-border: #5c1f26;
+  --team-6-text:   #f4a5ac;
+
+  --team-7-bg:   linear-gradient(135deg, #1a2530 0%, #0e151c 100%);
+  --team-7-border: #2c3d4d;
+  --team-7-text:   #e2e8f0;
+
+  --team-8-bg:   linear-gradient(135deg, #3a1418 0%, #1f0b0d 100%);
+  --team-8-border: #5c1f26;
+  --team-8-text:   #f4a5ac;
+
+  --team-9-bg:   linear-gradient(135deg, #3a1230 0%, #1f0a1a 100%);
+  --team-9-border: #5c1e4a;
+  --team-9-text:   #f0a1d4;
+
+  --team-10-bg:  linear-gradient(135deg, #0f3320 0%, #081b11 100%);
+  --team-10-border: #1a4f32;
+  --team-10-text:  #8ff0b8;
+
+  --team-11-bg:  linear-gradient(135deg, #3d2e0f 0%, #211908 100%);
+  --team-11-border: #5f471a;
+  --team-11-text:  #f0d18f;
+
+  --team-12-bg:  linear-gradient(135deg, #0f2a40 0%, #081724 100%);
+  --team-12-border: #1a4160;
+  --team-12-text:  #8fc9f0;
+
+  /* League Badge Tokens */
+  --league-pl-bg:       linear-gradient(135deg, #1e1528 0%, #100b17 100%);
+  --league-pl-border:   #332244;
+  --league-pl-text:     #b8a4d4;
+
+  --league-laliga-bg:   linear-gradient(135deg, #281515 0%, #170b0b 100%);
+  --league-laliga-border: #442222;
+  --league-laliga-text: #d4a4a4;
+
+  --league-ucl-bg:      linear-gradient(135deg, #151f28 0%, #0b1117 100%);
+  --league-ucl-border:  #223344;
+  --league-ucl-text:    #a4c2d4;
+
+  /* Fonts — self-hosted via @fontsource, imported in main.jsx.
+     Do not add a Google Fonts <link> or @import — see DESIGN.md Asset Rules. */
+  --font-display:  'Big Shoulders Display', system-ui, sans-serif;
+  --font-body:     'Inter', system-ui, sans-serif;
+  --font-mono:     'JetBrains Mono', 'Courier New', monospace;
+
+  /* Radius — 3 distinct, intentional visual tiers */
+  --radius-badge:  4px;    /* Tier 1: Scoreboard retro digits, kickoff slots, minute badges (near-0 sharp) */
+  --radius-card:   14px;   /* Tier 3: Double-bezel cards & containers */
+  --radius-pill:   9999px; /* Tier 2: Interactive pill buttons & filters */
+
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+
+  /* Shadows & Elevation */
+  --shadow-sm:        0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md:        0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-card:      0 6px 16px rgba(0, 0, 0, 0.5);
+  --shadow-popover:   0 16px 40px rgba(0, 0, 0, 0.65);
+
+  /* Inset Physical Bezel Panel Treatment — top-left dark inner drop + bottom-right subtle rim highlight */
+  --shadow-inset:         inset 2px 2px 6px rgba(0, 0, 0, 0.7), inset -1px -1px 0px rgba(255, 255, 255, 0.07);
+  --shadow-inset-hover:   inset 2px 2px 7px rgba(0, 0, 0, 0.8), inset -1px -1px 0px rgba(255, 255, 255, 0.12);
+  --bezel-double:         var(--shadow-inset), var(--shadow-card);
+  --bezel-double-hover:   var(--shadow-inset-hover), var(--shadow-md);
+
+  /* Live / LED Glow Bloom Tokens — reserved exclusively for happening-now state */
+  --glow-live:            0 0 14px rgba(248, 113, 113, 0.55), 0 0 4px rgba(248, 113, 113, 0.7);
+  --glow-live-subtle:     0 0 10px rgba(248, 113, 113, 0.4);
+
+  /* Subtle Broadcast CRT Scanline Overlay Texture (3% darkness overlay) */
+  --texture-scanline:     repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0px, rgba(0, 0, 0, 0.22) 1px, transparent 1px, transparent 3px);
 }
 
-body {
-  background-color: var(--bg-base);
-  color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
-  min-height: 100vh;
-  margin: 0;
-}
-
-h1, h2, h3, h4, h5, h6, .font-heading {
-  font-family: 'Outfit', sans-serif;
-}
-
-.font-mono, .font-tabular {
-  font-family: 'JetBrains Mono', monospace;
-  font-variant-numeric: tabular-nums;
-}

@@ -1,111 +1,215 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+/* ============================================================
+   LiveKick — index.css (Main CSS Entry)
+   Global reset, base styles, and shared utility classes.
+   Design tokens are in ./styles/tokens.css
+   ============================================================ */
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+@import "./styles/tokens.css";
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Fonts are self-hosted via @fontsource — imported once in main.jsx.
+   Do not add a Google Fonts @import/link here — see DESIGN.md Asset Rules. */
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+/* ── BASE RESET ─────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+html {
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Lock document to viewport — all scrolling happens inside the app shell */
+  height: 100dvh;
+  overflow: hidden;
 }
 
 body {
-  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-base);
+  background-image: var(--texture-scanline);
+  color: var(--color-primary);
+  height: 100dvh;
+  overflow: hidden;
+  line-height: 1.5;
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+  height: 100dvh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+/* ── LIVE PULSE DOT ─────────────────────────────────────────── */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1;    transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(0.7); }
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+.live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-live-red-bright);
+  box-shadow: 0 0 6px var(--color-live-red);
+  animation: live-pulse 1.4s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
+.live-dot--static {
+  animation: none !important;
+  opacity: 0.85;
+}
+
+/* ── SKELETON LOADER ────────────────────────────────────────── */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 0.25; }
+}
+
+.skeleton {
+  background-color: var(--color-surface-elevated);
   border-radius: 4px;
-  color: var(--text-h);
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
 }
 
-code {
+/* ── ROW FADE-IN ANIMATION ──────────────────────────────────── */
+@keyframes row-fade-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.row-animate {
+  animation: row-fade-in 0.22s ease-out both;
+}
+
+.row-animate--delay-0 { animation-delay: 0ms; }
+.row-animate--delay-1 { animation-delay: 35ms; }
+.row-animate--delay-2 { animation-delay: 70ms; }
+.row-animate--delay-3 { animation-delay: 105ms; }
+.row-animate--delay-4 { animation-delay: 140ms; }
+.row-animate--delay-5 { animation-delay: 175ms; }
+
+/* ── TEAM BADGE CREST FALLBACKS — gradient background & double border ── */
+.team-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-badge);
+  font-family: var(--font-display);
+  font-weight: 900;
+  border: 1px solid var(--color-border);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  user-select: none;
+  flex-shrink: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.team-badge--team-1  { background: var(--team-1-bg);  border-color: var(--team-1-border);  color: var(--team-1-text); }
+.team-badge--team-2  { background: var(--team-2-bg);  border-color: var(--team-2-border);  color: var(--team-2-text); }
+.team-badge--team-3  { background: var(--team-3-bg);  border-color: var(--team-3-border);  color: var(--team-3-text); }
+.team-badge--team-4  { background: var(--team-4-bg);  border-color: var(--team-4-border);  color: var(--team-4-text); }
+.team-badge--team-5  { background: var(--team-5-bg);  border-color: var(--team-5-border);  color: var(--team-5-text); }
+.team-badge--team-6  { background: var(--team-6-bg);  border-color: var(--team-6-border);  color: var(--team-6-text); }
+.team-badge--team-7  { background: var(--team-7-bg);  border-color: var(--team-7-border);  color: var(--team-7-text); }
+.team-badge--team-8  { background: var(--team-8-bg);  border-color: var(--team-8-border);  color: var(--team-8-text); }
+.team-badge--team-9  { background: var(--team-9-bg);  border-color: var(--team-9-border);  color: var(--team-9-text); }
+.team-badge--team-10 { background: var(--team-10-bg); border-color: var(--team-10-border); color: var(--team-10-text); }
+.team-badge--team-11 { background: var(--team-11-bg); border-color: var(--team-11-border); color: var(--team-11-text); }
+.team-badge--team-12 { background: var(--team-12-bg); border-color: var(--team-12-border); color: var(--team-12-text); }
+
+.team-badge--default {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  color: var(--color-secondary);
+}
+
+/* ── SCORE BOX — retro stadium scoreboard digit cell ─────────── */
+.score-box {
+  background-color: var(--color-scoreboard-bg);
+  color: var(--color-scoreboard-digit);
+  font-family: var(--font-mono);
+  font-weight: 700;
   font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  letter-spacing: 0.05em;
+  padding: 6px 14px;
+  border-radius: var(--radius-badge);
+  border: 1px solid var(--color-scoreboard-border);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  text-align: center;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6);
+  text-shadow: none;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+/* Glow is reserved exclusively for live/happening-now status */
+.score-box--live {
+  border-color: rgba(245, 185, 66, 0.45);
+  text-shadow: 0 0 8px var(--color-scoreboard-glow);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6), 0 0 8px rgba(245, 185, 66, 0.25);
+}
+
+/* Finished matches dim like a scoreboard powering down */
+.score-box--finished {
+  color: var(--color-scoreboard-digit-dim);
+  text-shadow: none;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6);
+  opacity: 0.85;
+}
+
+/* Upcoming matches stay flat in a muted tone */
+.score-box--upcoming {
+  color: var(--color-faint);
+  text-shadow: none;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+/* ── PRESSURE BAR ────────────────────────────────────────────── */
+.pressure-bar-track {
+  height: 4px;
+  background: var(--color-surface-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+  display: flex;
+}
+
+.pressure-home {
+  background: var(--color-pitch-green);
+  transition: width 0.6s ease;
+  border-radius: 2px 0 0 2px;
+}
+
+.pressure-away {
+  background: var(--color-info-blue);
+  transition: width 0.6s ease;
+  flex: 1;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ── SCROLLBAR ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--color-base); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-faint); }
+
+/* ── FOCUS RING ──────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-pitch-green);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ── SELECTION ───────────────────────────────────────────────── */
+::selection {
+  background-color: rgba(0, 179, 112, 0.2);
+  color: var(--color-primary);
 }
