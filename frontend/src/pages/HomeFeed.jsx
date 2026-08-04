@@ -12,10 +12,12 @@ import SearchModal from '../components/search/SearchModal';
 import MatchRow from '../components/feed/MatchRow';
 import {
   matches,
+  leagues,
   news,
   predictorMatches,
   coinRewardRules,
 } from '../data/mockData';
+
 import './HomeFeed.css';
 
 const LEAGUE_MATCHDAY = {
@@ -33,6 +35,10 @@ const LEAGUE_ORDER = [
   'Bundesliga',
   'Serie A',
 ];
+
+// TASK C — lookup map so we can pass the full league object (with logoUrl) to LeagueGroup
+const leaguesByName = Object.fromEntries(leagues.map((l) => [l.name, l]));
+
 
 const LS_KEY = 'lk_fav_matches';
 
@@ -166,21 +172,23 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
             selectedDate.value === 'tomorrow'  ? 'tomorrow' :
             'on this date';
 
-          return LEAGUE_ORDER.map((league) => {
-            const leagueMatches = grouped[league] ?? [];
-            // TASK B: no return null — empty leagues render collapsed (Task A handles it)
+          return LEAGUE_ORDER.map((leagueName) => {
+            const leagueMatches = grouped[leagueName] ?? [];
+            // TASK C: pass full league object so LeagueGroup can read logoUrl from data
+            const leagueObj = leaguesByName[leagueName] ?? { name: leagueName, logoUrl: null };
             return (
               <LeagueGroup
-                key={`${league}-${selectedDate.value}`}
-                league={league}
+                key={`${leagueName}-${selectedDate.value}`}
+                league={leagueObj}
                 matches={leagueMatches}
-                matchday={LEAGUE_MATCHDAY[league]}
+                matchday={LEAGUE_MATCHDAY[leagueName]}
                 favMatchIds={favMatchIds}
                 onToggleFav={toggleFav}
                 dateLabel={dateLabel}
               />
             );
           });
+
         })()}
       </div>
     </main>

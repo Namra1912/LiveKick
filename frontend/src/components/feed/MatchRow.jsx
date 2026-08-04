@@ -1,12 +1,15 @@
 // src/components/feed/MatchRow.jsx
 // Match row: live/FT/time status · home badge+name · score · away name+badge · star
 
+// TASK D — replaced TeamBadge (Sidebar import) with the shared Crest component.
+//           team.logoUrl now comes from mockData directly.
 
 import { useNavigate } from 'react-router-dom';
 import PressureBar from './PressureBar';
 import StarIcon from '../icons/StarIcon';
-import { TeamBadge } from '../layout/Sidebar';
+import Crest from '../shared/Crest'; // TASK D
 import './MatchRow.css';
+
 
 function formatTime(isoString) {
   if (!isoString) return '20:00';
@@ -100,12 +103,14 @@ export default function MatchRow({ match, isFavorited = false, onToggleFav, anim
           >
             {match.homeTeam.name}
           </button>
+          {/* TASK D — Crest replaces TeamBadge; size=20 for match row context */}
           <button
             className="match-row__badge-btn"
             onClick={(e) => handleTeamClick(e, match.homeTeam.id)}
           >
-            <TeamBadge team={match.homeTeam} />
+            <Crest logoUrl={match.homeTeam.logoUrl} name={match.homeTeam.name} size={20} />
           </button>
+
         </div>
 
         {/* Score box or Prominent Kickoff Time */}
@@ -119,12 +124,14 @@ export default function MatchRow({ match, isFavorited = false, onToggleFav, anim
 
         {/* Away side: badge + name (left-aligned) */}
         <div className="match-row__away">
+          {/* TASK D — Crest replaces TeamBadge */}
           <button
             className="match-row__badge-btn"
             onClick={(e) => handleTeamClick(e, match.awayTeam.id)}
           >
-            <TeamBadge team={match.awayTeam} />
+            <Crest logoUrl={match.awayTeam.logoUrl} name={match.awayTeam.name} size={20} />
           </button>
+
           <button
             className="match-row__team-name match-row__team-name--away"
             onClick={(e) => handleTeamClick(e, match.awayTeam.id)}
