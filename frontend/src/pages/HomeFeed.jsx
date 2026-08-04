@@ -16,6 +16,7 @@ import {
   news,
   predictorMatches,
   coinRewardRules,
+  currentUser,
 } from '../data/mockData';
 
 import './HomeFeed.css';
@@ -209,7 +210,7 @@ function RightPanel() {
   return (
     <aside className="home-feed__right">
       <MatchOfTheDayCard match={featuredMatch} />
-      <PredictorCard predictorMatch={activePredictor} coinRules={coinRewardRules} />
+      <PredictorCard predictorMatch={activePredictor} userBalance={currentUser.matchdayCoins} />
       <NewsList newsItems={news} />
     </aside>
   );
