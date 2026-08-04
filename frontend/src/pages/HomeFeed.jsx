@@ -1,7 +1,7 @@
 // src/pages/HomeFeed.jsx
 // Home / Live Scores Feed — main page component.
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import AppLayout from '../components/layout/AppLayout';
 import DateSelector from '../components/feed/DateSelector';
 import LeagueGroup from '../components/feed/LeagueGroup';
@@ -19,12 +19,68 @@ import {
 import './HomeFeed.css';
 
 const LEAGUE_MATCHDAY = {
-  'Premier League':   29,
-  'La Liga':          22,
+  'Premier League': 29,
+  'La Liga': 22,
   'Champions League': 6,
+  'Bundesliga': 20,
+  'Serie A': 23,
 };
 
-const LEAGUE_ORDER = ['Premier League', 'La Liga', 'Champions League'];
+const LEAGUE_ORDER = [
+  'Premier League',
+  'La Liga',
+  'Champions League',
+  'Bundesliga',
+  'Serie A',
+];
+
+const LS_KEY = 'lk_fav_matches';
+
+/**
+ * Resolves selectedDate.value into a Date object at local midnight (00:00:00.000).
+ * Handles:
+ *  - 'today': anchor mock date (2026-08-01) at local midnight
+ *  - 'yesterday': anchor date - 1 day (2026-07-31)
+ *  - 'tomorrow': anchor date + 1 day (2026-08-02)
+ *  - ISO date string like '2026-08-05': parsed directly into local midnight Date
+ */
+function getTargetDate(dateVal) {
+  const baseToday = new Date(); // Current local date (e.g. 2026-08-04)
+  baseToday.setHours(0, 0, 0, 0);
+
+  if (dateVal === 'today') {
+    return baseToday;
+  }
+  if (dateVal === 'yesterday') {
+    const d = new Date(baseToday);
+    d.setDate(d.getDate() - 1);
+    return d;
+  }
+  if (dateVal === 'tomorrow') {
+    const d = new Date(baseToday);
+    d.setDate(d.getDate() + 1);
+    return d;
+  }
+  if (typeof dateVal === 'string' && dateVal.includes('-')) {
+    const [y, m, d] = dateVal.split('T')[0].split('-').map(Number);
+    return new Date(y, m - 1, d, 0, 0, 0, 0);
+  }
+  return baseToday;
+}
+
+/**
+ * Checks whether a match's UTC date string falls on the same LOCAL calendar date
+ * as the target Date object.
+ */
+function isSameLocalDate(matchDateUtc, targetDate) {
+  if (!matchDateUtc || !targetDate) return false;
+  const matchDate = new Date(matchDateUtc);
+  return (
+    matchDate.getUTCFullYear() === targetDate.getFullYear() &&
+    matchDate.getUTCMonth() === targetDate.getMonth() &&
+    matchDate.getUTCDate() === targetDate.getDate()
+  );
+}
 
 function groupMatchesByLeague(matchList) {
   const groups = {};
@@ -35,8 +91,14 @@ function groupMatchesByLeague(matchList) {
   return groups;
 }
 
-function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatches }) {
-  const grouped = useMemo(() => groupMatchesByLeague(matches), []);
+function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatches, favMatchIds, toggleFav }) {
+  // Filter matches by selected calendar date BEFORE grouping by league
+  const grouped = useMemo(() => {
+    const targetDate = getTargetDate(selectedDate.value);
+    const filteredMatches = matches.filter((m) => isSameLocalDate(m.matchDateUtc, targetDate));
+    return groupMatchesByLeague(filteredMatches);
+  }, [selectedDate.value]);
+
   const liveMatches = useMemo(() => matches.filter((m) => m.status === 'live'), []);
 
   if (isLiveOnly) {
@@ -70,7 +132,13 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
           <div className="home-feed__live-list">
             {liveMatches.map((match, i) => (
               <div key={match.id} className={i > 0 ? 'league-group__row-divider' : ''}>
-                <MatchRow match={match} showLeague animationDelay={i * 35} />
+                <MatchRow
+                  match={match}
+                  showLeague
+                  animationDelay={i * 35}
+                  isFavorited={favMatchIds.has(match.id)}
+                  onToggleFav={toggleFav}
+                />
               </div>
             ))}
           </div>
@@ -88,18 +156,32 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
       </div>
 
       {/* League groups */}
+      {/* TASK B — all 5 leagues always render; LeagueGroup smart-default handles open/closed */}
+      {/* TASK E — dateLabel derived here, passed down so empty states say the right thing */}
       <div className="home-feed__leagues">
-        {LEAGUE_ORDER.map((league) => {
-          const leagueMatches = grouped[league] ?? [];
-          return (
-            <LeagueGroup
-              key={league}
-              league={league}
-              matches={leagueMatches}
-              matchday={LEAGUE_MATCHDAY[league]}
-            />
-          );
-        })}
+        {(() => {
+          const dateLabel =
+            selectedDate.value === 'today'     ? 'today' :
+            selectedDate.value === 'yesterday' ? 'yesterday' :
+            selectedDate.value === 'tomorrow'  ? 'tomorrow' :
+            'on this date';
+
+          return LEAGUE_ORDER.map((league) => {
+            const leagueMatches = grouped[league] ?? [];
+            // TASK B: no return null — empty leagues render collapsed (Task A handles it)
+            return (
+              <LeagueGroup
+                key={`${league}-${selectedDate.value}`}
+                league={league}
+                matches={leagueMatches}
+                matchday={LEAGUE_MATCHDAY[league]}
+                favMatchIds={favMatchIds}
+                onToggleFav={toggleFav}
+                dateLabel={dateLabel}
+              />
+            );
+          });
+        })()}
       </div>
     </main>
   );
@@ -129,6 +211,35 @@ export default function HomeFeed() {
   const [selectedDate, setSelectedDate] = useState('today');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLiveOnly, setIsLiveOnly] = useState(false);
+
+  // ---------------------------------------------------------------------------
+  // Persistent favorites — single source of truth for the whole feed
+  // ---------------------------------------------------------------------------
+  const [favMatchIds, setFavMatchIds] = useState(() => {
+    try {
+      const stored = localStorage.getItem(LS_KEY);
+      return stored ? new Set(JSON.parse(stored)) : new Set();
+    } catch {
+      return new Set();
+    }
+  });
+
+  // Write to localStorage whenever favorites change
+  useEffect(() => {
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify([...favMatchIds]));
+    } catch {
+      // Ignore storage errors (private mode / quota exceeded)
+    }
+  }, [favMatchIds]);
+
+  const toggleFav = useCallback((matchId) => {
+    setFavMatchIds((prev) => {
+      const next = new Set(prev);
+      next.has(matchId) ? next.delete(matchId) : next.add(matchId);
+      return next;
+    });
+  }, []);
 
   const hasAnyLiveMatches = useMemo(
     () => matches.some((m) => m.status === 'live'),
@@ -165,6 +276,8 @@ export default function HomeFeed() {
           isLiveOnly={isLiveOnly}
           onExitLiveOnly={() => setIsLiveOnly(false)}
           hasAnyLiveMatches={hasAnyLiveMatches}
+          favMatchIds={favMatchIds}
+          toggleFav={toggleFav}
         />
         <RightPanel />
       </AppLayout>

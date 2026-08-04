@@ -1,7 +1,7 @@
 // src/components/feed/MatchRow.jsx
 // Match row: live/FT/time status · home badge+name · score · away name+badge · star
 
-import { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import PressureBar from './PressureBar';
 import StarIcon from '../icons/StarIcon';
@@ -56,13 +56,12 @@ function ScoreBox({ match }) {
   );
 }
 
-export default function MatchRow({ match, defaultFavorited = false, animationDelay = 0, showLeague = false }) {
-  const [isFavorited, setIsFavorited] = useState(defaultFavorited);
+export default function MatchRow({ match, isFavorited = false, onToggleFav, animationDelay = 0, showLeague = false }) {
   const navigate = useNavigate();
 
   const handleRowClick = () => navigate(`/matches/${match.id}`);
   const handleTeamClick = (e, id) => { e.stopPropagation(); navigate(`/teams/${id}`); };
-  const handleStarClick = (e) => { e.stopPropagation(); setIsFavorited((p) => !p); };
+  const handleStarClick = (e) => { e.stopPropagation(); onToggleFav?.(match.id); };
 
   const StatusComponent = (() => {
     if (match.status === 'live') return <LiveStatus minute={match.minute} />;
