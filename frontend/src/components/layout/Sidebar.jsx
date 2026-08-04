@@ -15,6 +15,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { matches, leagues } from '../../data/mockData';
+import Crest from '../shared/Crest'; // TASK A: Crest component replaces old league dot
 import './Sidebar.css';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -47,23 +48,7 @@ const NAV_ITEMS = [
   { label: 'Tactics Lab',        path: '/tactics',     icon: FlaskConical },
 ];
 
-const LEAGUE_DOT_COLORS = {
-  pl:         '#3d195b',
-  laliga:     '#ff4b44',
-  ucl:        '#1b3fa0',
-  bundesliga: '#d20515',
-  seriea:     '#008fd7',
-};
-
-function leagueNameToSlug(name) {
-  const n = name.toLowerCase().replace(/\s+/g, '');
-  if (n.includes('premier'))  return 'pl';
-  if (n.includes('liga'))     return 'laliga';
-  if (n.includes('champion')) return 'ucl';
-  if (n.includes('bundes'))   return 'bundesliga';
-  if (n.includes('serie'))    return 'seriea';
-  return 'pl';
-}
+// TASK A: Deleted dead LEAGUE_DOT_COLORS & leagueNameToSlug logic.
 
 // ── sub-components ────────────────────────────────────────────────────────────
 
@@ -129,16 +114,11 @@ function TeamRow({ team, onClick }) {
   );
 }
 
+// TASK A: Render Crest component (size 18) with logoUrl & name directly from mockData leagues object
 function LeagueRow({ league }) {
-  const slug = leagueNameToSlug(league.name);
-  const dotColor = LEAGUE_DOT_COLORS[slug] ?? '#475569';
   return (
     <div className="sidebar__league-row">
-      <span
-        className="sidebar__league-dot"
-        style={{ backgroundColor: dotColor }}
-        aria-hidden="true"
-      />
+      <Crest logoUrl={league.logoUrl} name={league.name} size={18} />
       <span className="sidebar__league-name">{league.name}</span>
     </div>
   );
