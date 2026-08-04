@@ -1,7 +1,7 @@
 // src/components/layout/Sidebar.jsx
-// Left sidebar: nav links, MY TEAMS section, Match Day Live pill
+// Left sidebar: fixed nav links, scrollable My Teams + My Leagues (accordion), fixed bottom
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutGrid,
@@ -12,9 +12,12 @@ import {
   FlaskConical,
   Plus,
   Settings,
+  ChevronDown,
 } from 'lucide-react';
-import { matches } from '../../data/mockData';
+import { matches, leagues } from '../../data/mockData';
 import './Sidebar.css';
+
+// ── helpers ──────────────────────────────────────────────────────────────────
 
 function teamHasLiveMatch(teamId) {
   return matches.some(
@@ -24,33 +27,45 @@ function teamHasLiveMatch(teamId) {
   );
 }
 
+function readBool(key, fallback = true) {
+  try {
+    const val = localStorage.getItem(key);
+    return val === null ? fallback : JSON.parse(val);
+  } catch {
+    return fallback;
+  }
+}
+
+// ── constants ─────────────────────────────────────────────────────────────────
+
 const NAV_ITEMS = [
-  { label: 'Matches',            path: '/',             icon: LayoutGrid },
-  { label: 'News',               path: '/news',          icon: Newspaper },
-  { label: 'Standings',          path: '/standings',     icon: BarChart2 },
-  { label: 'Transfers',          path: '/transfers',     icon: ArrowLeftRight },
-  { label: 'Predictions League', path: '/predictions',   icon: Trophy },
-  { label: 'Tactics Lab',        path: '/tactics',       icon: FlaskConical },
+  { label: 'Matches',            path: '/',           icon: LayoutGrid },
+  { label: 'News',               path: '/news',        icon: Newspaper },
+  { label: 'Standings',          path: '/standings',   icon: BarChart2 },
+  { label: 'Transfers',          path: '/transfers',   icon: ArrowLeftRight },
+  { label: 'Predictions League', path: '/predictions', icon: Trophy },
+  { label: 'Tactics Lab',        path: '/tactics',     icon: FlaskConical },
 ];
 
-// Tinted dark team colors — saturated enough to read at a glance without
-// hovering. Placeholder until real crest assets are sourced (see
-// DESIGN.md → Team Badges); TeamBadge should prefer team.crestUrl when
-// that field exists.
-export const MUTED_TEAM_COLORS = {
-  1:  { bg: '#3a1418', border: '#5c1f26', text: '#f4a5ac' }, // Arsenal
-  2:  { bg: '#0f2740', border: '#1a3c60', text: '#8fc4f0' }, // Man City
-  3:  { bg: '#3a1416', border: '#5c1f22', text: '#f4a1a1' }, // Liverpool
-  4:  { bg: '#0f1f42', border: '#1a2f63', text: '#94aef0' }, // Chelsea
-  5:  { bg: '#1a2530', border: '#2c3d4d', text: '#e2e8f0' }, // Tottenham
-  6:  { bg: '#3a1418', border: '#5c1f26', text: '#f4a5ac' }, // Man Utd
-  7:  { bg: '#1a2530', border: '#2c3d4d', text: '#e2e8f0' }, // Real Madrid
-  8:  { bg: '#3a1418', border: '#5c1f26', text: '#f4a5ac' }, // Atletico
-  9:  { bg: '#3a1230', border: '#5c1e4a', text: '#f0a1d4' }, // Barcelona
-  10: { bg: '#0f3320', border: '#1a4f32', text: '#8ff0b8' }, // Betis
-  11: { bg: '#3d2e0f', border: '#5f471a', text: '#f0d18f' }, // Dortmund
-  12: { bg: '#0f2a40', border: '#1a4160', text: '#8fc9f0' }, // Inter
+const LEAGUE_DOT_COLORS = {
+  pl:         '#3d195b',
+  laliga:     '#ff4b44',
+  ucl:        '#1b3fa0',
+  bundesliga: '#d20515',
+  seriea:     '#008fd7',
 };
+
+function leagueNameToSlug(name) {
+  const n = name.toLowerCase().replace(/\s+/g, '');
+  if (n.includes('premier'))  return 'pl';
+  if (n.includes('liga'))     return 'laliga';
+  if (n.includes('champion')) return 'ucl';
+  if (n.includes('bundes'))   return 'bundesliga';
+  if (n.includes('serie'))    return 'seriea';
+  return 'pl';
+}
+
+// ── sub-components ────────────────────────────────────────────────────────────
 
 export function TeamBadge({ team, size = 'md' }) {
   const [imgError, setImgError] = useState(false);
@@ -114,6 +129,23 @@ function TeamRow({ team, onClick }) {
   );
 }
 
+function LeagueRow({ league }) {
+  const slug = leagueNameToSlug(league.name);
+  const dotColor = LEAGUE_DOT_COLORS[slug] ?? '#475569';
+  return (
+    <div className="sidebar__league-row">
+      <span
+        className="sidebar__league-dot"
+        style={{ backgroundColor: dotColor }}
+        aria-hidden="true"
+      />
+      <span className="sidebar__league-name">{league.name}</span>
+    </div>
+  );
+}
+
+// ── Sidebar ───────────────────────────────────────────────────────────────────
+
 export default function Sidebar({
   favoriteTeams,
   allTeams,
@@ -123,46 +155,109 @@ export default function Sidebar({
 }) {
   const navigate = useNavigate();
 
+  // Accordion state — initialised from localStorage, written on every change
+  const [teamsOpen,   setTeamsOpen]   = useState(() => readBool('lk_sb_teams',   true));
+  const [leaguesOpen, setLeaguesOpen] = useState(() => readBool('lk_sb_leagues', true));
+
+  useEffect(() => {
+    try { localStorage.setItem('lk_sb_teams', JSON.stringify(teamsOpen)); } catch {}
+  }, [teamsOpen]);
+
+  useEffect(() => {
+    try { localStorage.setItem('lk_sb_leagues', JSON.stringify(leaguesOpen)); } catch {}
+  }, [leaguesOpen]);
+
   const myTeams = favoriteTeams
     .map((id) => allTeams.find((t) => t.id === id))
     .filter(Boolean);
 
   return (
     <aside className="sidebar">
-      {/* Scrollable area */}
-      <div className="sidebar__scroll">
+
+      {/* ── Region 2: Fixed main nav ─────────────────────────────────── */}
+      <div className="sidebar__nav-section">
         <nav className="sidebar__nav" aria-label="Main navigation">
           {NAV_ITEMS.map((item) => (
             <NavItem key={item.path} item={item} />
           ))}
         </nav>
-
-        {/* MY TEAMS */}
-        <div className="sidebar__section">
-          <p className="sidebar__section-label">My Teams</p>
-          <div className="sidebar__team-list">
-            {myTeams.map((team) => (
-              <TeamRow
-                key={team.id}
-                team={team}
-                onClick={(id) => navigate(`/teams/${id}`)}
-              />
-            ))}
-          </div>
-
-          {/* Add Team */}
-          <button className="sidebar__add-team-btn">
-            <div className="sidebar__add-team-icon">
-              <Plus size={11} strokeWidth={2} color="var(--color-faint)" />
-            </div>
-            <span className="sidebar__add-team-label">Add Team</span>
-          </button>
-        </div>
       </div>
 
-      {/* Bottom: Settings + Match Day Live */}
+      {/* ── Region 3: Scrollable — My Teams + My Leagues ─────────────── */}
+      <div className="sidebar__scroll">
+
+        {/* MY TEAMS accordion */}
+        <div className="sidebar__section">
+          <button
+            className="sidebar__section-toggle"
+            onClick={() => setTeamsOpen((o) => !o)}
+            aria-expanded={teamsOpen}
+            aria-controls="sidebar-teams-list"
+          >
+            <span className="sidebar__section-label">My Teams</span>
+            <ChevronDown className="sidebar__chevron" size={12} strokeWidth={2} />
+          </button>
+
+          <div
+            className={`sidebar__collapsible${teamsOpen ? '' : ' is-collapsed'}`}
+            id="sidebar-teams-list"
+          >
+            <div className="sidebar__collapsible-inner">
+              <div className="sidebar__team-list">
+                {myTeams.map((team) => (
+                  <TeamRow
+                    key={team.id}
+                    team={team}
+                    onClick={(id) => navigate(`/teams/${id}`)}
+                  />
+                ))}
+              </div>
+              <button className="sidebar__add-team-btn">
+                <div className="sidebar__add-team-icon">
+                  <Plus size={11} strokeWidth={2} color="var(--color-faint)" />
+                </div>
+                <span className="sidebar__add-team-label">Add Team</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* MY LEAGUES accordion */}
+        <div className="sidebar__section">
+          <button
+            className="sidebar__section-toggle"
+            onClick={() => setLeaguesOpen((o) => !o)}
+            aria-expanded={leaguesOpen}
+            aria-controls="sidebar-leagues-list"
+          >
+            <span className="sidebar__section-label">My Leagues</span>
+            <ChevronDown className="sidebar__chevron" size={12} strokeWidth={2} />
+          </button>
+
+          <div
+            className={`sidebar__collapsible${leaguesOpen ? '' : ' is-collapsed'}`}
+            id="sidebar-leagues-list"
+          >
+            <div className="sidebar__collapsible-inner">
+              <div className="sidebar__league-list">
+                {leagues.map((league) => (
+                  <LeagueRow key={league.id} league={league} />
+                ))}
+              </div>
+              <button className="sidebar__add-team-btn">
+                <div className="sidebar__add-team-icon">
+                  <Plus size={11} strokeWidth={2} color="var(--color-faint)" />
+                </div>
+                <span className="sidebar__add-team-label">Add League</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      {/* ── Region 4: Fixed bottom — Settings + Match Day Live ───────── */}
       <div className="sidebar__bottom">
-        {/* Settings */}
         <NavLink to="/settings" className="sidebar__nav-link">
           {({ isActive }) => (
             <div className={`sidebar__settings-item ${isActive ? 'sidebar__settings-item--active' : ''}`}>
@@ -176,7 +271,6 @@ export default function Sidebar({
           )}
         </NavLink>
 
-        {/* Match Day Live pill */}
         <button
           id="match-day-live-btn"
           className={`sidebar__live-btn${isLiveOnly ? ' sidebar__live-btn--active' : ''}`}
@@ -188,6 +282,7 @@ export default function Sidebar({
           <span>{isLiveOnly ? 'Exit Live View ×' : 'Match Day Live'}</span>
         </button>
       </div>
+
     </aside>
   );
 }

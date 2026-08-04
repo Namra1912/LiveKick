@@ -1,7 +1,19 @@
 /* ============================================================
    Sidebar.css — 240px left navigation sidebar
+   Four distinct regions:
+     1. Logo     — handled in AppLayout, not here
+     2. Nav      — .sidebar__nav-section  (flex: none, never scrolls)
+     3. Scroll   — .sidebar__scroll       (flex: 1, overflow-y: auto)
+     4. Bottom   — .sidebar__bottom       (flex: none, always visible)
    ============================================================ */
 
+/* ── Motion tokens ────────────────────────────────────────────── */
+:root {
+  --ease-out-strong:  cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-ui:   cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* ── Shell ────────────────────────────────────────────────────── */
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -12,16 +24,16 @@
   background-color: var(--color-base);
   border-right: 1px solid var(--color-border);
   height: 100%;
-  transition: width 0.2s ease, min-width 0.2s ease;
+  @media (prefers-reduced-motion: no-preference) {
+    transition: width 0.2s ease, min-width 0.2s ease;
+  }
 }
 
-/* Scrollable middle area */
-.sidebar__scroll {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  min-height: 0;   /* flex scroll containment */
-  padding: 12px 8px 8px;
+/* ── Region 2: Fixed nav ──────────────────────────────────────── */
+.sidebar__nav-section {
+  flex: none;
+  padding: 12px 8px 6px;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .sidebar__nav {
@@ -31,7 +43,6 @@
   list-style: none;
 }
 
-/* Nav item link wrapper */
 .sidebar__nav-link {
   font-family: var(--font-body);
   text-decoration: none;
@@ -46,12 +57,18 @@
   font-size: 13px;
   font-weight: 500;
   font-family: var(--font-body);
-  transition: all 0.15s ease;
   cursor: pointer;
   user-select: none;
   border-left: 3px solid transparent;
   color: var(--color-secondary);
   background: transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar__nav-item {
+    transition: color 150ms var(--ease-out-strong),
+                background-color 150ms var(--ease-out-strong);
+  }
 }
 
 .sidebar__nav-item:hover {
@@ -79,14 +96,54 @@
   color: var(--color-pitch-green);
 }
 
-/* MY TEAMS section */
-.sidebar__section {
-  margin-top: 20px;
+/* ── Region 3: Scrollable — My Teams + My Leagues ─────────────── */
+.sidebar__scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  padding: 8px 8px 8px;
 }
 
-.sidebar__section-label {
+.sidebar__scroll::-webkit-scrollbar        { width: 3px; }
+.sidebar__scroll::-webkit-scrollbar-track  { background: transparent; }
+.sidebar__scroll::-webkit-scrollbar-thumb  { background: var(--color-border); border-radius: 2px; }
+
+/* Section wrapper */
+.sidebar__section {
+  margin-top: 16px;
+}
+.sidebar__section:first-child {
+  margin-top: 4px;
+}
+
+/* ── Accordion toggle button ─────────────────────────────────── */
+/* Looks like a label, not a browser button */
+.sidebar__section-toggle {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
   padding: 0 12px;
+  box-sizing: border-box;
   margin-bottom: 6px;
+}
+
+.sidebar__section-toggle:focus-visible {
+  outline: 2px solid var(--color-pitch-green);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Hover: only shift chevron opacity — do NOT add bg on section labels */
+.sidebar__section-toggle:hover .sidebar__chevron {
+  opacity: 0.7;
+}
+
+/* Section label text */
+.sidebar__section-label {
   font-size: 10px;
   font-family: var(--font-body);
   font-weight: 700;
@@ -95,13 +152,54 @@
   letter-spacing: 0.1em;
 }
 
+/* Chevron icon — rotate on collapse, transform only */
+.sidebar__chevron {
+  color: var(--color-faint);
+  flex: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar__chevron {
+    transition: transform 220ms var(--ease-out-strong),
+                opacity 150ms var(--ease-out-strong);
+    transform-origin: center;
+  }
+}
+
+/* Collapsed state: rotate -90deg (pointing right = "closed") */
+.sidebar__section-toggle[aria-expanded="false"] .sidebar__chevron {
+  transform: rotate(-90deg);
+}
+
+/* ── Collapsible content — grid-template-rows technique ───────── */
+.sidebar__collapsible {
+  display: grid;
+  grid-template-rows: 1fr; /* open */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar__collapsible {
+    transition: grid-template-rows 220ms var(--ease-in-out-ui);
+  }
+}
+
+.sidebar__collapsible.is-collapsed {
+  grid-template-rows: 0fr;
+}
+
+/* Inner wrapper MUST have overflow: hidden + min-height: 0 */
+.sidebar__collapsible-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Team list ────────────────────────────────────────────────── */
 .sidebar__team-list {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-/* Team row button */
 .sidebar__team-btn {
   width: 100%;
   display: flex;
@@ -109,12 +207,17 @@
   gap: 10px;
   padding: 6px 10px;
   border-radius: 8px;
-  transition: background-color 0.15s ease;
   background: none;
   border: none;
   cursor: pointer;
   text-align: left;
   font-family: var(--font-body);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar__team-btn {
+    transition: background-color 150ms var(--ease-out-strong);
+  }
 }
 
 .sidebar__team-btn:hover {
@@ -134,11 +237,16 @@
   font-size: 13px;
   line-height: 1;
   color: var(--color-secondary);
-  transition: color 0.15s ease;
   text-align: left;
 }
 
-/* Team badge shield box */
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar__team-name {
+    transition: color 150ms var(--ease-out-strong);
+  }
+}
+
+/* ── Team badge shield box ────────────────────────────────────── */
 .sidebar__team-badge {
   border-radius: 6px 6px 10px 10px;
   display: flex;
@@ -149,27 +257,24 @@
   font-weight: 900;
   letter-spacing: -0.02em;
   border: 1px solid;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -2px 0 rgba(0, 0, 0, 0.4), var(--shadow-sm);
-  transition: transform 0.15s ease;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+              inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+              var(--shadow-sm);
 }
 
-.sidebar__team-badge:hover {
-  transform: scale(1.05);
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar__team-badge {
+    transition: transform 150ms var(--ease-out-strong);
+  }
+  .sidebar__team-badge:hover {
+    transform: scale(1.05);
+  }
 }
 
-.sidebar__team-badge--md {
-  width: 30px;
-  height: 31px;
-  font-size: 11px;
-}
+.sidebar__team-badge--md { width: 30px; height: 31px; font-size: 11px; }
+.sidebar__team-badge--lg { width: 42px; height: 44px; font-size: 13.5px; }
 
-.sidebar__team-badge--lg {
-  width: 42px;
-  height: 44px;
-  font-size: 13.5px;
-}
-
-/* Real team crest image badge */
+/* Real crest image */
 .team-badge--crest {
   display: block;
   object-fit: contain;
@@ -178,14 +283,18 @@
   box-shadow: none;
   flex: none;
   user-select: none;
-  transition: transform 0.15s ease;
 }
 
-.team-badge--crest:hover {
-  transform: scale(1.05);
+@media (prefers-reduced-motion: no-preference) {
+  .team-badge--crest {
+    transition: transform 150ms var(--ease-out-strong);
+  }
+  .team-badge--crest:hover {
+    transform: scale(1.05);
+  }
 }
 
-/* Add team button */
+/* ── Add team / add league (shared) ──────────────────────────── */
 .sidebar__add-team-btn {
   width: 100%;
   display: flex;
@@ -193,12 +302,17 @@
   gap: 10px;
   padding: 7px 12px;
   border-radius: 8px;
-  transition: background-color 0.15s ease;
   background: none;
   border: none;
   cursor: pointer;
   margin-top: 4px;
   font-family: var(--font-body);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar__add-team-btn {
+    transition: background-color 150ms var(--ease-out-strong);
+  }
 }
 
 .sidebar__add-team-btn:hover {
@@ -221,7 +335,60 @@
   color: var(--color-faint);
 }
 
-/* Bottom sticky area */
+/* ── League list ─────────────────────────────────────────────── */
+.sidebar__league-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar__league-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar__league-row {
+    transition: background-color 150ms var(--ease-out-strong);
+  }
+}
+
+.sidebar__league-row:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.sidebar__league-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sidebar__league-name {
+  flex: 1;
+  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--color-secondary);
+  text-align: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar__league-name {
+    transition: color 150ms var(--ease-out-strong);
+  }
+}
+
+.sidebar__league-row:hover .sidebar__league-name {
+  color: var(--color-primary);
+}
+
+/* ── Region 4: Fixed bottom ───────────────────────────────────── */
 .sidebar__bottom {
   flex: none;
   padding: 12px 8px;
@@ -231,7 +398,6 @@
   border-top: 1px solid var(--color-border);
 }
 
-/* Settings nav link */
 .sidebar__settings-item {
   display: flex;
   align-items: center;
@@ -241,11 +407,17 @@
   font-size: 13px;
   font-weight: 500;
   font-family: var(--font-body);
-  transition: all 0.15s ease;
   cursor: pointer;
   text-decoration: none;
   color: var(--color-secondary);
   background: transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar__settings-item {
+    transition: color 150ms var(--ease-out-strong),
+                background-color 150ms var(--ease-out-strong);
+  }
 }
 
 .sidebar__settings-item:hover {
@@ -258,7 +430,7 @@
   color: var(--color-pitch-green);
 }
 
-/* Match Day Live pill button */
+/* Match Day Live pill */
 .sidebar__live-btn {
   display: flex;
   align-items: center;
@@ -274,9 +446,18 @@
   color: var(--color-pitch-bg);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all 0.15s ease;
   letter-spacing: -0.01em;
   box-shadow: var(--shadow-sm);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar__live-btn {
+    transition: filter 150ms var(--ease-out-strong),
+                box-shadow 150ms var(--ease-out-strong),
+                background-color 200ms var(--ease-in-out-ui),
+                border-color 200ms var(--ease-in-out-ui),
+                color 200ms var(--ease-in-out-ui);
+  }
 }
 
 .sidebar__live-btn:hover {
@@ -313,27 +494,35 @@
   opacity: 0.85;
 }
 
-/* Responsive sidebar collapse on small mobile */
+/* ── Responsive: icon-only collapse below 768px ──────────────── */
 @media (max-width: 768px) {
-  .sidebar {
-    width: 64px;
-    min-width: 64px;
-  }
+  .sidebar { width: 64px; min-width: 64px; }
+
   .sidebar__nav-item span,
   .sidebar__section-label,
+  .sidebar__chevron,
   .sidebar__team-name,
+  .sidebar__league-name,
   .sidebar__add-team-label,
   .sidebar__settings-item span,
   .sidebar__live-btn span:not(.sidebar__live-dot) {
     display: none;
   }
+
   .sidebar__nav-item,
   .sidebar__team-btn,
+  .sidebar__league-row,
   .sidebar__add-team-btn,
   .sidebar__settings-item {
     justify-content: center;
     padding: 10px 0;
   }
+
+  .sidebar__section-toggle {
+    justify-content: center;
+    padding: 6px 0;
+  }
+
   .sidebar__live-btn {
     padding: 10px;
     border-radius: 50%;
@@ -341,4 +530,6 @@
     height: 38px;
     margin: 0 auto;
   }
+
+  .sidebar__league-dot { display: none; }
 }
