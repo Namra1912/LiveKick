@@ -1,36 +1,81 @@
 /* ============================================================
-   LeagueGroup.css — League section card with header + match rows
+   LeagueGroup.css — League section card with collapsible header + match rows
    ============================================================ */
 
+/* ── Shell card ────────────────────────────────────────────────── */
 .league-group {
   border-radius: var(--radius-card);
   border: 1px solid var(--color-border);
   background-color: var(--color-surface);
   box-shadow: var(--bezel-double);
   overflow: hidden;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .league-group {
+    transition: box-shadow 150ms ease;
+  }
 }
 
 .league-group:hover {
   box-shadow: var(--bezel-double-hover);
 }
 
+/* ── Header — button with all: unset ──────────────────────────── */
 .league-group__header {
+  all: unset;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   padding: var(--space-3) var(--space-4);
   background-color: transparent;
-  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+
+  /* TASK C — border-bottom only visible when expanded */
+  border-bottom: 1px solid transparent;
+  box-shadow: none;
+}
+
+/* TASK C — only show separator when content is expanded */
+.league-group__header[aria-expanded="true"] {
+  border-bottom-color: var(--color-border);
   box-shadow: 0 1px 0 var(--color-border-dim);
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .league-group__header {
+    /* background-color + border-color only — no layout properties */
+    transition: background-color 150ms ease,
+                border-color 150ms ease; /* TASK C */
+  }
+}
+
+.league-group__header:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.league-group__header:focus-visible {
+  outline: 2px solid var(--color-pitch-green);
+  outline-offset: -2px;
+}
+
+/* Left cluster: live dot + badge + league name */
 .league-group__header-left {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
+/* Right cluster: matchday label + chevron */
+.league-group__header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── League badge ──────────────────────────────────────────────── */
 .league-group__badge {
   width: 22px;
   height: 22px;
@@ -45,7 +90,9 @@
   border: 1px solid var(--color-border);
   position: relative;
   overflow: hidden;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 -1px 0 rgba(0, 0, 0, 0.4), var(--shadow-sm);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+              var(--shadow-sm);
   user-select: none;
 }
 
@@ -66,11 +113,26 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
+/* ── Badge color variants ──────────────────────────────────────── */
 .league-badge--pl      { background: var(--league-pl-bg);     border-color: var(--league-pl-border);     color: var(--league-pl-text); }
 .league-badge--laliga  { background: var(--league-laliga-bg); border-color: var(--league-laliga-border); color: var(--league-laliga-text); }
 .league-badge--ucl     { background: var(--league-ucl-bg);    border-color: var(--league-ucl-border);    color: var(--league-ucl-text); }
 .league-badge--default { background: var(--color-surface-elevated); border-color: var(--color-border); color: var(--color-secondary); }
 
+/* TASK D — Bundesliga + Serie A badge colors */
+.league-badge--bundesliga {
+  background: #c8102e;
+  border-color: #8b0a1e;
+  color: #ffffff;
+}
+
+.league-badge--seriea {
+  background: #0066cc;
+  border-color: #004999;
+  color: #ffffff;
+}
+
+/* ── League name + matchday ────────────────────────────────────── */
 .league-group__name {
   font-family: var(--font-body);
   font-size: 11px;
@@ -87,6 +149,65 @@
   letter-spacing: 0.05em;
 }
 
+/* ── Chevron icon — rotates when collapsed ─────────────────────── */
+.league-group__chevron {
+  color: var(--color-faint);
+  flex: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .league-group__chevron {
+    transition: transform 220ms var(--ease-out-strong),
+                opacity 150ms var(--ease-out-strong);
+    transform-origin: center;
+  }
+}
+
+/* Collapsed state: point right = "open to reveal" */
+.league-group__chevron.is-collapsed {
+  transform: rotate(-90deg);
+}
+
+/* Dim chevron on header hover */
+.league-group__header:hover .league-group__chevron {
+  opacity: 0.7;
+}
+
+/* ── Collapsible rows — grid-template-rows technique ──────────── */
+/* TASK C note: 0fr causes the inner content to vanish; the border-color
+   transition on the header then hides the floating border artifact */
+.league-group__collapsible {
+  display: grid;
+  grid-template-rows: 1fr; /* open */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .league-group__collapsible {
+    transition: grid-template-rows 220ms var(--ease-in-out-ui);
+  }
+}
+
+.league-group__collapsible.is-collapsed {
+  grid-template-rows: 0fr;
+}
+
+/* Inner wrapper MUST have overflow: hidden + min-height: 0 */
+.league-group__collapsible-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Match rows ────────────────────────────────────────────────── */
+.league-group__rows {
+  /* container — no extra styles needed */
+}
+
+.league-group__row-divider {
+  border-top: 1px solid var(--color-border-dim);
+}
+
+/* ── Empty state ───────────────────────────────────────────────── */
+/* TASK E — copy is injected by LeagueGroup via dateLabel prop */
 .league-group__empty {
   padding: var(--space-5) var(--space-4);
   text-align: center;
@@ -96,12 +217,4 @@
   font-family: var(--font-body);
   font-size: 13px;
   color: var(--color-faint);
-}
-
-.league-group__rows {
-  /* container for match rows */
-}
-
-.league-group__row-divider {
-  border-top: 1px solid var(--color-border-dim);
 }
