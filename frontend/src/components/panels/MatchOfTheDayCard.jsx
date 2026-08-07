@@ -2,7 +2,7 @@
 // "Match of the Day" feature card — large crests, kickoff time, description
 
 import { useNavigate } from 'react-router-dom';
-import { TeamBadge } from '../layout/Sidebar';
+import Crest from '../shared/Crest';
 import './MatchOfTheDayCard.css';
 
 export default function MatchOfTheDayCard({ match }) {
@@ -24,7 +24,7 @@ export default function MatchOfTheDayCard({ match }) {
     >
       {/* Top: crests + time */}
       <div className="motd-card__top">
-        <TeamBadge team={match.homeTeam} size="lg" />
+        <Crest logoUrl={match.homeTeam.logoUrl ?? match.homeTeam.crestUrl} name={match.homeTeam.name} size={42} />
 
         {/* Center: TONIGHT + time */}
         <div className="motd-card__time-block">
@@ -32,7 +32,7 @@ export default function MatchOfTheDayCard({ match }) {
           <div className="score-box motd-card__time-box">{kickoffTime}</div>
         </div>
 
-        <TeamBadge team={match.awayTeam} size="lg" />
+        <Crest logoUrl={match.awayTeam.logoUrl ?? match.awayTeam.crestUrl} name={match.awayTeam.name} size={42} />
       </div>
 
       {/* Bottom: label + matchup + desc */}

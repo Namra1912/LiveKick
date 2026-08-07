@@ -50,32 +50,6 @@ const NAV_ITEMS = [
 
 // TASK A: Deleted dead LEAGUE_DOT_COLORS & leagueNameToSlug logic.
 
-// ── sub-components ────────────────────────────────────────────────────────────
-
-export function TeamBadge({ team, size = 'md' }) {
-  const [imgError, setImgError] = useState(false);
-  const initials = (team?.shortName ?? team?.name ?? '').slice(0, 2).toUpperCase();
-  const sizeClass = size === 'lg' ? 'sidebar__team-badge--lg' : 'sidebar__team-badge--md';
-  const teamClass = team?.id ? `team-badge--team-${team.id}` : 'team-badge--default';
-
-  if (team?.crestUrl && !imgError) {
-    return (
-      <img
-        src={team.crestUrl}
-        alt={team?.name ?? 'Team'}
-        className={`team-badge--crest ${sizeClass}`}
-        onError={() => setImgError(true)}
-      />
-    );
-  }
-
-  return (
-    <div className={`team-badge ${teamClass} ${sizeClass}`}>
-      {initials}
-    </div>
-  );
-}
-
 function NavItem({ item }) {
   const Icon = item.icon;
   return (
@@ -105,7 +79,7 @@ function TeamRow({ team, onClick }) {
       className="sidebar__team-btn"
       onClick={() => onClick(team.id)}
     >
-      <TeamBadge team={team} />
+      <Crest logoUrl={team.logoUrl ?? team.crestUrl} name={team.name} size={30} />
       <span className="sidebar__team-name">{team.name}</span>
       {isLive && (
         <span className="live-dot" title="Live match in progress" />

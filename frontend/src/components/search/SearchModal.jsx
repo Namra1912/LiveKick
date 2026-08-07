@@ -3,6 +3,7 @@
 
 import { useEffect } from 'react';
 import { X, Search } from 'lucide-react';
+import Crest from '../shared/Crest';
 import './SearchModal.css';
 
 export default function SearchModal({ isOpen, onClose }) {
