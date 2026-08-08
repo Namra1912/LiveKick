@@ -83,7 +83,7 @@ export default function MatchOfTheDayCard({ match }) {
           <div className="score-box motd-card__time-box">{kickoffTime}</div>
         </div>
 
-        <Crest logoUrl={match.awayTeam.logoUrl ?? match.awayTeam.crestUrl} name={match.awayTeam.name} size={42} />
+        <Crest logoUrl={match.awayTeam.logoUrl ?? match.awayTeam.crestUrl} name={match.awayTeam.name} size={45} />
       </div>
 
       {/* Bottom: label + matchup + desc */}

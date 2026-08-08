@@ -1,7 +1,7 @@
 // src/pages/HomeFeed.jsx
 // Home / Live Scores Feed — main page component.
 
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import AppLayout from '../components/layout/AppLayout';
 import DateSelector from '../components/feed/DateSelector';
 import LeagueGroup from '../components/feed/LeagueGroup';
@@ -20,6 +20,7 @@ import {
 } from '../data/mockData';
 
 import './HomeFeed.css';
+import { useLenisScroll } from '../hooks/useLenisScroll';
 
 const LEAGUE_MATCHDAY = {
   'Premier League': 29,
@@ -99,6 +100,11 @@ function groupMatchesByLeague(matchList) {
 }
 
 function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatches, favMatchIds, toggleFav }) {
+  // Smooth scroll for .home-feed__center — the main match feed column.
+  // Scoped to this element only — never window/document.
+  const centerRef = useRef(null);
+  useLenisScroll(centerRef);
+
   // Filter matches by selected calendar date BEFORE grouping by league
   const grouped = useMemo(() => {
     const targetDate = getTargetDate(selectedDate.value);
@@ -110,7 +116,7 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
 
   if (isLiveOnly) {
     return (
-      <main className="home-feed__center">
+      <main className="home-feed__center" ref={centerRef}>
         {/* Live Filter Header */}
         <div className="home-feed__heading-row">
           <div className="home-feed__live-title-wrap">
@@ -155,7 +161,7 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
   }
 
   return (
-    <main className="home-feed__center">
+    <main className="home-feed__center" ref={centerRef}>
       {/* Section heading + date selector */}
       <div className="home-feed__heading-row">
         <h1 className="home-feed__heading">Matches</h1>
@@ -197,6 +203,13 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
 }
 
 function RightPanel() {
+  // Smooth scroll for .home-feed__right — the right panel (MOTD, Predictor, News).
+  // Scoped to this element only — never window/document.
+  // PredictorCard contents (buttons, fan lean bar) remain fully interactable while
+  // the panel scrolls — Lenis does not suppress pointer events on children.
+  const rightRef = useRef(null);
+  useLenisScroll(rightRef);
+
   const featuredMatch = useMemo(
     () => matches.find((m) => m.id === 102),
     []
@@ -208,7 +221,7 @@ function RightPanel() {
   );
 
   return (
-    <aside className="home-feed__right">
+    <aside className="home-feed__right" ref={rightRef}>
       <MatchOfTheDayCard match={featuredMatch} />
       <PredictorCard predictorMatch={activePredictor} userBalance={currentUser.matchdayCoins} />
       <NewsList newsItems={news} />

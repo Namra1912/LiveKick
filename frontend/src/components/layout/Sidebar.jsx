@@ -1,7 +1,7 @@
 // src/components/layout/Sidebar.jsx
 // Left sidebar: fixed nav links, scrollable My Teams + My Leagues (accordion), fixed bottom
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutGrid,
@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { matches, leagues } from '../../data/mockData';
 import Crest from '../shared/Crest'; // TASK A: Crest component replaces old league dot
+import { useLenisScroll } from '../../hooks/useLenisScroll';
 import './Sidebar.css';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -40,12 +41,12 @@ function readBool(key, fallback = true) {
 // ── constants ─────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS = [
-  { label: 'Matches',            path: '/',           icon: LayoutGrid },
-  { label: 'News',               path: '/news',        icon: Newspaper },
-  { label: 'Standings',          path: '/standings',   icon: BarChart2 },
-  { label: 'Transfers',          path: '/transfers',   icon: ArrowLeftRight },
+  { label: 'Matches', path: '/', icon: LayoutGrid },
+  { label: 'News', path: '/news', icon: Newspaper },
+  { label: 'Standings', path: '/standings', icon: BarChart2 },
+  { label: 'Transfers', path: '/transfers', icon: ArrowLeftRight },
   { label: 'Predictions League', path: '/predictions', icon: Trophy },
-  { label: 'Tactics Lab',        path: '/tactics',     icon: FlaskConical },
+  { label: 'Tactics Lab', path: '/tactics', icon: FlaskConical },
 ];
 
 // TASK A: Deleted dead LEAGUE_DOT_COLORS & leagueNameToSlug logic.
@@ -79,7 +80,7 @@ function TeamRow({ team, onClick }) {
       className="sidebar__team-btn"
       onClick={() => onClick(team.id)}
     >
-      <Crest logoUrl={team.logoUrl ?? team.crestUrl} name={team.name} size={30} />
+      <Crest logoUrl={team.logoUrl ?? team.crestUrl} name={team.name} size={35} />
       <span className="sidebar__team-name">{team.name}</span>
       {isLive && (
         <span className="live-dot" title="Live match in progress" />
@@ -92,7 +93,7 @@ function TeamRow({ team, onClick }) {
 function LeagueRow({ league }) {
   return (
     <div className="sidebar__league-row">
-      <Crest logoUrl={league.logoUrl} name={league.name} size={18} />
+      <Crest logoUrl={league.logoUrl} name={league.name} size={35} />
       <span className="sidebar__league-name">{league.name}</span>
     </div>
   );
@@ -109,16 +110,25 @@ export default function Sidebar({
 }) {
   const navigate = useNavigate();
 
+  // Smooth scroll for the .sidebar__scroll team/league list pane.
+  // Scoped to this element only — never window/document.
+  // ACCORDION NOTE: The grid-template-rows collapse transition is driven by CSS only
+  // and operates independently of Lenis. No conflict observed; Lenis only intercepts
+  // wheel/touch delta on the wrapper and delegates actual scroll to the DOM element,
+  // so CSS-driven height transitions within the container are unaffected.
+  const scrollRef = useRef(null);
+  useLenisScroll(scrollRef);
+
   // Accordion state — initialised from localStorage, written on every change
-  const [teamsOpen,   setTeamsOpen]   = useState(() => readBool('lk_sb_teams',   true));
+  const [teamsOpen, setTeamsOpen] = useState(() => readBool('lk_sb_teams', true));
   const [leaguesOpen, setLeaguesOpen] = useState(() => readBool('lk_sb_leagues', true));
 
   useEffect(() => {
-    try { localStorage.setItem('lk_sb_teams', JSON.stringify(teamsOpen)); } catch {}
+    try { localStorage.setItem('lk_sb_teams', JSON.stringify(teamsOpen)); } catch { }
   }, [teamsOpen]);
 
   useEffect(() => {
-    try { localStorage.setItem('lk_sb_leagues', JSON.stringify(leaguesOpen)); } catch {}
+    try { localStorage.setItem('lk_sb_leagues', JSON.stringify(leaguesOpen)); } catch { }
   }, [leaguesOpen]);
 
   const myTeams = favoriteTeams
@@ -138,7 +148,7 @@ export default function Sidebar({
       </div>
 
       {/* ── Region 3: Scrollable — My Teams + My Leagues ─────────────── */}
-      <div className="sidebar__scroll">
+      <div className="sidebar__scroll" ref={scrollRef}>
 
         {/* MY TEAMS accordion */}
         <div className="sidebar__section">

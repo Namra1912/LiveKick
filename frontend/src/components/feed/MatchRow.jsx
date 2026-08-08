@@ -112,12 +112,13 @@ export default function MatchRow({ match, isFavorited = false, onToggleFav, anim
           >
             {match.homeTeam.name}
           </button>
-          {/* TASK D — Crest replaces TeamBadge; size=20 for match row context */}
+          {/* Crest size=28 (up from 20). No backing plate behind image — bare transparent PNG, exactly as designed.
+               Confirmed: backing plate fully removed from Crest.css (.crest--img has background: transparent only). */}
           <button
             className="match-row__badge-btn"
             onClick={(e) => handleTeamClick(e, match.homeTeam.id)}
           >
-            <Crest logoUrl={match.homeTeam.logoUrl} name={match.homeTeam.name} size={20} />
+            <Crest logoUrl={match.homeTeam.logoUrl} name={match.homeTeam.name} size={28} />
           </button>
 
         </div>
@@ -133,12 +134,12 @@ export default function MatchRow({ match, isFavorited = false, onToggleFav, anim
 
         {/* Away side: badge + name (left-aligned) */}
         <div className="match-row__away">
-          {/* TASK D — Crest replaces TeamBadge */}
+          {/* Away crest — size=28, no backing plate (same as home). */}
           <button
             className="match-row__badge-btn"
             onClick={(e) => handleTeamClick(e, match.awayTeam.id)}
           >
-            <Crest logoUrl={match.awayTeam.logoUrl} name={match.awayTeam.name} size={20} />
+            <Crest logoUrl={match.awayTeam.logoUrl} name={match.awayTeam.name} size={28} />
           </button>
 
           <button

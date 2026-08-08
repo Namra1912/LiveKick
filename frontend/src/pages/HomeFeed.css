@@ -1,6 +1,40 @@
 /* ============================================================
    HomeFeed.css — Home / Live Scores Feed page
+
+   MOUNT-ONLY ANIMATION TECHNIQUE
+   ─────────────────────────────────────────────────────────────
+   The enter animation on .home-feed__center and .home-feed__right
+   is implemented as a CSS @keyframes animation (not a transition)
+   applied unconditionally on those elements — no class toggle, no
+   JS timing, no animation-name swap on re-render.
+
+   Why this guarantees "once on true mount only":
+   CSS animations run when the element first appears in the DOM and
+   a matching animation-name is declared. React does NOT remove and
+   re-create .home-feed__center / .home-feed__right on state updates
+   (date change, favoriting, search open/close) — it only patches
+   children via the virtual DOM diff. Because the container elements
+   themselves persist across re-renders, the browser never replays
+   the animation. Only a full unmount + remount of the page component
+   (i.e. navigating away then back) would replay it, which is the
+   correct and expected behavior.
+
+   Duration: 240ms. Translate: 10px up → 0. Easing: cubic-bezier(0.23, 1, 0.32, 1)
+   which matches the codebase's --ease-out-strong token.
    ============================================================ */
+
+/* ── Page enter @keyframes ─────────────────────────────────── */
+/* Single-use entrance: opacity 0→1 + translateY 10px→0, 240ms  */
+@keyframes hf-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* Center feed column */
 .home-feed__center {
@@ -11,6 +45,9 @@
   padding: var(--space-5) var(--space-6);
   background-color: var(--color-base);
   background-image: var(--texture-scanline);
+  /* Mount-once enter — plays on first DOM paint, never replays on re-render.
+     fill-mode: both keeps opacity:0 before the animation starts (no flash). */
+  animation: hf-enter 240ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 .home-feed__heading-row {
@@ -66,6 +103,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  /* Same enter animation as center column — both settle as one cohesive block.
+     No delay offset between columns so they read as one unified appearance. */
+  animation: hf-enter 240ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 /* Live filter view styles */
@@ -195,5 +235,20 @@
   }
   .home-feed__heading {
     font-size: 18px;
+  }
+}
+
+/* ── Reduced-motion override ────────────────────────────────── */
+/* For users with prefers-reduced-motion: strip the translate but
+   keep a very brief opacity fade (120ms) so the page appears
+   rather than snapping in with a hard cut. */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes hf-enter {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  .home-feed__center,
+  .home-feed__right {
+    animation-duration: 120ms;
   }
 }

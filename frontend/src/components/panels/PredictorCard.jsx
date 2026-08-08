@@ -58,7 +58,7 @@ export default function PredictorCard({ predictorMatch }) {
         {/* ── Matchup Row: Crests size 44 + Team Names + VS Divider (Item 5) ── */}
         <div className="predictor-card__matchup">
           <div className="predictor-card__team predictor-card__team--home">
-            <Crest logoUrl={homeTeam?.logoUrl} name={homeTeam?.name} size={44} />
+            <Crest logoUrl={homeTeam?.logoUrl} name={homeTeam?.name} size={45} />
             <span className="predictor-card__team-name">{homeTeam?.shortName ?? homeTeam?.name}</span>
           </div>
 
@@ -66,7 +66,7 @@ export default function PredictorCard({ predictorMatch }) {
 
           <div className="predictor-card__team predictor-card__team--away">
             <span className="predictor-card__team-name">{awayTeam?.shortName ?? awayTeam?.name}</span>
-            <Crest logoUrl={awayTeam?.logoUrl} name={awayTeam?.name} size={44} />
+            <Crest logoUrl={awayTeam?.logoUrl} name={awayTeam?.name} size={45} />
           </div>
         </div>
 
