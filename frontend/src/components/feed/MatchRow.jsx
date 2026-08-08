@@ -1,5 +1,11 @@
 // src/components/feed/MatchRow.jsx
 // Match row: live/FT/time status · home badge+name · score · away name+badge · star
+//
+// BUG FIXED: formatTime() previously used getUTCHours()/getUTCMinutes() which displayed
+// kickoff times in UTC regardless of the viewer's timezone. Replaced with
+// toLocaleTimeString() so the browser converts the UTC ISO string to the viewer's
+// actual local time automatically. No timezone label appended (future addition).
+// PredictorCard.jsx already used toLocaleTimeString — it was already correct, not touched.
 
 // TASK D — replaced TeamBadge (Sidebar import) with the shared Crest component.
 //           team.logoUrl now comes from mockData directly.
@@ -11,12 +17,15 @@ import Crest from '../shared/Crest'; // TASK D
 import './MatchRow.css';
 
 
+// Returns the kickoff time in the viewer's local timezone.
+// toLocaleTimeString handles UTC→local conversion automatically via the browser.
+// Future: pass timeZone option or append short timezone name if needed.
 function formatTime(isoString) {
-  if (!isoString) return '20:00';
-  const d = new Date(isoString);
-  const h = d.getUTCHours().toString().padStart(2, '0');
-  const m = d.getUTCMinutes().toString().padStart(2, '0');
-  return `${h}:${m}`;
+  if (!isoString) return '--:--';
+  return new Date(isoString).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 }
 
 function LiveStatus({ minute }) {
