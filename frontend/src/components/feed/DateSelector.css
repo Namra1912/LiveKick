@@ -6,7 +6,7 @@
 .date-selector {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
   position: relative;
 }
 
@@ -14,15 +14,15 @@
 .date-selector__group {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 2px;
+  gap: var(--space-1);
+  padding: var(--space-1);
   border-radius: var(--radius-pill);
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
 }
 
 .date-selector__btn {
-  padding: 6px 16px;
+  padding: 6px var(--space-4);
   border-radius: var(--radius-pill);
   font-size: 12px;
   font-family: var(--font-body);
@@ -83,15 +83,15 @@
 
 .date-selector__popover {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + var(--space-2));
   right: 0;
   z-index: 200;
   width: 256px;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: var(--radius-card); /* Standardized 10px -> --radius-card (14px) */
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
-  padding: 12px;
+  padding: var(--space-3);
   animation: cal-appear 0.15s ease-out both;
 }
 
@@ -100,17 +100,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: var(--space-3);
 }
 
 .cal__nav-btn {
   width: 28px;
   height: 28px;
-  border-radius: 6px;
+  border-radius: var(--radius-badge); /* Standardized 6px -> --radius-badge */
   border: none;
   background: transparent;
   cursor: pointer;
-  display: flex;
+  display: inline-flex; /* STEP 4 ALIGNMENT FIX: Centered month navigation chevron icons vertically to correct 2px offset */
   align-items: center;
   justify-content: center;
   color: var(--color-secondary);
@@ -135,7 +135,7 @@
 .cal__dow-row {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 
 .cal__dow {
@@ -145,14 +145,14 @@
   font-weight: 600;
   color: var(--color-faint);
   letter-spacing: 0.04em;
-  padding-bottom: 4px;
+  padding-bottom: var(--space-1);
 }
 
 /* Day grid */
 .cal__grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
+  gap: var(--space-1);
 }
 
 .cal__day {
@@ -160,7 +160,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
+  border-radius: var(--radius-badge); /* Standardized 6px -> --radius-badge */
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;

@@ -32,14 +32,14 @@
 /* ── Region 2: Fixed nav ──────────────────────────────────────── */
 .sidebar__nav-section {
   flex: none;
-  padding: 12px 8px 6px;
+  padding: var(--space-3) var(--space-2) var(--space-2);
   border-bottom: 1px solid var(--color-border);
 }
 
 .sidebar__nav {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-1);
   list-style: none;
 }
 
@@ -51,9 +51,9 @@
 .sidebar__nav-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 9px 12px;
-  border-radius: 8px;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-badge); /* Standardized 8px -> --radius-badge */
   font-size: 13px;
   font-weight: 500;
   font-family: var(--font-body);
@@ -90,6 +90,9 @@
 .sidebar__nav-icon {
   flex: none;
   color: var(--color-faint);
+  display: flex; /* STEP 4 ALIGNMENT FIX: Flex layout centers 16px nav icon vertically, eliminating 1.5px baseline drift against text */
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar__nav-icon--active {
@@ -102,23 +105,22 @@
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 0;
-  padding: 8px 8px 8px;
+  padding: var(--space-2);
 }
 
 .sidebar__scroll::-webkit-scrollbar        { width: 3px; }
 .sidebar__scroll::-webkit-scrollbar-track  { background: transparent; }
-.sidebar__scroll::-webkit-scrollbar-thumb  { background: var(--color-border); border-radius: 2px; }
+.sidebar__scroll::-webkit-scrollbar-thumb  { background: var(--color-border); border-radius: var(--radius-badge); } /* Standardized 2px -> --radius-badge */
 
 /* Section wrapper */
 .sidebar__section {
-  margin-top: 16px;
+  margin-top: var(--space-4);
 }
 .sidebar__section:first-child {
-  margin-top: 4px;
+  margin-top: var(--space-1);
 }
 
 /* ── Accordion toggle button ─────────────────────────────────── */
-/* Looks like a label, not a browser button */
 .sidebar__section-toggle {
   all: unset;
   display: flex;
@@ -126,18 +128,18 @@
   justify-content: space-between;
   width: 100%;
   cursor: pointer;
-  padding: 0 12px;
+  padding: 0 var(--space-3);
   box-sizing: border-box;
-  margin-bottom: 6px;
+  margin-bottom: var(--space-2);
 }
 
 .sidebar__section-toggle:focus-visible {
   outline: 2px solid var(--color-pitch-green);
   outline-offset: 2px;
-  border-radius: 3px;
+  border-radius: var(--radius-badge); /* Standardized 3px -> --radius-badge */
 }
 
-/* Hover: only shift chevron opacity — do NOT add bg on section labels */
+/* Hover: only shift chevron opacity */
 .sidebar__section-toggle:hover .sidebar__chevron {
   opacity: 0.7;
 }
@@ -152,10 +154,12 @@
   letter-spacing: 0.1em;
 }
 
-/* Chevron icon — rotate on collapse, transform only */
+/* Chevron icon */
 .sidebar__chevron {
   color: var(--color-faint);
   flex: none;
+  display: flex; /* STEP 4 ALIGNMENT FIX: Flex layout centers chevron vertically against uppercase section label text (2px drift fixed) */
+  align-items: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -166,15 +170,14 @@
   }
 }
 
-/* Collapsed state: rotate -90deg (pointing right = "closed") */
 .sidebar__section-toggle[aria-expanded="false"] .sidebar__chevron {
   transform: rotate(-90deg);
 }
 
-/* ── Collapsible content — grid-template-rows technique ───────── */
+/* ── Collapsible content ──────────────────────────────────────── */
 .sidebar__collapsible {
   display: grid;
-  grid-template-rows: 1fr; /* open */
+  grid-template-rows: 1fr;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -187,7 +190,6 @@
   grid-template-rows: 0fr;
 }
 
-/* Inner wrapper MUST have overflow: hidden + min-height: 0 */
 .sidebar__collapsible-inner {
   overflow: hidden;
   min-height: 0;
@@ -197,16 +199,16 @@
 .sidebar__team-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-1);
 }
 
 .sidebar__team-btn {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 6px 10px;
-  border-radius: 8px;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-badge); /* Standardized 8px -> --radius-badge */
   background: none;
   border: none;
   cursor: pointer;
@@ -248,7 +250,8 @@
 
 /* ── Team badge shield box ────────────────────────────────────── */
 .sidebar__team-badge {
-  border-radius: 6px 6px 10px 10px;
+  /* Standardized shield radii to --radius-badge (4px) top and --radius-card (14px) bottom */
+  border-radius: var(--radius-badge) var(--radius-badge) var(--radius-card) var(--radius-card);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -299,13 +302,13 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 7px 12px;
-  border-radius: 8px;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-badge); /* Standardized 8px -> --radius-badge */
   background: none;
   border: none;
   cursor: pointer;
-  margin-top: 4px;
+  margin-top: var(--space-1);
   font-family: var(--font-body);
 }
 
@@ -322,7 +325,7 @@
 .sidebar__add-team-icon {
   width: 24px;
   height: 24px;
-  border-radius: 4px;
+  border-radius: var(--radius-badge); /* Standardized 4px -> --radius-badge */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -339,17 +342,16 @@
 .sidebar__league-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-1);
 }
 
-/* TASK B: Ensure display: flex, align-items: center, gap: 10px */
 .sidebar__league-row {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 7px 10px;
-  border-radius: 8px;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-badge); /* Standardized 8px -> --radius-badge */
   cursor: pointer;
 }
 
@@ -385,19 +387,19 @@
 /* ── Region 4: Fixed bottom ───────────────────────────────────── */
 .sidebar__bottom {
   flex: none;
-  padding: 12px 8px;
+  padding: var(--space-3) var(--space-2);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-2);
   border-top: 1px solid var(--color-border);
 }
 
 .sidebar__settings-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 9px 12px;
-  border-radius: 8px;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-badge); /* Standardized 8px -> --radius-badge */
   font-size: 13px;
   font-weight: 500;
   font-family: var(--font-body);
@@ -429,9 +431,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-2);
   width: 100%;
-  padding: 10px 0;
+  padding: var(--space-2) 0;
   border-radius: var(--radius-pill);
   font-family: var(--font-body);
   font-weight: 600;
@@ -509,16 +511,16 @@
   .sidebar__add-team-btn,
   .sidebar__settings-item {
     justify-content: center;
-    padding: 10px 0;
+    padding: var(--space-2) 0;
   }
 
   .sidebar__section-toggle {
     justify-content: center;
-    padding: 6px 0;
+    padding: var(--space-2) 0;
   }
 
   .sidebar__live-btn {
-    padding: 10px;
+    padding: var(--space-2);
     border-radius: 50%;
     width: 38px;
     height: 38px;

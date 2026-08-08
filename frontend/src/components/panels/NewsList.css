@@ -25,7 +25,7 @@
 .news-list__view-all {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 600;
@@ -34,11 +34,18 @@
   cursor: pointer;
   border: none;
   background: transparent;
+  line-height: 1; /* STEP 4 ALIGNMENT FIX: Sets 1:1 line-height so 10px ExternalLink icon aligns on baseline with 11px font text (1px drift fixed) */
 }
 
 .news-list__view-all:hover {
   color: var(--color-pitch-hover);
   transform: translateX(1px);
+}
+
+.news-list__view-all:focus-visible {
+  outline: 2px solid var(--color-pitch-green);
+  outline-offset: 2px;
+  border-radius: var(--radius-badge); /* Standardized 4px -> --radius-badge */
 }
 
 /* News items container — subtle border noise reduction */
@@ -70,6 +77,12 @@
   opacity: 0.95;
 }
 
+.news-item:focus-visible {
+  outline: 2px solid var(--color-pitch-green);
+  outline-offset: 2px;
+  border-radius: var(--radius-badge); /* Standardized 4px -> --radius-badge */
+}
+
 .news-item + .news-item {
   border-top: 1px solid var(--color-border-dim);
 }
@@ -79,7 +92,7 @@
   flex: none;
   width: 54px;
   height: 40px;
-  border-radius: 6px;
+  border-radius: var(--radius-badge); /* Standardized 6px -> --radius-badge */
   overflow: hidden;
   background-color: var(--color-surface-elevated);
   border: 1px solid var(--color-border);
@@ -87,7 +100,8 @@
   transition: border-color 0.15s ease;
 }
 
-.news-item:hover .news-item__thumbnail {
+.news-item:hover .news-item__thumbnail,
+.news-item:focus-visible .news-item__thumbnail {
   border-color: var(--color-pitch-green);
 }
 
@@ -99,7 +113,8 @@
   transition: filter 0.15s ease, transform 0.15s ease;
 }
 
-.news-item:hover .news-item__img {
+.news-item:hover .news-item__img,
+.news-item:focus-visible .news-item__img {
   filter: brightness(1) contrast(1);
   transform: scale(1.04);
 }
@@ -126,7 +141,7 @@
   font-weight: 600;
   color: var(--color-primary);
   line-height: 1.4;
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
   margin-top: 0;
   /* line-clamp */
   display: -webkit-box;
@@ -136,14 +151,15 @@
   transition: color 0.15s ease;
 }
 
-.news-item:hover .news-item__headline {
+.news-item:hover .news-item__headline,
+.news-item:focus-visible .news-item__headline {
   color: var(--color-pitch-green);
 }
 
 .news-item__meta {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-2);
 }
 
 .news-item__time {

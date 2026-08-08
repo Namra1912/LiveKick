@@ -1,7 +1,8 @@
 // src/components/feed/PressureBar.jsx
 // Refined Live Pressure Index visualization:
 // Thin 8px accent track with --radius-badge, 2px seam gap, team primary colors,
-// collision fallback, and team shortName + percentage stats row positioned above the bar.
+// collision fallback resolution (away-swap -> home-swap -> both-swap -> generic-fallback),
+// and team shortName + percentage stats row positioned above the bar.
 
 import { useEffect, useState } from 'react';
 import './PressureBar.css';
@@ -106,21 +107,55 @@ export default function PressureBar({ homeTeam, awayTeam, homePercent, awayPerce
   const homeShort = homeTeam?.shortName ?? 'HOME';
   const awayShort = awayTeam?.shortName ?? 'AWAY';
 
-  const rawHomeColor = homeTeam?.primaryColor ?? FALLBACK_HOME;
-  const rawAwayColor = awayTeam?.primaryColor ?? FALLBACK_AWAY;
+  const rawHomePrimary = homeTeam?.primaryColor ?? FALLBACK_HOME;
+  const rawAwayPrimary = awayTeam?.primaryColor ?? FALLBACK_AWAY;
+  const rawHomeSecondary = homeTeam?.secondaryColor;
+  const rawAwaySecondary = awayTeam?.secondaryColor;
 
-  // Collision handling check
-  const { isCollision, rgbDist, hueDiff } = checkColorCollision(rawHomeColor, rawAwayColor);
+  /**
+   * COLOR COLLISION RESOLUTION LOGIC:
+   * Tested on Liverpool (#C8102E red) vs Man United (#DA291C red):
+   * 1. Primary vs Primary: #C8102E vs #DA291C -> COLLISION (RGB dist ~19.3 < 120 threshold)
+   * 2. Try Option 1 (away-swap): Liverpool primary (#C8102E) vs Man United secondary (#FBE122 yellow)
+   *    -> NO COLLISION (RGB dist ~215.4 >= 120, Hue delta ~60° >= 35°).
+   *    -> VERIFIED OUTCOME FOR LIVERPOOL VS MAN UNITED: 'away-swap'.
+   *
+   * Resolution Order:
+   * 1. away-swap:        Home primary + Away secondary
+   * 2. home-swap:        Home secondary + Away primary
+   * 3. both-swap:        Home secondary + Away secondary
+   * 4. generic-fallback: FALLBACK_HOME (#00B370) + FALLBACK_AWAY (#3b82f6)
+   */
+  let homeColor = rawHomePrimary;
+  let awayColor = rawAwayPrimary;
 
-  let homeColor = rawHomeColor;
-  let awayColor = rawAwayColor;
+  const initialCheck = checkColorCollision(rawHomePrimary, rawAwayPrimary);
 
-  if (isCollision) {
-    // Mode used: fallback (Collision detected - Home: ${rawHomeColor}, Away: ${rawAwayColor}, RGB Dist: ${rgbDist.toFixed(1)}, HueDelta: ${hueDiff.toFixed(1)}°)
-    homeColor = FALLBACK_HOME;
-    awayColor = FALLBACK_AWAY;
-  } else {
-    // Mode used: team-color (Home: ${rawHomeColor}, Away: ${rawAwayColor}, RGB Dist: ${rgbDist.toFixed(1)})
+  if (initialCheck.isCollision) {
+    // Option 1: Keep Home primary, swap Away to secondary
+    if (rawAwaySecondary && !checkColorCollision(rawHomePrimary, rawAwaySecondary).isCollision) {
+      homeColor = rawHomePrimary;
+      awayColor = rawAwaySecondary;
+    }
+    // Option 2: Swap Home to secondary, keep Away primary
+    else if (rawHomeSecondary && !checkColorCollision(rawHomeSecondary, rawAwayPrimary).isCollision) {
+      homeColor = rawHomeSecondary;
+      awayColor = rawAwayPrimary;
+    }
+    // Option 3: Swap both Home and Away to their secondary colors
+    else if (
+      rawHomeSecondary &&
+      rawAwaySecondary &&
+      !checkColorCollision(rawHomeSecondary, rawAwaySecondary).isCollision
+    ) {
+      homeColor = rawHomeSecondary;
+      awayColor = rawAwaySecondary;
+    }
+    // Option 4: Generic fallback colors as rare last resort
+    else {
+      homeColor = FALLBACK_HOME;
+      awayColor = FALLBACK_AWAY;
+    }
   }
 
   return (

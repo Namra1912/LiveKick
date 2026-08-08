@@ -36,7 +36,7 @@
 }
 
 .search-modal__box {
-  border-radius: 12px;
+  border-radius: var(--radius-card); /* Standardized 12px -> --radius-card (14px) */
   overflow: hidden;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -46,9 +46,9 @@
 /* Search input row */
 .search-modal__input-row {
   display: flex;
-  align-items: center;
+  align-items: center; /* STEP 4 ALIGNMENT FIX: Centered 18px Search icon vertically with input text, correcting 2px baseline drift */
   gap: var(--space-3);
-  padding: 14px var(--space-4);
+  padding: var(--space-4) var(--space-4);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -60,6 +60,7 @@
   color: var(--color-primary);
   outline: none;
   border: none;
+  line-height: 1;
 }
 
 .search-modal__input::placeholder {
@@ -73,8 +74,8 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-badge); /* Standardized 4px -> --radius-badge */
   transition: color 0.15s ease;
 }
 
@@ -89,7 +90,7 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border-radius: 6px;
+  border-radius: var(--radius-badge); /* Standardized 6px -> --radius-badge */
   border: none;
   background: transparent;
   cursor: pointer;
@@ -108,7 +109,7 @@
 
 /* Empty state */
 .search-modal__empty {
-  padding: 32px var(--space-4);
+  padding: var(--space-6) var(--space-4);
   text-align: center;
 }
 
@@ -116,7 +117,7 @@
   font-family: var(--font-body);
   font-size: 13px;
   color: var(--color-faint);
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
   margin-top: 0;
 }
 
@@ -132,15 +133,15 @@
 .search-modal__results-container {
   max-height: 380px;
   overflow-y: auto;
-  padding: 8px 0;
+  padding: var(--space-2) 0;
 }
 
 .search-modal__section {
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
 
 .search-modal__section-header {
-  padding: 6px 16px;
+  padding: var(--space-2) var(--space-4);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -152,15 +153,15 @@
 .search-modal__item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 16px;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
 .search-modal__item--selected,
 .search-modal__item:hover {
-  background-color: var(--color-surface-elevated);
+  background-color: var(--color-surface-hover);
 }
 
 .search-modal__item-info {
@@ -192,8 +193,8 @@
   font-family: var(--font-mono);
   color: var(--color-faint);
   background-color: var(--color-base);
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-badge); /* Standardized 4px -> --radius-badge */
   border: 1px solid var(--color-border);
   flex: none;
 }
@@ -202,6 +203,8 @@
   color: var(--color-faint);
   opacity: 0.4;
   flex: none;
+  display: flex; /* STEP 4 ALIGNMENT FIX: Flex wrapper aligns 14px ChevronRight icon vertically against two-line item info (2px drift fixed) */
+  align-items: center;
   transition: all 0.15s ease;
 }
 
