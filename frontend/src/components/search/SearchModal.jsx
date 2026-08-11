@@ -2,12 +2,12 @@
 /**
  * ROUTE MAPPING CONFIRMATION:
  * - Team results navigate to `/teams/${team.id}` using AppRouter's existing `/teams/:id` route.
- * - League results navigate to `/standings` using AppRouter's existing `/standings` route
- *   because no dedicated per-league detail page exists in the app's routes yet.
+ * - League results navigate to `/standings?league=${league.slug}` using the active league slug contract.
  */
 
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { X, Search, ChevronRight } from 'lucide-react';
 import Crest from '../shared/Crest';
 import { teams, leagues } from '../../data/mockData';
@@ -86,7 +86,7 @@ export default function SearchModal({ isOpen, onClose }) {
     if (item.type === 'team') {
       navigate(`/teams/${item.data.id}`);
     } else if (item.type === 'league') {
-      navigate('/standings');
+      navigate(`/standings?league=${item.data.slug}`);
     }
     onClose();
   };
