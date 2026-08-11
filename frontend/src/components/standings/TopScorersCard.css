@@ -1,0 +1,162 @@
+/* ============================================================
+   TopScorersCard.css — Right panel card styles for top scorers/assists
+   
+   DESIGN TOKEN AUDIT (tokens.css read before writing):
+   - Card container: --radius-card (14px), --color-surface (#0d1520),
+     1px solid --color-border (#1e2a35), --bezel-double
+   - Header: --color-surface-elevated (#111820), 11px uppercase Inter
+   - Rank badge: --radius-pill, --color-surface-elevated, 11px Mono
+   - Stat digit: 15px JetBrains Mono, --color-pitch-green (#00B370)
+   - Row hover: --color-surface-hover (#18222d) background shift only
+   ============================================================ */
+
+.top-stats-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--bezel-double);
+  overflow: hidden;
+}
+
+/* Header Row */
+.top-stats-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface-elevated);
+  border-bottom: 1px solid var(--color-border-dim);
+}
+
+.top-stats-card__title {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.top-stats-card__subtitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* List container */
+.top-stats-card__list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Individual Row */
+.top-stats-card__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--color-border-dim);
+  transition: background-color 0.15s ease;
+}
+
+.top-stats-card__row--last {
+  border-bottom: none;
+}
+
+.top-stats-card__row:hover {
+  background-color: var(--color-surface-hover);
+}
+
+/* Rank Badge */
+.top-stats-card__rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-secondary);
+  flex-shrink: 0;
+}
+
+/* Player Info */
+.top-stats-card__player-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.top-stats-card__player-name {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.top-stats-card__team-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.top-stats-card__team-name {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Stat Wrap */
+.top-stats-card__stat-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.top-stats-card__stat-value {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-pitch-green);
+  line-height: 1;
+}
+
+.top-stats-card__stat-label {
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  color: var(--color-faint);
+  text-transform: uppercase;
+}
+
+.top-stats-card__empty {
+  padding: var(--space-4);
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-faint);
+  text-align: center;
+  font-style: italic;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .top-stats-card__row {
+    transition: none;
+  }
+}
