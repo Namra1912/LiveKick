@@ -9,7 +9,7 @@ A dark-themed, "Operate mode" football (soccer) live-scores + fan-engagement das
 
 Planned full page set (per `docs/Designs/*.png` mockups): Home Feed (`/`), Match Detail (`/matches/:id`), Team Profile (`/teams/:id`), Player Profile (`/players/:id`), League Standings (`/standings`), Transfer Radar (`/transfers`), Fan Prediction League (`/predictions`), Tactical Lineup Lab (`/tactics`), News & Editorial (`/news`), Search Modal, Login/Signup (`/login`), Player Onboarding (`/onboarding`), User Profile & Settings (`/settings`).
 
-**Current status:** The Home Feed (route `/`) is ~95% complete with real crest integration, collapsible league groups, date selection, favoriting, and right panel teaser widgets.
+**Current status:** The Home Feed (route `/`) is **100% complete** as a production-grade frontend dashboard with real crest integration, collapsible league groups, date selection & calendar popover, favoriting with localStorage persistence, scoped "Match Day Live" filtering, pressure bars, ⌘K search overlay, and a fully polished right panel (`MatchOfTheDayCard` with local kickoff formatting & shared `Crest` components, `PredictorCard` teaser widget, and `NewsList`).
 
 ---
 
@@ -91,11 +91,12 @@ frontend/src/
 
 ## 5. Completed Features & Implementation Details
 
-- **Shared Crest Component (`Crest.jsx`)** — Renders real logo images from `logoUrl` (`mockData.js`) across leagues and teams with a graceful, color-deterministic initials-circle fallback if an image fails to load. Used in `MatchRow`, `LeagueGroup`, `Sidebar` accordions, and `PredictorCard`.
-- **Sidebar Architecture** — Split into fixed top nav links, middle scrollable accordion area, and fixed bottom section. Both "My Teams" and "My Leagues" are independently collapsible accordions with state persisted in `localStorage` (`lk_sb_teams`, `lk_sb_leagues`).
+- **Shared Crest Component (`Crest.jsx`)** — Renders real logo images from `logoUrl` (`mockData.js`) across leagues and teams with a graceful, color-deterministic initials-circle fallback if an image fails to load. Used in `MatchRow`, `LeagueGroup`, `Sidebar` accordions, `PredictorCard`, and `MatchOfTheDayCard`.
+- **Sidebar Architecture & Scoped Live Filter** — Split into fixed top nav links, middle scrollable accordion area, and fixed bottom section. Both "My Teams" and "My Leagues" are independently collapsible accordions with state persisted in `localStorage` (`lk_sb_teams`, `lk_sb_leagues`). The "Match Day Live" toggle button is strictly scoped to the Home Feed (`location.pathname === '/'`).
 - **LeagueGroup Accordions** — Smart league sections for all 5 top European leagues. Automatically opens leagues containing matches on the selected date; empty leagues remain collapsible with date-aware empty messages ("No matches today/yesterday/tomorrow").
 - **Date Filtering & Calendar Popover (`DateSelector.jsx`)** — Yesterday/Today/Tomorrow quick selector synced with a full month-grid calendar popover for selecting any arbitrary date, filtering matches by local calendar date.
 - **Match Favoriting** — Star toggles match favoriting with state persisted to `localStorage` (`lk_fav_matches`) and double-bezel accent styling (`border-l-[3px] border-l-[#00B370]`).
+- **Match of the Day Card (`MatchOfTheDayCard.jsx`)** — Polished featured match card with shared `Crest` integration, automatic browser UTC-to-local timezone kickoff formatting via `toLocaleTimeString()`, and dynamic relative day labels ("Today", "Tomorrow", "Fri, 14 Aug").
 - **PredictorCard Teaser Widget (`PredictorCard.jsx`)** — Refactored from interactive voting into a clean passive teaser:
   1. Passive fan lean percentage bar (`LIV 58%` / `42% CHE`) styled with muted saturation.
   2. Kickoff lock timing context line (`Locks at 14:15` computed from `lockAt`).
@@ -120,11 +121,12 @@ frontend/src/
 
 ## 7. Known Gaps & Remaining Tasks
 
-1. **MatchOfTheDayCard Crest update:** `MatchOfTheDayCard.jsx` still imports `TeamBadge` from `Sidebar.jsx` instead of the shared `Crest` component. Should be updated to use `Crest` for consistent team rendering across the right panel.
-2. **Interactive links in NewsList:** News items should navigate to `/news` or open an article view when clicked.
-3. **Kickoff time display formatting:** Kickoff times currently render in UTC (`getUTCHours()`). Adding local timezone formatting or UTC indicators will improve clarity.
-4. **Mock data depth for edge cases:** Expanding `mockData.js` standings and matches will assist comprehensive testing across all 5 leagues.
-5. **Full page builds:** Stub pages (`MatchDetail`, `TeamDetail`, `Standings`, `Transfers`, `PredictionsLeague`, `TacticsLab`) are ready for full component implementation following the HomeFeed pattern.
+*Note: The Home Feed (`/`) itself is **100% complete** with 0 outstanding bugs or missing features. The items below represent broader platform roadmap items for other routes and system features.*
+
+1. **Full Page Builds (Platform Roadmap):** Next phase page builds (`League Standings`, `Transfer Radar`, `Match Detail`, `Team Detail`, `Predictions League`, `Tactics Lab`) following the established Home Feed component and design token patterns.
+2. **Global ⌘K Search Upgrade (Platform Roadmap):** Upgrade `SearchModal` to support URL search param handoffs (e.g. `/standings?league=pl`), player search, and team-vs-team fixture search.
+3. **Interactive News Navigation:** Connect `NewsList` items on the right panel to deep-link to `/news` or an article modal when clicked.
+4. **Backend API Integration (Phase 1):** Connect the stub Express/MongoDB backend (`/backend`) with live football data providers to replace `mockData.js`.
 
 ---
 

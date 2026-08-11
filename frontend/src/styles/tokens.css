@@ -39,6 +39,10 @@
   --color-draw:               #64748b;
   --color-loss:                #f87171;
 
+  /* Mid-saturation status colors — for badges/strips only, not small text */
+  --color-status-win:        #2FA96B;
+  --color-status-loss:       #E5484D;
+
   /* Retro Scoreboard Digit */
   --color-scoreboard-bg:          #050403;
   --color-scoreboard-digit:       #f5b942;
