@@ -1,0 +1,140 @@
+/* ============================================================
+   Standings.css — League Standings page layout
+   
+   DESIGN TOKEN AUDIT (tokens.css read before writing any value):
+   Background:  --color-base (#080c11), --color-surface (#0d1520)
+   Text:        --color-primary (#f1f5f9), --color-secondary (#94a3b8),
+                --color-faint (#475569)
+   Accent:      --color-pitch-green (#00B370)
+   Border:      --color-border (#1e2a35)
+   Texture:     --texture-scanline
+   Shadows:     --shadow-card, --shadow-inset
+   Radius:      --radius-badge (4px), --radius-card (14px), --radius-pill (9999px)
+   Spacing:     --space-1(4px) through --space-6(24px)
+   Fonts:       --font-display (Big Shoulders Display — headings/titles ONLY)
+                --font-body    (Inter — all body text, labels, names)
+                --font-mono    (JetBrains Mono — every number/stat)
+   
+   LAYOUT CONVENTIONS matched to HomeFeed.css:
+   - Two-column flex row inside AppLayout's .app-layout__content:
+       .standings__center  — flex: 1, same padding as .home-feed__center
+       .standings__right   — width: 320px, border-left, same as .home-feed__right
+   - Responsive breakpoints mirror HomeFeed exactly:
+       ≤1280px: right panel narrows to 290px
+       ≤1024px: right panel hidden, center takes full width
+       ≤768px:  center padding reduces
+   
+   NOTE: StubPage.css is intentionally NOT imported — this file replaces it
+   for Standings. StubPage.css remains active for 7 other stub pages.
+   ============================================================ */
+
+/* ── Page enter animation ─────────────────────────────────── */
+/* Matches HomeFeed's hf-enter: opacity 0→1 + translateY 10px→0, 240ms  */
+@keyframes standings-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Center column ─────────────────────────────────────────── */
+/* Matches .home-feed__center exactly: flex, scroll containment, padding, bg */
+.standings__center {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+  min-height: 0; /* flex scroll containment */
+  padding: var(--space-5) var(--space-6);
+  background-color: var(--color-base);
+  background-image: var(--texture-scanline);
+  /* Mount-once enter — same pattern as HomeFeed columns */
+  animation: standings-enter 240ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* ── Right column ──────────────────────────────────────────── */
+/* Matches .home-feed__right exactly: fixed width, border, padding, bg */
+.standings__right {
+  width: 320px;
+  min-width: 320px;
+  flex: none;
+  overflow-y: auto;
+  min-height: 0; /* flex scroll containment */
+  padding: var(--space-5) var(--space-4);
+  border-left: 1px solid var(--color-border);
+  background-color: var(--color-base);
+  background-image: var(--texture-scanline);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  /* Same enter animation as center column — both settle as one cohesive block */
+  animation: standings-enter 240ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* Prevent right panel direct children from shrinking (matches HomeFeed pattern) */
+.standings__right > * {
+  flex-shrink: 0;
+}
+
+/* ── Debug placeholder label (skeleton only — removed in Chunk 3+) ─────────── */
+.standings__debug-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-secondary);
+  margin: 0;
+}
+
+.standings__debug-label strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.standings__debug-label code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-pitch-green);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-badge);
+  padding: 1px 5px;
+}
+
+/* ── Responsive breakpoints (mirroring HomeFeed.css exactly) ──────────────── */
+@media (max-width: 1280px) {
+  .standings__right {
+    width: 290px;
+    min-width: 290px;
+    padding: var(--space-4) var(--space-3);
+  }
+  .standings__center {
+    padding: var(--space-4) var(--space-4);
+  }
+}
+
+@media (max-width: 1024px) {
+  .standings__right {
+    display: none; /* Right panel hidden on tablet — center takes full width */
+  }
+}
+
+@media (max-width: 768px) {
+  .standings__center {
+    padding: var(--space-3) var(--space-3);
+  }
+}
+
+/* ── Reduced-motion override ─────────────────────────────────────────────── */
+/* Strips translateY; keeps a brief opacity fade — matches HomeFeed.css pattern */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes standings-enter {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  .standings__center,
+  .standings__right {
+    animation-duration: 120ms;
+  }
+}

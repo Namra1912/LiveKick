@@ -1,0 +1,172 @@
+/* ============================================================
+   LeagueSelector.css — Horizontal league pill row for Standings page
+   
+   ── TOKEN AUDIT (verified from tokens.css before writing) ──────
+   Background tokens: --color-surface (#0d1520), --color-surface-elevated (#111820),
+                      --color-surface-hover (#18222d)
+   Text tokens:       --color-primary (#f1f5f9), --color-secondary (#94a3b8)
+   Accent:            --color-pitch-green (#00B370)
+   Border:            --color-border (#1e2a35)
+   Radius:            --radius-pill (9999px)   ← exact match required
+   Shadows:           --shadow-card, --shadow-inset  (no new shadow values)
+   Spacing:           --space-1 (4px), --space-2 (8px), --space-3 (12px),
+                      --space-4 (16px)
+   Fonts:             --font-body (Inter) — pill labels are names, not numbers
+                      (no --font-mono needed here — league names are text, not digits)
+
+   ── PILL MEASUREMENTS — sourced from DateSelector.css ──────────
+   padding: 6px var(--space-4) — exact match from .date-selector__btn
+   border-radius: var(--radius-pill) — exact match
+   font-size: 12px — exact match
+   font-family: var(--font-body) — exact match (Inter)
+   font-weight: 400 (rest) / 600 (active) — DateSelector uses 700 on active;
+     using 600 here because these are standalone buttons (not the final selected
+     segment in a track that needs max contrast) — still clearly differentiated.
+   transition: specifics specified (not `all`) per Emil design-eng principle
+   
+   DEVIATION: Individual standalone pills vs. DateSelector's segmented group
+   container. See LeagueSelector.jsx deliverable comment for full reasoning.
+   HOVER: bg → --color-surface-hover (from MatchRow.css, not DateSelector's
+   text-color-only hover, which is calibrated for track-contained segments).
+
+   ── ANTI-SLOP RULES APPLIED ─────────────────────────────────
+   - No green fill on active pill (only 2px bottom border + bg-elevated)
+   - No gold/coin token anywhere (gold reserved for Matchday Coins)
+   - No transform/scale bloom on hover
+   - No custom shadow values — uses --shadow-inset only for active depth
+   - No hardcoded hex values anywhere in this file
+   ============================================================ */
+
+/* ── Row container ─────────────────────────────────────────── */
+/* flex row, horizontal scroll on narrow viewports, no wrap.
+   Native scrollbar preserved — no scrollbar-hiding CSS (no precedent). */
+.league-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  overflow-x: auto;
+  /* No flex-wrap: pills must never line-break */
+  flex-wrap: nowrap;
+  /* Bottom padding so native scrollbar on Windows doesn't overlap pill text */
+  padding-bottom: 2px;
+  /* Prevent row from collapsing flex-items on very narrow viewports */
+  min-width: 0;
+}
+
+/* ── Individual pill button ────────────────────────────────── */
+/*
+   Layout: [crest 20px] [gap 6px] [label text]
+   Sizing: matches DateSelector.css .date-selector__btn measurements exactly
+   (padding 6px / 16px, 12px Inter, --radius-pill, 0.15s transition).
+   flex-shrink: 0 ensures pills never compress horizontally inside the scroll row.
+*/
+.league-selector__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;                               /* tighter than --space-2 — crest to label gap */
+  padding: 6px var(--space-4);           /* 6px top/bottom, 16px left/right — from DateSelector */
+  border-radius: var(--radius-pill);     /* 9999px — exact token */
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  font-family: var(--font-body);         /* Inter — league names are text, not mono */
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-secondary);
+  cursor: pointer;
+  white-space: nowrap;                    /* keeps "Champions League" on one line */
+  flex-shrink: 0;                         /* never compress in scroll container */
+  /* Specific transition properties — NOT `all` (Emil principle: specify exact props) */
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* ── Active state ──────────────────────────────────────────── */
+/*
+   Active treatment: restrained — no heavy green fill.
+   - bg shifts to --color-surface-elevated (the "raised" token, not pitch-green)
+   - 2px bottom accent border in --color-pitch-green
+   - text shifts to --color-primary (bone white)
+   - weight bumps to 600 (clear but not as heavy as DateSelector's 700 — standalone)
+   - subtle inset shadow for physical depth (uses existing --shadow-inset token)
+*/
+.league-selector__pill--active {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  border-bottom-color: var(--color-pitch-green);  /* 2px bottom accent */
+  border-bottom-width: 2px;
+  color: var(--color-primary);
+  font-weight: 600;
+  /* Inset depth — exactly --shadow-inset from tokens.css, no new value */
+  box-shadow: var(--shadow-inset);
+  cursor: default;
+}
+
+/* ── Hover state — inactive pills only ────────────────────── */
+/*
+   Background shifts to --color-surface-hover.
+   Matched from MatchRow.css line 111 (.match-row__main:hover bg).
+   No transform, no shadow bloom, no color shift on the crest itself.
+   Active pill is excluded (cursor: default + no hover bg shift needed).
+*/
+.league-selector__pill:not(.league-selector__pill--active):hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-border);   /* hairline stays — no focus-ring glow */
+  color: var(--color-secondary);
+}
+
+/* Tactile press feedback — scale(0.97) matches DateSelector and HomeFeed btn patterns */
+.league-selector__pill:not(.league-selector__pill--active):active {
+  transform: scale(0.97);
+}
+
+/* ── Crest wrapper ─────────────────────────────────────────── */
+/* Centers the 20px Crest vertically — no sizing changes to the Crest itself */
+.league-selector__crest {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Label text ────────────────────────────────────────────── */
+/* Inherits font/size/color from the parent pill — no override needed.
+   line-height 1 prevents extra height from multi-line wrapping risk. */
+.league-selector__label {
+  line-height: 1;
+  /* Inherited: font-family, font-size, color, font-weight from .league-selector__pill */
+}
+
+/* ── Hover gate — touch devices ───────────────────────────── */
+/*
+   Emil design-eng principle: hover states on touch devices trigger on tap,
+   causing false positives. Gate hover-only styles behind pointer: fine.
+   Only the bg/color hover shift is gated; transition and press feedback apply everywhere.
+*/
+@media (hover: none) or (pointer: coarse) {
+  .league-selector__pill:not(.league-selector__pill--active):hover {
+    background-color: var(--color-surface);
+    color: var(--color-secondary);
+  }
+}
+
+/* ── Reduced-motion override ─────────────────────────────────────────────── */
+/*
+   Strips background/color transitions to instant cuts; keeps the 120ms opacity
+   approach used elsewhere (HomeFeed.css, Standings.css pattern).
+   Press scale removed entirely — no transform-based motion under reduce.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .league-selector__pill {
+    transition:
+      background-color 0ms,
+      border-color 0ms,
+      color 0ms,
+      box-shadow 0ms;
+  }
+  .league-selector__pill:not(.league-selector__pill--active):active {
+    transform: none;
+  }
+}

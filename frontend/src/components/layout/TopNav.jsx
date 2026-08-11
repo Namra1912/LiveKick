@@ -47,7 +47,7 @@ export default function TopNav({ user, onSearchOpen }) {
       <div className="topnav__actions">
         {/* Coin balance pill */}
         <div className="topnav__coin-pill">
-          <CoinIcon size={16} />
+          <CoinIcon size={12} />
           <span className="topnav__coin-amount">
             {(user?.matchdayCoins ?? 0).toLocaleString()}
           </span>

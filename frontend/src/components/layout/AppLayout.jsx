@@ -17,7 +17,7 @@ export default function AppLayout({
   return (
     <div className="app-layout">
       {/* Sticky top nav */}
-      <TopNav user={currentUser} onSearchOpen={onSearchOpen ?? (() => {})} />
+      <TopNav user={currentUser} onSearchOpen={onSearchOpen ?? (() => { })} />
 
       {/* Body row */}
       <div className="app-layout__body">

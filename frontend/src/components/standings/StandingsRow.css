@@ -1,0 +1,176 @@
+/* ============================================================
+   StandingsRow.css — Row styles for the Standings table
+   
+   ── DENSITY REFERENCE ────────────────────────────────────────
+   Matches MatchRow.css padding (var(--space-3) var(--space-4) = 12px 16px)
+   and line-height calculations to ensure fast, dense scanning.
+   
+   ── TYPOGRAPHY RULES ────────────────────────────────────────
+   - POS:   JetBrains Mono (--font-mono), 13px, --color-secondary
+   - CLUB:  Inter (--font-body), 14px, 600 weight, --color-primary
+   - NUMS:  JetBrains Mono (--font-mono), 13px, tabular-nums
+   - PTS:   JetBrains Mono (--font-mono), 14px, 700 weight, --color-primary
+   
+   ── FORM BADGES ─────────────────────────────────────────────
+   - W = var(--color-pitch-green) fill, dark text (#080c11)
+   - D = var(--color-surface-elevated) fill + border, --color-secondary text
+   - L = var(--color-live-red) fill, dark text (#080c11)
+   ============================================================ */
+
+.standings-row {
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid var(--color-border-dim);
+}
+
+.standings-row--last {
+  border-bottom: none;
+}
+
+.standings-row:hover {
+  background-color: var(--color-surface-hover);
+}
+
+/* ── Base cell ────────────────────────────────────────────── */
+.standings-row__cell {
+  padding: var(--space-3) var(--space-3);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Position cell */
+.standings-row__cell--pos {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-secondary);
+  text-align: center;
+  width: 40px;
+  padding-left: var(--space-4);
+}
+
+/* Club cell */
+.standings-row__cell--club {
+  padding-left: var(--space-2);
+  text-align: left;
+}
+
+.standings-row__club-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.standings-row__team-name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary);
+  letter-spacing: -0.01em;
+}
+
+/* Numeric stat cells */
+.standings-row__cell--num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-secondary);
+  text-align: right;
+  width: 44px;
+}
+
+.standings-row__cell--gd {
+  color: var(--color-primary);
+}
+
+/* PTS cell — emphasized bold numeric column */
+.standings-row__cell--pts {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+  width: 48px;
+}
+
+/* Form cell */
+.standings-row__cell--form {
+  padding-right: var(--space-3);
+  width: 140px;
+}
+
+.standings-row__form-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.standings-row__form-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-badge);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  user-select: none;
+}
+
+/* Form Outcome Colors */
+.standings-row__form-badge--w {
+  background-color: var(--color-status-win);
+  color: #ffffff;
+}
+
+.standings-row__form-badge--d {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-secondary);
+}
+
+.standings-row__form-badge--l {
+  background-color: var(--color-status-loss);
+  color: #ffffff;
+}
+
+/* ── Zone Strip Cell (Rightmost Column) ────────────────────── */
+.standings-row__zone {
+  width: 3px;
+  min-width: 3px;
+  max-width: 3px;
+  padding: 0;
+}
+
+.standings-row__zone--ucl {
+  background-color: var(--color-status-win);
+}
+
+.standings-row__zone--uel {
+  background-color: var(--color-info-blue);
+}
+
+.standings-row__zone--uecl {
+  background-color: var(--color-star);
+}
+
+.standings-row__zone--cl-playoff {
+  background-color: var(--color-info-blue);
+}
+
+.standings-row__zone--relegation {
+  background-color: var(--color-status-loss);
+}
+
+.standings-row__zone--none {
+  background-color: transparent;
+}
+
+/* ── Reduced motion override ──────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .standings-row {
+    transition: none;
+  }
+}

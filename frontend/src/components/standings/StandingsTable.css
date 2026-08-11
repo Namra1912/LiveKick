@@ -1,0 +1,184 @@
+/* ============================================================
+   StandingsTable.css — Double-bezel container and header styles
+   
+   ── DESIGN SYSTEM COMPLIANCE ─────────────────────────────────
+   - Container: --radius-card (14px)
+   - Background: --color-surface (#0d1520)
+   - Border: 1px solid --color-border (#1e2a35)
+   - Shadows: --bezel-double (var(--shadow-inset), var(--shadow-card))
+   - Header Typography: Inter (--font-body), 11px uppercase, 600 weight, --color-secondary
+     (NOT Big Shoulders Display — headers use Inter per typography rules)
+   - Banner Heading: Big Shoulders Display (--font-display), 18px uppercase, --color-primary
+   ============================================================ */
+
+.standings-table__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  width: 100%;
+}
+
+/* ── Banner Header above table ────────────────────────────── */
+.standings-table__banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-1);
+}
+
+.standings-table__banner-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.standings-table__banner-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.standings-table__banner-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0;
+  line-height: 1;
+}
+
+.standings-table__banner-sub {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-secondary);
+}
+
+/* ── Zone Legend in Header ────────────────────────────────── */
+.standings-table__legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.standings-table__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+.standings-table__legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.standings-table__legend-dot--ucl {
+  background-color: var(--color-status-win);
+}
+
+.standings-table__legend-dot--uel {
+  background-color: var(--color-info-blue);
+}
+
+.standings-table__legend-dot--uecl {
+  background-color: var(--color-star);
+}
+
+.standings-table__legend-dot--rel {
+  background-color: var(--color-status-loss);
+}
+
+/* ── Double-bezel outer card container ────────────────────── */
+.standings-table__card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--bezel-double);
+  overflow: hidden;
+}
+
+.standings-table__scroll-container {
+  overflow-x: auto;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Table Grid ───────────────────────────────────────────── */
+.standings-table__grid {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* ── Table Header Row ─────────────────────────────────────── */
+.standings-table__header-row {
+  background-color: var(--color-surface-elevated);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.standings-table__th {
+  padding: var(--space-3) var(--space-3);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.standings-table__th--pos {
+  text-align: center;
+  width: 40px;
+  padding-left: var(--space-4);
+}
+
+.standings-table__th--club {
+  text-align: left;
+  padding-left: var(--space-2);
+}
+
+.standings-table__th--num {
+  text-align: right;
+  width: 44px;
+}
+
+.standings-table__th--pts {
+  color: var(--color-primary);
+  width: 48px;
+}
+
+.standings-table__th--form {
+  text-align: right;
+  padding-right: var(--space-3);
+  width: 140px;
+}
+
+.standings-table__th--strip {
+  width: 3px;
+  padding: 0;
+}
+
+/* ── Responsive adjustments ───────────────────────────────── */
+@media (max-width: 640px) {
+  .standings-table__banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  .standings-table__legend {
+    gap: var(--space-2);
+  }
+  .standings-table__legend-item {
+    font-size: 10px;
+  }
+}
