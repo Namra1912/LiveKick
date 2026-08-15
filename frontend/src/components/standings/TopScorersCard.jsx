@@ -58,7 +58,7 @@ export default function TopScorersCard({ league }) {
               <div className="top-stats-card__player-info">
                 <span className="top-stats-card__player-name">{item.name}</span>
                 <div className="top-stats-card__team-info">
-                  <Crest team={item.team} name={item.team?.name} size={18} />
+                  <Crest team={item.team} name={item.team?.name} size={20} />
                   <span className="top-stats-card__team-name">{item.team?.name || 'Team'}</span>
                 </div>
               </div>

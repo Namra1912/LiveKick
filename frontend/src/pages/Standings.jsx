@@ -41,7 +41,7 @@ import './Standings.css';
 // Build the valid-slug → league-object lookup once at module level.
 // This is the single source of truth — derived directly from mockData leagues.
 const LEAGUE_BY_SLUG = Object.fromEntries(leagues.map((l) => [l.slug, l]));
-const DEFAULT_SLUG = leagues[0].slug; // "pl" — Premier League (first in array)
+const DEFAULT_SLUG = leagues[2].slug; // "ucl" — ucl (third in array)
 
 export default function Standings() {
   const [searchParams, setSearchParams] = useSearchParams();

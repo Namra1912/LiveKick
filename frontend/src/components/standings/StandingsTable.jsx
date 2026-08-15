@@ -52,7 +52,7 @@ export default function StandingsTable({ league }) {
       {/* League Header Banner inside table card */}
       <div className="standings-table__banner">
         <div className="standings-table__banner-left">
-          <Crest logoUrl={league?.logoUrl} name={leagueName} size={28} />
+          <Crest logoUrl={league?.logoUrl} name={leagueName} size={45} />
           <div className="standings-table__banner-title-group">
             <h2 className="standings-table__banner-title">{leagueName}</h2>
             <span className="standings-table__banner-sub">

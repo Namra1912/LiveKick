@@ -149,5 +149,13 @@
 
   /* Subtle Broadcast CRT Scanline Overlay Texture (3% darkness overlay) */
   --texture-scanline:     repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0px, rgba(0, 0, 0, 0.22) 1px, transparent 1px, transparent 3px);
+
+  /* News category label colors — flat label colors ONLY (text + thin accents).
+     Never use as gradient fills, card background fills, or button fills. */
+  --color-category-latest:    #00B370;
+  --color-category-results:   #60a5fa;
+  --color-category-transfers: #fb923c;
+  --color-category-injuries:  #f87171;
+  --color-category-rumours:   #a78bfa;
 }
 

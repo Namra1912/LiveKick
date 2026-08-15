@@ -1,0 +1,159 @@
+/* ============================================================
+   HeroArticle.css — Full-width featured article card
+   Night-Pitch design system. No hardcoded hex values.
+   All references via var() from tokens.css.
+
+   Gradient overlay uses rgba(8,12,17,...) which maps exactly to
+   --color-base: #080c11 — confirmed in tokens.css line 10.
+   RGBA is the necessary format for gradient opacity control;
+   the hue is still sourced from --color-base.
+   ============================================================ */
+
+/* ── Outer card wrapper ───────────────────────────────────────── */
+.hero-article {
+  display: block;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--bezel-double);
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--color-surface);
+  cursor: pointer;
+  /* No transform on hover — only image brightness shifts */
+}
+
+/* ── Media container — 16:9 ratio ────────────────────────────── */
+.hero-article__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* ── Hero image ───────────────────────────────────────────────── */
+.hero-article__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(1) contrast(1.02);
+  transition: filter 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.hero-article:hover .hero-article__img {
+  filter: brightness(0.82) contrast(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-article__img {
+    transition: none;
+  }
+}
+
+/* Image fallback when src is missing or fails to load */
+.hero-article__img-fallback {
+  width: 100%;
+  height: 100%;
+  background: var(--color-surface-elevated);
+}
+
+/* ── Gradient overlay — bottom 60% fading to base color ─────── */
+.hero-article__overlay {
+  position: absolute;
+  inset: 0;
+  /* #080c11 is --color-base confirmed in tokens.css — rgba needed for transparency */
+  background: linear-gradient(
+    to top,
+    rgba(8, 12, 17, 0.97) 0%,
+    rgba(8, 12, 17, 0.78) 30%,
+    rgba(8, 12, 17, 0.30) 55%,
+    transparent 75%
+  );
+  pointer-events: none;
+}
+
+/* ── Source badge — top-right corner ─────────────────────────── */
+.hero-article__source-badge {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--color-secondary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 3px var(--space-3);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* ── Bottom content block — lives above the gradient ─────────── */
+.hero-article__content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ── Category label — flat colored text, no chip ────────────── */
+/* color is set via inline style: var(--color-category-{cat}) */
+.hero-article__category {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ── Headline — Big Shoulders Display, uppercase ─────────────── */
+.hero-article__headline {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.8vw, 2.1rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+  color: var(--color-primary);
+  margin: 0;
+  /* 3-line clamp */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-wrap: balance;
+}
+
+/* ── Meta row — author · readTime · timeAgo ──────────────────── */
+.hero-article__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-secondary);
+  line-height: 1;
+}
+
+.hero-article__author {
+  font-weight: 500;
+}
+
+.hero-article__dot {
+  color: var(--color-faint);
+}
+
+/* Read-time number: JetBrains Mono (just the number, not "min read") */
+.hero-article__readtime {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+}

@@ -1,0 +1,74 @@
+/* ============================================================
+   CategoryPills.css — News category filter pills
+   Night-Pitch design system. No hardcoded hex values.
+   All color/font/radius references via var() from tokens.css.
+   ============================================================ */
+
+/* ── Pill row container ───────────────────────────────────────── */
+.category-pills {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox — hides scrollbar without disabling scroll */
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--space-1); /* prevent bottom clip on active underline */
+}
+
+.category-pills::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Individual pill ──────────────────────────────────────────── */
+.category-pills__pill {
+  flex: none; /* prevent shrink — pills maintain their width */
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border); /* keep bottom consistent by default */
+  border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* Hover: background shift only — no scale, no shadow bloom */
+@media (hover: hover) and (pointer: fine) {
+  .category-pills__pill:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-primary);
+  }
+}
+
+/* Active press: subtle physical feedback */
+.category-pills__pill:active {
+  transform: scale(0.97);
+}
+
+.category-pills__pill:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* ── Active pill state ────────────────────────────────────────── */
+.category-pills__pill--active {
+  background: var(--color-surface-elevated);
+  color: var(--color-primary);
+  border-color: var(--color-border);
+  border-bottom: 2px solid var(--color-pitch-green);
+  /* compensate for extra 1px bottom border to prevent layout shift */
+  padding-bottom: calc(var(--space-2) - 1px);
+}
+
+/* Active pill hover — keep elevated background (no further shift) */
+@media (hover: hover) and (pointer: fine) {
+  .category-pills__pill--active:hover {
+    background: var(--color-surface-elevated);
+  }
+}

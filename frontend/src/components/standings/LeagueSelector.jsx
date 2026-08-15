@@ -68,7 +68,7 @@ import './LeagueSelector.css';
 // Build slug → league lookup once at module level — avoids per-render iteration.
 // Sourced from the same mockData.js leagues array that Standings.jsx uses.
 const LEAGUE_BY_SLUG = Object.fromEntries(leagues.map((l) => [l.slug, l]));
-const DEFAULT_SLUG = leagues[0].slug; // "pl"
+const DEFAULT_SLUG = leagues[2].slug; // "ucl"
 
 export default function LeagueSelector() {
   const [searchParams, setSearchParams] = useSearchParams();

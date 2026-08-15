@@ -1,0 +1,146 @@
+/* ============================================================
+   ArticleCard.css — Grid article card for the News page
+   Night-Pitch design system. No hardcoded hex values.
+   All references via var() from tokens.css.
+   ============================================================ */
+
+/* ── Card wrapper ─────────────────────────────────────────────── */
+.article-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--bezel-double);
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--color-surface);
+  /* Hover: background shift only — no scale, no shadow bloom */
+  transition: background 0.15s ease;
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .article-card:hover {
+    background: var(--color-surface-hover);
+  }
+}
+
+/* Physical press feedback */
+.article-card:active {
+  transform: scale(0.98);
+}
+
+.article-card:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* ── Image container ──────────────────────────────────────────── */
+/* Top corners match card radius, bottom corners are flush (0).
+   This creates the visual appearance of the image blending into the card body. */
+.article-card__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  /* Only top corners rounded — image meets card body flush */
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  flex: none;
+}
+
+.article-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.9) contrast(1.04);
+  transition: filter 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .article-card:hover .article-card__img {
+    filter: brightness(0.78) contrast(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-card__img {
+    transition: none;
+  }
+}
+
+/* Fallback when image fails */
+.article-card__img-fallback {
+  width: 100%;
+  height: 100%;
+  background: var(--color-surface-elevated);
+}
+
+/* ── Card body ────────────────────────────────────────────────── */
+.article-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  flex: 1; /* fill remaining card height for consistent footer alignment */
+}
+
+/* ── Category label — flat colored text only ─────────────────── */
+/* color applied via inline style: var(--color-category-{cat}) */
+.article-card__category {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ── Headline — Inter, 2-line clamp ──────────────────────────── */
+.article-card__headline {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  line-height: 1.45;
+  margin: 0;
+  flex: 1; /* push footer to bottom even with short headlines */
+  /* 2-line clamp */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Footer — source · timeAgo ───────────────────────────────── */
+.article-card__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+}
+
+.article-card__source {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-secondary);
+  letter-spacing: 0.03em;
+  /* Prevent very long source names from overflowing */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.article-card__dot {
+  color: var(--color-border);
+  font-size: 10px;
+  flex: none;
+}
+
+.article-card__time {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--color-faint);
+  white-space: nowrap;
+  flex: none;
+}
