@@ -9,9 +9,11 @@
   display: flex;
   gap: var(--space-2);
   overflow-x: auto;
-  scrollbar-width: none; /* Firefox — hides scrollbar without disabling scroll */
+  scrollbar-width: none;
+  /* Firefox — hides scrollbar without disabling scroll */
   -webkit-overflow-scrolling: touch;
-  padding-bottom: var(--space-1); /* prevent bottom clip on active underline */
+  padding-bottom: var(--space-1);
+  /* prevent bottom clip on active underline */
 }
 
 .category-pills::-webkit-scrollbar {
@@ -20,16 +22,18 @@
 
 /* ── Individual pill ──────────────────────────────────────────── */
 .category-pills__pill {
-  flex: none; /* prevent shrink — pills maintain their width */
+  flex: none;
+  /* prevent shrink — pills maintain their width */
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-secondary);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border); /* keep bottom consistent by default */
+  border-bottom: 1px solid var(--color-border);
+  /* keep bottom consistent by default */
   border-radius: var(--radius-pill);
   padding: var(--space-2) var(--space-4);
   cursor: pointer;

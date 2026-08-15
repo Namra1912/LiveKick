@@ -97,6 +97,7 @@ export default function News() {
   return (
     <>
       <AppLayout onSearchOpen={() => setIsSearchOpen(true)}>
+        {/* ── Center column ──────────────────────────────────────── */}
         <main className="news__center">
 
           {/* ── Breadcrumb ────────────────────────────────────────────── */}
@@ -152,6 +153,9 @@ export default function News() {
           )}
 
         </main>
+
+        {/* ── Right column (empty panel matching Standings.jsx AppLayout structure) ── */}
+        <aside className="news__right" aria-label="News panel" />
       </AppLayout>
 
       {/* Global search modal — same pattern as Standings.jsx */}
@@ -162,3 +166,4 @@ export default function News() {
     </>
   );
 }
+
