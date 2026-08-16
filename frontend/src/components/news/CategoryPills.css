@@ -1,78 +1,102 @@
 /* ============================================================
-   CategoryPills.css — News category filter pills
-   Night-Pitch design system. No hardcoded hex values.
-   All color/font/radius references via var() from tokens.css.
+   CategoryPills.css — Horizontal category pill row for News page
+   Matches LeagueSelector.css 1:1
    ============================================================ */
 
-/* ── Pill row container ───────────────────────────────────────── */
+/* ── Row container ─────────────────────────────────────────── */
+/* flex row, horizontal scroll on narrow viewports, no wrap.
+   Native scrollbar preserved — no scrollbar-hiding CSS (no precedent). */
 .category-pills {
   display: flex;
+  align-items: center;
   gap: var(--space-2);
   overflow-x: auto;
-  scrollbar-width: none;
-  /* Firefox — hides scrollbar without disabling scroll */
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: var(--space-1);
-  /* prevent bottom clip on active underline */
+  /* No flex-wrap: pills must never line-break */
+  flex-wrap: nowrap;
+  /* Bottom padding so native scrollbar on Windows doesn't overlap pill text */
+  padding-bottom: 2px;
+  /* Prevent row from collapsing flex-items on very narrow viewports */
+  flex-shrink: 0;
+  /* never let flexbox compress this row */
+  min-height: 34px;
+  /* hard floor matching pill height, belt-and-suspenders */
 }
 
-.category-pills::-webkit-scrollbar {
-  display: none;
-}
-
-/* ── Individual pill ──────────────────────────────────────────── */
+/* ── Individual pill button ────────────────────────────────── */
 .category-pills__pill {
-  flex: none;
-  /* prevent shrink — pills maintain their width */
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-secondary);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  /* keep bottom consistent by default */
+  display: inline-flex;
+  align-items: center;
+  padding: 6px var(--space-4);
+  /* 6px top/bottom, 16px left/right */
   border-radius: var(--radius-pill);
-  padding: var(--space-2) var(--space-4);
+  /* 9999px — exact token */
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  font-family: var(--font-body);
+  /* Inter */
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-secondary);
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   white-space: nowrap;
-  line-height: 1;
+  flex-shrink: 0;
+  /* never compress in scroll container */
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-/* Hover: background shift only — no scale, no shadow bloom */
-@media (hover: hover) and (pointer: fine) {
-  .category-pills__pill:hover {
-    background: var(--color-surface-hover);
-    color: var(--color-primary);
-  }
+/* ── Active state ──────────────────────────────────────────── */
+.category-pills__pill--active {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  border-bottom-color: var(--color-pitch-green);
+  /* 2px bottom accent */
+  border-bottom-width: 2px;
+  color: var(--color-primary);
+  font-weight: 600;
+  box-shadow: var(--shadow-inset);
+  cursor: default;
 }
 
-/* Active press: subtle physical feedback */
-.category-pills__pill:active {
+/* ── Hover state — inactive pills only ────────────────────── */
+.category-pills__pill:not(.category-pills__pill--active):hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-border);
+  color: var(--color-secondary);
+}
+
+/* Tactile press feedback */
+.category-pills__pill:not(.category-pills__pill--active):active {
   transform: scale(0.97);
 }
 
-.category-pills__pill:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
+/* ── Label text ────────────────────────────────────────────── */
+.category-pills__label {
+  line-height: 1;
 }
 
-/* ── Active pill state ────────────────────────────────────────── */
-.category-pills__pill--active {
-  background: var(--color-surface-elevated);
-  color: var(--color-primary);
-  border-color: var(--color-border);
-  border-bottom: 2px solid var(--color-pitch-green);
-  /* compensate for extra 1px bottom border to prevent layout shift */
-  padding-bottom: calc(var(--space-2) - 1px);
+/* ── Hover gate — touch devices ───────────────────────────── */
+@media (hover: none) or (pointer: coarse) {
+  .category-pills__pill:not(.category-pills__pill--active):hover {
+    background-color: var(--color-surface);
+    color: var(--color-secondary);
+  }
 }
 
-/* Active pill hover — keep elevated background (no further shift) */
-@media (hover: hover) and (pointer: fine) {
-  .category-pills__pill--active:hover {
-    background: var(--color-surface-elevated);
+/* ── Reduced-motion override ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .category-pills__pill {
+    transition:
+      background-color 0ms,
+      border-color 0ms,
+      color 0ms,
+      box-shadow 0ms;
+  }
+
+  .category-pills__pill:not(.category-pills__pill--active):active {
+    transform: none;
   }
 }

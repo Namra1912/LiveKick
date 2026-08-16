@@ -1,38 +1,44 @@
-/* ============================================================
-   News.css — News & Editorial page layout
-   Night-Pitch design system. No hardcoded hex values.
-   All color/font/radius/shadow references via var() from tokens.css.
+/* News.css — News & Editorial page */
 
-   Layout: single center column (no right panel on News page).
-   The <main> sits inside app-layout__content which is display:flex.
-   overflow-y: auto is required so the column scrolls independently.
-   ============================================================ */
+@keyframes news-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-/* ── Center column ────────────────────────────────────────────── */
+/* ── Center column ─────────────────────────────────── */
 .news__center {
   flex: 1;
   min-width: 0;
+  min-height: 0;
   overflow-y: auto;
   padding: var(--space-5) var(--space-6);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
-
-  /* Scrollbar style — matches rest of app (NewsLists, Standings) */
+  background-color: var(--color-base);
+  background-image: var(--texture-scanline);
+  animation: news-enter 240ms cubic-bezier(0.23, 1, 0.32, 1) both;
   scrollbar-width: thin;
   scrollbar-color: var(--color-border) transparent;
 }
 
-.news__center::-webkit-scrollbar {
-  width: 4px;
-}
-
+.news__center::-webkit-scrollbar { width: 4px; }
 .news__center::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: var(--radius-pill);
 }
 
-/* ── Page title ───────────────────────────────────────────────── */
+/* ── Zero-width aside spacer ───────────────────────── */
+/* Satisfies AppLayout's flex structure (display:flex on .app-layout__content)
+   without rendering any visible right panel on the News page */
+.news__right-spacer {
+  width: 0;
+  min-width: 0;
+  flex: none;
+  overflow: hidden;
+}
+
+/* ── Page title ────────────────────────────────────── */
 .news__title {
   font-family: var(--font-display);
   font-size: clamp(1.5rem, 3vw, 2.2rem);
@@ -44,28 +50,25 @@
   line-height: 1;
 }
 
-/* ── 2-column article grid ────────────────────────────────────── */
+/* ── 2-column article grid ─────────────────────────── */
 .news__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-4);
 }
 
-/* Single column on narrow viewports */
 @media (max-width: 640px) {
-  .news__grid {
-    grid-template-columns: 1fr;
-  }
+  .news__grid { grid-template-columns: 1fr; }
 }
 
-/* ── Footer slot — Show More or You're all caught up ─────────── */
+/* ── Footer ────────────────────────────────────────── */
 .news__footer {
   display: flex;
   justify-content: center;
   padding: var(--space-1) 0 var(--space-4);
 }
 
-/* ── Show More button — restrained outlined utility style ─────── */
+/* ── Show More button ──────────────────────────────── */
 .news__show-more {
   font-family: var(--font-body);
   font-size: 12px;
@@ -87,16 +90,14 @@
   }
 }
 
-.news__show-more:active {
-  transform: scale(0.98);
-}
+.news__show-more:active { transform: scale(0.98); }
 
 .news__show-more:focus-visible {
   outline: 2px solid var(--color-border-focus);
   outline-offset: 2px;
 }
 
-/* ── "You're all caught up" line ─────────────────────────────── */
+/* ── Caught up + empty ─────────────────────────────── */
 .news__caught-up {
   font-family: var(--font-body);
   font-size: 12px;
@@ -105,11 +106,23 @@
   text-align: center;
 }
 
-/* ── Empty state ─────────────────────────────────────────────── */
 .news__empty {
   font-family: var(--font-body);
   font-size: 14px;
   color: var(--color-secondary);
   text-align: center;
   padding: var(--space-6) 0 var(--space-3);
+}
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .news__center { padding: var(--space-3) var(--space-3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes news-enter {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  .news__center { animation-duration: 120ms; }
 }

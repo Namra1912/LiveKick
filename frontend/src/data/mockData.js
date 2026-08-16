@@ -708,7 +708,7 @@ export const news = [
     author: "David Ornstein",
     readTime: 5,
     timeAgo: "18m ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?w=800&auto=format&fit=crop&q=80",
     featured: true,
   },
 
@@ -723,7 +723,7 @@ export const news = [
     author: "Phil McNulty",
     readTime: 4,
     timeAgo: "2h ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&auto=format&fit=crop&q=80",
     featured: false,
   },
   {
@@ -736,7 +736,7 @@ export const news = [
     author: "Sid Lowe",
     readTime: 6,
     timeAgo: "5h ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&auto=format&fit=crop&q=80",
     featured: false,
   },
 
@@ -751,7 +751,7 @@ export const news = [
     author: "Kaveh Solhekol",
     readTime: 3,
     timeAgo: "1h ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1517747614396-d21a78b850e8?w=800&auto=format&fit=crop&q=80",
     featured: false,
   },
   {
@@ -764,7 +764,7 @@ export const news = [
     author: "Sam Lee",
     readTime: 4,
     timeAgo: "3h ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&auto=format&fit=crop&q=80",
     featured: false,
   },
   {
@@ -777,7 +777,7 @@ export const news = [
     author: null,
     readTime: 2,
     timeAgo: "6h ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&auto=format&fit=crop&q=80",
     featured: false,
   },
 
@@ -792,7 +792,7 @@ export const news = [
     author: "Gerard Brand",
     readTime: 2,
     timeAgo: "4h ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&auto=format&fit=crop&q=80",
     featured: false,
   },
   {
@@ -805,7 +805,7 @@ export const news = [
     author: "Alex Kay-Jelski",
     readTime: 3,
     timeAgo: "7h ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=800&auto=format&fit=crop&q=80",
     featured: false,
   },
   {
@@ -818,7 +818,7 @@ export const news = [
     author: "Paul Joyce",
     readTime: 2,
     timeAgo: "9h ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&auto=format&fit=crop&q=80",
     featured: false,
   },
 
@@ -833,7 +833,7 @@ export const news = [
     author: "Jonathan Wilson",
     readTime: 3,
     timeAgo: "1d ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=800&auto=format&fit=crop&q=80",
     featured: false,
   },
   {
@@ -846,7 +846,7 @@ export const news = [
     author: "Dharmesh Sheth",
     readTime: 4,
     timeAgo: "1d ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1516567727-459e4558f42f?w=800&auto=format&fit=crop&q=80",
     featured: false,
   },
   {
@@ -859,7 +859,7 @@ export const news = [
     author: "Simon Stone",
     readTime: 3,
     timeAgo: "1d ago",
-    imageUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%230d1520'/%3E%3Ccircle cx='400' cy='225' r='80' fill='none' stroke='%231e2a35' stroke-width='3'/%3E%3Ccircle cx='400' cy='225' r='8' fill='%231e2a35'/%3E%3C/svg%3E",
+    imageUrl: "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=800&auto=format&fit=crop&q=80",
     featured: false,
   },
 ];

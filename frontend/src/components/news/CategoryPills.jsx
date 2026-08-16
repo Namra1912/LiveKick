@@ -1,11 +1,11 @@
 // src/components/news/CategoryPills.jsx
 // Category filter pill row for the News page.
+// Matches LeagueSelector.jsx pattern 1:1
 // Props:
 //   activeCategory {string} — currently selected category
 //   onCategoryChange {function} — called with the new category string on click
 //
 // "LATEST" = show all articles (no filter applied in News.jsx).
-// Pills scroll horizontally on narrow viewports (overflow-x: auto).
 
 import './CategoryPills.css';
 
@@ -15,7 +15,7 @@ export default function CategoryPills({ activeCategory, onCategoryChange }) {
   return (
     <div
       className="category-pills"
-      role="tablist"
+      role="group"
       aria-label="Filter news by category"
     >
       {CATEGORIES.map((cat) => {
@@ -24,12 +24,11 @@ export default function CategoryPills({ activeCategory, onCategoryChange }) {
           <button
             key={cat}
             type="button"
-            role="tab"
-            aria-selected={isActive}
             className={`category-pills__pill${isActive ? ' category-pills__pill--active' : ''}`}
             onClick={() => onCategoryChange(cat)}
+            aria-current={isActive ? 'true' : undefined}
           >
-            {cat}
+            <span className="category-pills__label">{cat}</span>
           </button>
         );
       })}
