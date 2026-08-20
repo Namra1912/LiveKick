@@ -120,6 +120,47 @@
   text-align: center;
 }
 
+/* Sortable column header button */
+.transfer-feed__sort-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-faint);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  transition: color 0.12s ease;
+}
+
+.transfer-feed__sort-btn svg {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+.transfer-feed__sort-btn--right {
+  justify-content: flex-end;
+}
+
+.transfer-feed__sort-btn:hover {
+  color: var(--color-secondary);
+}
+
+.transfer-feed__sort-btn--active {
+  color: var(--color-pitch-green);
+  font-weight: 800;
+}
+
+.transfer-feed__sort-neutral {
+  opacity: 0.5;
+}
+
 /* ── Footer ─────────────────────────────────────────────── */
 .transfers__footer {
   display: flex;

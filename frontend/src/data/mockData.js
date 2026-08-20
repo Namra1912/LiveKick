@@ -130,6 +130,7 @@ export const leagues = [
   { id: 3, name: "Champions League", slug: "ucl", matchday: 6, country: "Europe", logoUrl: "https://r2.thesportsdb.com/images/media/league/badge/facv1u1742998896.png" },
   { id: 4, name: "Bundesliga", slug: "bundesliga", matchday: 20, country: "Germany", logoUrl: "https://r2.thesportsdb.com/images/media/league/badge/teqh1b1679952008.png" },
   { id: 5, name: "Serie A", slug: "seriea", matchday: 23, country: "Italy", logoUrl: "https://r2.thesportsdb.com/images/media/league/badge/67q3q21679951383.png" },
+  { id: 6, name: "Ligue 1", slug: "ligue1", matchday: 22, country: "France", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/France%20-%20Ligue%201/Ligue%201.png" },
 ];
 
 const t = (id) => teams.find((x) => x.id === id);

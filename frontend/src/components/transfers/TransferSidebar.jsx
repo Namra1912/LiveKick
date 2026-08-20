@@ -1,13 +1,11 @@
 // src/components/transfers/TransferSidebar.jsx
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import TeamLeagueSearch from './TeamLeagueSearch';
+import FeeRangeSlider from './FeeRangeSlider';
+import TimeframeSelect from './TimeframeSelect';
 import './TransferSidebar.css';
-
-const SORT_OPTIONS = [
-  { value: 'recency', label: 'Latest First' },
-  { value: 'fee', label: 'Fee (High → Low)' },
-  { value: 'tier', label: 'Tier (High → Low)' },
-  { value: 'league', label: 'League A–Z' },
-];
 
 const POSITIONS = [
   { value: 'all', label: 'All' },
@@ -23,21 +21,6 @@ const POSITIONS = [
   { value: 'GK', label: 'GK' },
 ];
 
-const LEAGUES = [
-  { value: 'all', label: 'All' },
-  { value: 'PL', label: 'PL' },
-  { value: 'La Liga', label: 'La Liga' },
-  { value: 'Serie A', label: 'Serie A' },
-  { value: 'Bundesliga', label: 'BL' },
-  { value: 'Ligue 1', label: 'L1' },
-];
-
-const TIMEFRAMES = [
-  { value: 'week', label: 'This Week' },
-  { value: 'month', label: 'This Month' },
-  { value: 'all', label: 'All Time' },
-];
-
 const TRANSFER_TYPES = [
   { value: 'all', label: 'All' },
   { value: 'permanent', label: 'Permanent' },
@@ -46,136 +29,133 @@ const TRANSFER_TYPES = [
 ];
 
 export default function TransferSidebar({
-  sortBy,
-  onSortChange,
-  positionFilter,
-  onPositionChange,
-  leagueFilter,
-  onLeagueChange,
-  timeframeFilter,
+  selectedTeamLeagues = [],
+  onTeamLeaguesChange,
+  feeRange = { min: 0, max: 150 },
+  onFeeRangeChange,
+  timeframeFilter = 'all',
   onTimeframeChange,
-  transferTypeFilter,
+  positionFilter = 'all',
+  onPositionChange,
+  transferTypeFilter = 'all',
   onTransferTypeChange,
   onResetFilters,
   topDeals = [],
 }) {
   const navigate = useNavigate();
+  const [moreOpen, setMoreOpen] = useState(false);
+
+  const hasSecondaryActive = positionFilter !== 'all' || transferTypeFilter !== 'all';
 
   const activeFilterCount =
-    (positionFilter !== 'all' ? 1 : 0) +
-    (leagueFilter !== 'all' ? 1 : 0) +
+    (selectedTeamLeagues.length > 0 ? 1 : 0) +
+    (feeRange.min > 0 || feeRange.max < 150 ? 1 : 0) +
     (timeframeFilter !== 'all' ? 1 : 0) +
+    (positionFilter !== 'all' ? 1 : 0) +
     (transferTypeFilter !== 'all' ? 1 : 0);
 
-  const isFiltered = activeFilterCount > 0 || sortBy !== 'recency';
+  const isFiltered = activeFilterCount > 0;
 
   return (
-    <div className="transfer-sidebar">
-      {/* Card 1: Sort & Position */}
-      <div className="ts-card">
-        <span className="ts-section-label">Sort &amp; Position</span>
-
-        <div className="ts-filter-group">
-          <span className="ts-filter-group__label">Sort By</span>
-          <select
-            value={sortBy}
-            onChange={(e) => onSortChange(e.target.value)}
-            className="ts-select"
-            aria-label="Sort transfers"
-          >
-            {SORT_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="ts-filter-group">
-          <span className="ts-filter-group__label">Position</span>
-          <div className="ts-pills ts-pills--wrapped" role="toolbar" aria-label="Position filter">
-            {POSITIONS.map((pos) => (
-              <button
-                key={pos.value}
-                type="button"
-                className={`ts-pill${positionFilter === pos.value ? ' ts-pill--active' : ''}`}
-                onClick={() => onPositionChange(pos.value)}
-              >
-                {pos.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Card 2: Filters */}
-      <div className="ts-card">
-        <div className="ts-card-header">
-          <div className="ts-card-header__left">
-            <span className="ts-section-label">Filters</span>
-            {activeFilterCount > 0 && (
-              <span className="ts-filter-count">{activeFilterCount} active</span>
-            )}
-          </div>
-          {isFiltered && (
-            <button type="button" className="ts-reset-btn" onClick={onResetFilters}>
-              Reset
-            </button>
+    <div className="ts-filter-panel">
+      {/* Panel Header */}
+      <div className="ts-panel-header">
+        <div className="ts-panel-header__left">
+          <span className="ts-panel-title">FILTERS</span>
+          {activeFilterCount > 0 && (
+            <span className="ts-filter-count">{activeFilterCount} active</span>
           )}
         </div>
+        {isFiltered && (
+          <button type="button" className="ts-reset-btn" onClick={onResetFilters}>
+            Reset
+          </button>
+        )}
+      </div>
 
-        <div className="ts-filter-group">
-          <span className="ts-filter-group__label">League</span>
-          <div className="ts-pills" role="toolbar" aria-label="League filter">
-            {LEAGUES.map((l) => (
-              <button
-                key={l.value}
-                type="button"
-                className={`ts-pill${leagueFilter === l.value ? ' ts-pill--active' : ''}`}
-                onClick={() => onLeagueChange(l.value)}
-              >
-                {l.label}
-              </button>
-            ))}
-          </div>
+      {/* 3.1 Essential Filters */}
+      <div className="ts-section">
+        {/* Team / League Search */}
+        <div className="ts-field">
+          <span className="ts-field-label">League or Team</span>
+          <TeamLeagueSearch
+            selectedItems={selectedTeamLeagues}
+            onSelectionChange={onTeamLeaguesChange}
+          />
         </div>
 
-        <div className="ts-filter-group">
-          <span className="ts-filter-group__label">Timeframe</span>
-          <div className="ts-pills" role="toolbar" aria-label="Timeframe filter">
-            {TIMEFRAMES.map((t) => (
-              <button
-                key={t.value}
-                type="button"
-                className={`ts-pill${timeframeFilter === t.value ? ' ts-pill--active' : ''}`}
-                onClick={() => onTimeframeChange(t.value)}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
+        {/* Fee Range Slider */}
+        <div className="ts-field">
+          <FeeRangeSlider
+            minVal={feeRange.min}
+            maxVal={feeRange.max}
+            onChange={onFeeRangeChange}
+          />
         </div>
 
-        <div className="ts-filter-group">
-          <span className="ts-filter-group__label">Transfer Type</span>
-          <div className="ts-pills" role="toolbar" aria-label="Transfer type filter">
-            {TRANSFER_TYPES.map((tt) => (
-              <button
-                key={tt.value}
-                type="button"
-                className={`ts-pill${transferTypeFilter === tt.value ? ' ts-pill--active' : ''}`}
-                onClick={() => onTransferTypeChange(tt.value)}
-              >
-                {tt.label}
-              </button>
-            ))}
-          </div>
+        {/* Timeframe Select */}
+        <div className="ts-field">
+          <span className="ts-field-label">Timeframe</span>
+          <TimeframeSelect
+            value={timeframeFilter}
+            onChange={onTimeframeChange}
+          />
         </div>
       </div>
 
-      {/* Card 3: Top Deals */}
-      <div className="ts-card">
-        <span className="ts-section-label">Top Deals</span>
+      {/* 3.2 Secondary Filters Disclosure */}
+      <div className="ts-section ts-section--secondary">
+        <button
+          type="button"
+          className="ts-more-toggle"
+          onClick={() => setMoreOpen(!moreOpen)}
+          aria-expanded={moreOpen}
+        >
+          <span>{moreOpen ? 'Fewer filters' : 'More filters'}</span>
+          {!moreOpen && hasSecondaryActive && <span className="ts-more-dot" />}
+          {moreOpen ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+        </button>
+
+        {moreOpen && (
+          <div className="ts-more-content">
+            <div className="ts-field">
+              <span className="ts-field-label">Position</span>
+              <div className="ts-pills ts-pills--wrapped" role="toolbar" aria-label="Position filter">
+                {POSITIONS.map((pos) => (
+                  <button
+                    key={pos.value}
+                    type="button"
+                    className={`ts-pill${positionFilter === pos.value ? ' ts-pill--active' : ''}`}
+                    onClick={() => onPositionChange(pos.value)}
+                  >
+                    {pos.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="ts-field">
+              <span className="ts-field-label">Transfer Type</span>
+              <div className="ts-pills" role="toolbar" aria-label="Transfer type filter">
+                {TRANSFER_TYPES.map((tt) => (
+                  <button
+                    key={tt.value}
+                    type="button"
+                    className={`ts-pill${transferTypeFilter === tt.value ? ' ts-pill--active' : ''}`}
+                    onClick={() => onTransferTypeChange(tt.value)}
+                  >
+                    {tt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 3.3 Top Deals Widget (Integrated Section) */}
+      <div className="ts-section ts-section--top-deals">
+        <span className="ts-eyebrow-label">TOP DEALS</span>
         <div className="ts-top-deals">
           {topDeals.map((deal, i) => (
             <div

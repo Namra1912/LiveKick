@@ -1,0 +1,191 @@
+/* src/components/transfers/TeamLeagueSearch.css */
+
+.tls-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.tls-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tls-search-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--color-secondary);
+  pointer-events: none;
+}
+
+.tls-input {
+  width: 100%;
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 5px 28px 5px 28px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-primary);
+  outline: none;
+  transition: border-color 0.12s ease;
+}
+
+.tls-input:hover {
+  border-color: var(--color-secondary);
+}
+
+.tls-input:focus {
+  border-color: var(--color-pitch-green);
+}
+
+.tls-input::placeholder {
+  color: var(--color-faint);
+}
+
+.tls-clear-query {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--color-faint);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.tls-clear-query:hover {
+  color: var(--color-primary);
+}
+
+/* ── Selected Chips ───────────────────────────────────────── */
+.tls-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tls-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0, 179, 112, 0.1);
+  border: 1px solid rgba(0, 179, 112, 0.3);
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.tls-chip-name {
+  white-space: nowrap;
+}
+
+.tls-chip-remove {
+  background: transparent;
+  border: none;
+  color: var(--color-secondary);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.12s ease;
+}
+
+.tls-chip-remove:hover {
+  color: var(--color-pitch-green);
+}
+
+/* ── Dropdown List with Themed Scrollbar & Depth Shadow ───── */
+.tls-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  max-height: 190px;
+  overflow-y: auto;
+  z-index: 60;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-dimmer) transparent;
+}
+
+.tls-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tls-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tls-dropdown::-webkit-scrollbar-thumb {
+  background: var(--color-dimmer);
+  border-radius: var(--radius-pill);
+}
+
+.tls-dropdown::-webkit-scrollbar-thumb:hover {
+  background: var(--color-faint);
+}
+
+.tls-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+.tls-option:hover {
+  background: var(--color-surface-hover);
+}
+
+.tls-option-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+
+.tls-option-name {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tls-highlight {
+  color: var(--color-pitch-green);
+  font-weight: 700;
+}
+
+.tls-option-caption {
+  font-family: var(--font-body);
+  font-size: 9px;
+  color: var(--color-faint);
+}
+
+.tls-no-results {
+  padding: 12px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-faint);
+  text-align: center;
+}

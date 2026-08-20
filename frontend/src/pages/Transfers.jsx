@@ -1,6 +1,6 @@
 // src/pages/Transfers.jsx
 import { useState, useMemo, useEffect } from 'react';
-import { Filter } from 'lucide-react';
+import { Filter, ChevronUp, ChevronDown, ArrowUpDown } from 'lucide-react';
 import AppLayout from '../components/layout/AppLayout';
 import SearchModal from '../components/search/SearchModal';
 import Breadcrumb from '../components/shared/Breadcrumb';
@@ -12,11 +12,16 @@ import './Transfers.css';
 
 export default function Transfers() {
   const [activeTab, setActiveTab] = useState('all');
-  const [positionFilter, setPositionFilter] = useState('all');
-  const [sortBy, setSortBy] = useState('recency');
-  const [leagueFilter, setLeagueFilter] = useState('all');
+  const [selectedTeamLeagues, setSelectedTeamLeagues] = useState([]);
+  const [feeRange, setFeeRange] = useState({ min: 0, max: 150 });
   const [timeframeFilter, setTimeframeFilter] = useState('all');
+  const [positionFilter, setPositionFilter] = useState('all');
   const [transferTypeFilter, setTransferTypeFilter] = useState('all');
+  
+  // Table Header Sort State
+  const [sortKey, setSortKey] = useState('date'); // 'date' | 'fee'
+  const [sortDir, setSortDir] = useState('desc'); // 'desc' | 'asc'
+
   const [visibleCount, setVisibleCount] = useState(8);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -36,44 +41,31 @@ export default function Transfers() {
     setVisibleCount(8);
   };
 
-  const handlePositionChange = (pos) => {
-    setPositionFilter(pos);
-    setVisibleCount(8);
-  };
-
-  const handleSortChange = (sort) => {
-    setSortBy(sort);
-    setVisibleCount(8);
-  };
-
-  const handleLeagueChange = (league) => {
-    setLeagueFilter(league);
-    setVisibleCount(8);
-  };
-
-  const handleTimeframeChange = (tf) => {
-    setTimeframeFilter(tf);
-    setVisibleCount(8);
-  };
-
-  const handleTransferTypeChange = (tt) => {
-    setTransferTypeFilter(tt);
+  const handleHeaderSort = (key) => {
+    if (sortKey === key) {
+      setSortDir((prev) => (prev === 'desc' ? 'asc' : 'desc'));
+    } else {
+      setSortKey(key);
+      setSortDir('desc');
+    }
     setVisibleCount(8);
   };
 
   const handleResetFilters = () => {
-    setPositionFilter('all');
-    setLeagueFilter('all');
+    setSelectedTeamLeagues([]);
+    setFeeRange({ min: 0, max: 150 });
     setTimeframeFilter('all');
+    setPositionFilter('all');
     setTransferTypeFilter('all');
-    setSortBy('recency');
+    setSortKey('date');
+    setSortDir('desc');
     setVisibleCount(8);
   };
 
   const filtered = useMemo(() => {
     let result = [...transfers];
 
-    // Tab filter
+    // 1. Tab filter
     if (activeTab === 'tier1') {
       result = result.filter((t) => t.tier === 1);
     } else if (activeTab === 'done') {
@@ -82,18 +74,37 @@ export default function Transfers() {
       result = result.filter((t) => t.tier === 2 || t.tier === 3);
     }
 
-    // Position filter
-    if (positionFilter !== 'all') {
-      result = result.filter((t) => t.position === positionFilter);
+    // 2. Team & League Multi-filter (OR logic among chips)
+    if (selectedTeamLeagues.length > 0) {
+      result = result.filter((t) => {
+        return selectedTeamLeagues.some((chip) => {
+          if (chip.type === 'league') {
+            const targetLeague = chip.shortName === 'PL' ? 'Premier League' : chip.name;
+            return t.league === targetLeague;
+          }
+          if (chip.type === 'team' && chip.teamObj) {
+            const teamId = chip.teamObj.id;
+            return t.fromTeam?.id === teamId || t.toTeam?.id === teamId;
+          }
+          return false;
+        });
+      });
     }
 
-    // League filter
-    if (leagueFilter !== 'all') {
-      const targetLeague = leagueFilter === 'PL' ? 'Premier League' : leagueFilter;
-      result = result.filter((t) => t.league === targetLeague);
+    // 3. Fee Range Filter
+    if (feeRange.min > 0 || feeRange.max < 150) {
+      result = result.filter((t) => {
+        if (!t.fee || t.fee === 'FREE' || t.fee === 'LOAN' || t.fee === 'UNDISCLOSED') {
+          return true; // Keep special fee types visible
+        }
+        const num = parseFloat(t.fee.replace(/[^0-9.]/g, ''));
+        if (isNaN(num)) return true;
+        if (feeRange.max >= 150) return num >= feeRange.min;
+        return num >= feeRange.min && num <= feeRange.max;
+      });
     }
 
-    // Timeframe filter
+    // 4. Timeframe filter
     if (timeframeFilter === 'week') {
       result = result.filter((t) => {
         const ts = t.timestamp ?? '';
@@ -109,27 +120,50 @@ export default function Transfers() {
       });
     }
 
-    // Transfer Type filter
+    // 5. Position filter
+    if (positionFilter !== 'all') {
+      result = result.filter((t) => t.position === positionFilter);
+    }
+
+    // 6. Transfer Type filter
     if (transferTypeFilter !== 'all') {
       result = result.filter((t) => t.transferType === transferTypeFilter);
     }
 
-    // Sort
-    if (sortBy === 'fee') {
-      const parseFee = (fee) => {
-        if (!fee || fee === 'FREE' || fee === 'LOAN' || fee === 'UNDISCLOSED') return -1;
-        const num = parseFloat(fee.replace(/[^0-9.]/g, ''));
-        return isNaN(num) ? -1 : num;
-      };
-      result.sort((a, b) => parseFee(b.fee) - parseFee(a.fee));
-    } else if (sortBy === 'tier') {
-      result.sort((a, b) => a.tier - b.tier);
-    } else if (sortBy === 'league') {
-      result.sort((a, b) => a.league.localeCompare(b.league));
-    }
+    // 7. Column Header Sort
+    const parseFee = (fee) => {
+      if (!fee || fee === 'FREE' || fee === 'LOAN' || fee === 'UNDISCLOSED') return -1;
+      const num = parseFloat(fee.replace(/[^0-9.]/g, ''));
+      return isNaN(num) ? -1 : num;
+    };
+
+    result.sort((a, b) => {
+      if (sortKey === 'fee') {
+        const feeA = parseFee(a.fee);
+        const feeB = parseFee(b.fee);
+        if (feeA === -1 && feeB === -1) return 0;
+        if (feeA === -1) return 1;
+        if (feeB === -1) return -1;
+        return sortDir === 'desc' ? feeB - feeA : feeA - feeB;
+      }
+
+      // Default: sortKey === 'date' (using transferDate ISO string)
+      const dateA = a.transferDate || '';
+      const dateB = b.transferDate || '';
+      return sortDir === 'desc' ? dateB.localeCompare(dateA) : dateA.localeCompare(dateB);
+    });
 
     return result;
-  }, [activeTab, positionFilter, sortBy, leagueFilter, timeframeFilter, transferTypeFilter]);
+  }, [
+    activeTab,
+    selectedTeamLeagues,
+    feeRange,
+    timeframeFilter,
+    positionFilter,
+    transferTypeFilter,
+    sortKey,
+    sortDir,
+  ]);
 
   const topDeals = useMemo(() => {
     const parseFee = (fee) => {
@@ -174,13 +208,44 @@ export default function Transfers() {
             </div>
           ) : (
             <div className="transfers__feed">
-              {/* Column header */}
+              {/* Column Header Row with In-Table Sorting */}
               <div className="transfer-feed__header">
                 <span className="transfer-feed__col">FROM → TO</span>
                 <span className="transfer-feed__col">PLAYER</span>
-                <span className="transfer-feed__col transfer-feed__col--right">FEE</span>
+                
+                {/* FEE Sort Button Header */}
+                <button
+                  type="button"
+                  className={`transfer-feed__sort-btn transfer-feed__sort-btn--right${
+                    sortKey === 'fee' ? ' transfer-feed__sort-btn--active' : ''
+                  }`}
+                  onClick={() => handleHeaderSort('fee')}
+                >
+                  <span>FEE</span>
+                  {sortKey === 'fee' ? (
+                    sortDir === 'desc' ? <ChevronDown size={11} /> : <ChevronUp size={11} />
+                  ) : (
+                    <ArrowUpDown size={9} className="transfer-feed__sort-neutral" />
+                  )}
+                </button>
+
                 <span className="transfer-feed__col transfer-feed__col--center">TIER</span>
-                <span className="transfer-feed__col transfer-feed__col--right">DATE</span>
+
+                {/* DATE Sort Button Header */}
+                <button
+                  type="button"
+                  className={`transfer-feed__sort-btn transfer-feed__sort-btn--right${
+                    sortKey === 'date' ? ' transfer-feed__sort-btn--active' : ''
+                  }`}
+                  onClick={() => handleHeaderSort('date')}
+                >
+                  <span>DATE</span>
+                  {sortKey === 'date' ? (
+                    sortDir === 'desc' ? <ChevronDown size={11} /> : <ChevronUp size={11} />
+                  ) : (
+                    <ArrowUpDown size={9} className="transfer-feed__sort-neutral" />
+                  )}
+                </button>
               </div>
 
               {visibleItems.map((item) => (
@@ -210,16 +275,31 @@ export default function Transfers() {
         {/* Right panel sidebar */}
         <aside className="transfers__right" aria-label="Transfer filters and stats">
           <TransferSidebar
-            sortBy={sortBy}
-            onSortChange={handleSortChange}
-            positionFilter={positionFilter}
-            onPositionChange={handlePositionChange}
-            leagueFilter={leagueFilter}
-            onLeagueChange={handleLeagueChange}
+            selectedTeamLeagues={selectedTeamLeagues}
+            onTeamLeaguesChange={(items) => {
+              setSelectedTeamLeagues(items);
+              setVisibleCount(8);
+            }}
+            feeRange={feeRange}
+            onFeeRangeChange={(range) => {
+              setFeeRange(range);
+              setVisibleCount(8);
+            }}
             timeframeFilter={timeframeFilter}
-            onTimeframeChange={handleTimeframeChange}
+            onTimeframeChange={(tf) => {
+              setTimeframeFilter(tf);
+              setVisibleCount(8);
+            }}
+            positionFilter={positionFilter}
+            onPositionChange={(pos) => {
+              setPositionFilter(pos);
+              setVisibleCount(8);
+            }}
             transferTypeFilter={transferTypeFilter}
-            onTransferTypeChange={handleTransferTypeChange}
+            onTransferTypeChange={(tt) => {
+              setTransferTypeFilter(tt);
+              setVisibleCount(8);
+            }}
             onResetFilters={handleResetFilters}
             topDeals={topDeals}
           />

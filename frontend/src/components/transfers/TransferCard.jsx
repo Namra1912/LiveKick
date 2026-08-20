@@ -1,7 +1,7 @@
 // src/components/transfers/TransferCard.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 import Crest from '../shared/Crest';
 import TierPill from './TierPill';
 import './TransferCard.css';
@@ -151,6 +151,7 @@ export default function TransferCard({ item, onSelectRow }) {
       {/* Col 5: Date */}
       <div className="transfer-card__date-col">
         <span className="transfer-card__date">{item.timestamp}</span>
+        <ChevronRight size={12} className="transfer-card__hover-chevron" />
       </div>
     </div>
   );

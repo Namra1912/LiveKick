@@ -1,0 +1,96 @@
+/* src/components/transfers/FeeRangeSlider.css */
+
+.frs-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.frs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.frs-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+.frs-value {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-pitch-green);
+}
+
+.frs-slider-wrapper {
+  position: relative;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.frs-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+  z-index: 1;
+}
+
+.frs-range {
+  position: absolute;
+  height: 4px;
+  background: var(--color-pitch-green);
+  border-radius: var(--radius-pill);
+  z-index: 2;
+}
+
+.frs-input {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: none;
+  pointer-events: none;
+  appearance: none;
+  z-index: 3;
+  margin: 0;
+}
+
+.frs-input::-webkit-slider-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid var(--color-pitch-green);
+  pointer-events: auto;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.frs-input::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid var(--color-pitch-green);
+  pointer-events: auto;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.frs-caption {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--color-faint);
+  line-height: 1.2;
+}
