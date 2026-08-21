@@ -36,11 +36,7 @@
   color: var(--color-secondary);
 }
 
-/* Confirmed row — thin green left accent always, zero green background */
-.transfer-card--confirmed {
-  border-left-color: var(--color-pitch-green);
-}
-
+/* Confirmed row — hover-only green left accent */
 .transfer-card--confirmed:hover {
   background: var(--color-surface);
   border-color: var(--color-border-dim);

@@ -43,7 +43,7 @@ function getFeeClass(fee) {
   return 'transfer-card__fee';
 }
 
-export default function TransferCard({ item }) {
+export default function TransferCard({ item, onSelectRow }) {
   const navigate = useNavigate();
   const isConfirmed = item.status === 'confirmed';
   const tier = Math.min(Math.max(item.tier, 1), 3);
@@ -55,7 +55,13 @@ export default function TransferCard({ item }) {
   ].filter(Boolean).join(' ');
 
   return (
-    <div className={cardClass}>
+    <div
+      className={cardClass}
+      role="button"
+      tabIndex={0}
+      onClick={() => onSelectRow && onSelectRow(item)}
+      onKeyDown={(e) => e.key === 'Enter' && onSelectRow && onSelectRow(item)}
+    >
       {/* Col 1: Clubs */}
       <div className="transfer-card__clubs">
         <div
@@ -111,8 +117,16 @@ export default function TransferCard({ item }) {
         className="transfer-card__player"
         role="button"
         tabIndex={0}
-        onClick={() => navigate('/players/' + item.id)}
-        onKeyDown={(e) => e.key === 'Enter' && navigate('/players/' + item.id)}
+        onClick={(e) => {
+          e.stopPropagation();
+          navigate('/players/' + item.id);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.stopPropagation();
+            navigate('/players/' + item.id);
+          }
+        }}
       >
         <PlayerAvatar photo={item.playerPhoto} name={item.player} position={item.position} />
         <div className="transfer-card__player-info">

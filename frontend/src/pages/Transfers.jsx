@@ -1,5 +1,6 @@
 // src/pages/Transfers.jsx
 import { useState, useMemo, useEffect } from 'react';
+import { Filter } from 'lucide-react';
 import AppLayout from '../components/layout/AppLayout';
 import SearchModal from '../components/search/SearchModal';
 import Breadcrumb from '../components/shared/Breadcrumb';
@@ -15,6 +16,7 @@ export default function Transfers() {
   const [sortBy, setSortBy] = useState('recency');
   const [leagueFilter, setLeagueFilter] = useState('all');
   const [timeframeFilter, setTimeframeFilter] = useState('all');
+  const [transferTypeFilter, setTransferTypeFilter] = useState('all');
   const [visibleCount, setVisibleCount] = useState(8);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -44,6 +46,30 @@ export default function Transfers() {
     setVisibleCount(8);
   };
 
+  const handleLeagueChange = (league) => {
+    setLeagueFilter(league);
+    setVisibleCount(8);
+  };
+
+  const handleTimeframeChange = (tf) => {
+    setTimeframeFilter(tf);
+    setVisibleCount(8);
+  };
+
+  const handleTransferTypeChange = (tt) => {
+    setTransferTypeFilter(tt);
+    setVisibleCount(8);
+  };
+
+  const handleResetFilters = () => {
+    setPositionFilter('all');
+    setLeagueFilter('all');
+    setTimeframeFilter('all');
+    setTransferTypeFilter('all');
+    setSortBy('recency');
+    setVisibleCount(8);
+  };
+
   const filtered = useMemo(() => {
     let result = [...transfers];
 
@@ -61,13 +87,13 @@ export default function Transfers() {
       result = result.filter((t) => t.position === positionFilter);
     }
 
-    // Sidebar League filter
+    // League filter
     if (leagueFilter !== 'all') {
       const targetLeague = leagueFilter === 'PL' ? 'Premier League' : leagueFilter;
       result = result.filter((t) => t.league === targetLeague);
     }
 
-    // Sidebar Timeframe filter
+    // Timeframe filter
     if (timeframeFilter === 'week') {
       result = result.filter((t) => {
         const ts = t.timestamp ?? '';
@@ -83,6 +109,11 @@ export default function Transfers() {
       });
     }
 
+    // Transfer Type filter
+    if (transferTypeFilter !== 'all') {
+      result = result.filter((t) => t.transferType === transferTypeFilter);
+    }
+
     // Sort
     if (sortBy === 'fee') {
       const parseFee = (fee) => {
@@ -91,12 +122,14 @@ export default function Transfers() {
         return isNaN(num) ? -1 : num;
       };
       result.sort((a, b) => parseFee(b.fee) - parseFee(a.fee));
+    } else if (sortBy === 'tier') {
+      result.sort((a, b) => a.tier - b.tier);
     } else if (sortBy === 'league') {
       result.sort((a, b) => a.league.localeCompare(b.league));
     }
 
     return result;
-  }, [activeTab, positionFilter, sortBy, leagueFilter, timeframeFilter]);
+  }, [activeTab, positionFilter, sortBy, leagueFilter, timeframeFilter, transferTypeFilter]);
 
   const topDeals = useMemo(() => {
     const parseFee = (fee) => {
@@ -124,23 +157,22 @@ export default function Transfers() {
             <p className="transfers__subtitle">TRANSFER &amp; RUMOR INDEX</p>
           </div>
 
-          <TransferFilters
-            activeTab={activeTab}
-            onTabChange={handleTabChange}
-            positionFilter={positionFilter}
-            onPositionChange={handlePositionChange}
-            sortBy={sortBy}
-            onSortChange={handleSortChange}
-          />
+          <TransferFilters activeTab={activeTab} onTabChange={handleTabChange} />
 
           {/* Transfer feed */}
-          {filtered.length === 0 && (
+          {filtered.length === 0 ? (
             <div className="transfers__empty" role="status">
-              No transfers match this filter
+              <Filter size={28} className="transfers__empty-icon" />
+              <p className="transfers__empty-title">No transfers match your filters</p>
+              <button
+                type="button"
+                className="transfers__empty-reset"
+                onClick={handleResetFilters}
+              >
+                Reset filters
+              </button>
             </div>
-          )}
-
-          {visibleItems.length > 0 && (
+          ) : (
             <div className="transfers__feed">
               {/* Column header */}
               <div className="transfer-feed__header">
@@ -178,16 +210,17 @@ export default function Transfers() {
         {/* Right panel sidebar */}
         <aside className="transfers__right" aria-label="Transfer filters and stats">
           <TransferSidebar
+            sortBy={sortBy}
+            onSortChange={handleSortChange}
+            positionFilter={positionFilter}
+            onPositionChange={handlePositionChange}
             leagueFilter={leagueFilter}
-            onLeagueChange={(l) => {
-              setLeagueFilter(l);
-              setVisibleCount(8);
-            }}
+            onLeagueChange={handleLeagueChange}
             timeframeFilter={timeframeFilter}
-            onTimeframeChange={(tf) => {
-              setTimeframeFilter(tf);
-              setVisibleCount(8);
-            }}
+            onTimeframeChange={handleTimeframeChange}
+            transferTypeFilter={transferTypeFilter}
+            onTransferTypeChange={handleTransferTypeChange}
+            onResetFilters={handleResetFilters}
             topDeals={topDeals}
           />
         </aside>
