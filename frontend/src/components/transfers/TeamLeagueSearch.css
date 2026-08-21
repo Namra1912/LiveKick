@@ -149,7 +149,8 @@
   transition: background 0.1s ease;
 }
 
-.tls-option:hover {
+.tls-option:hover,
+.tls-option--highlighted {
   background: var(--color-surface-hover);
 }
 

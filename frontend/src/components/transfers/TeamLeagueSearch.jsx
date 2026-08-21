@@ -24,9 +24,20 @@ function renderHighlightedName(name, query) {
 
 export default function TeamLeagueSearch({ selectedItems = [], onSelectionChange }) {
   const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(0);
+
   const containerRef = useRef(null);
   const inputRef = useRef(null);
+
+  // Debounce filter query ~200ms
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [query]);
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -41,7 +52,7 @@ export default function TeamLeagueSearch({ selectedItems = [], onSelectionChange
 
   // Filter available teams and leagues
   const suggestions = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = debouncedQuery.trim().toLowerCase();
     const selectedIds = new Set(selectedItems.map((item) => item.id));
 
     // Form list of team items
@@ -83,17 +94,47 @@ export default function TeamLeagueSearch({ selectedItems = [], onSelectionChange
           (item.shortName && item.shortName.toLowerCase().includes(q))
       )
       .slice(0, 10);
-  }, [query, selectedItems]);
+  }, [debouncedQuery, selectedItems]);
+
+  // Reset highlighted index when suggestions change
+  useEffect(() => {
+    setHighlightedIndex(0);
+  }, [suggestions]);
 
   const handleSelectItem = (item) => {
     onSelectionChange([...selectedItems, item]);
     setQuery('');
-    // Keep focus on input for fast multi-select
+    setDebouncedQuery('');
     if (inputRef.current) inputRef.current.focus();
   };
 
   const handleRemoveItem = (idToRemove) => {
     onSelectionChange(selectedItems.filter((item) => item.id !== idToRemove));
+  };
+
+  const handleKeyDown = (e) => {
+    if (!isOpen) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        setIsOpen(true);
+      }
+      return;
+    }
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setHighlightedIndex((prev) => Math.min(prev + 1, Math.max(0, suggestions.length - 1)));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlightedIndex((prev) => Math.max(prev - 1, 0));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (suggestions[highlightedIndex]) {
+        handleSelectItem(suggestions[highlightedIndex]);
+      }
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -111,12 +152,16 @@ export default function TeamLeagueSearch({ selectedItems = [], onSelectionChange
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
+          onKeyDown={handleKeyDown}
         />
         {query && (
           <button
             type="button"
             className="tls-clear-query"
-            onClick={() => setQuery('')}
+            onClick={() => {
+              setQuery('');
+              setDebouncedQuery('');
+            }}
             aria-label="Clear text"
           >
             <X size={12} />
@@ -156,33 +201,37 @@ export default function TeamLeagueSearch({ selectedItems = [], onSelectionChange
           {suggestions.length === 0 ? (
             <div className="tls-no-results">No team or league found</div>
           ) : (
-            suggestions.map((item) => (
-              <div
-                key={item.id}
-                role="option"
-                aria-selected={false}
-                tabIndex={0}
-                className="tls-option"
-                onClick={() => handleSelectItem(item)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleSelectItem(item);
-                }}
-              >
-                <Crest
-                  team={item.teamObj}
-                  logoUrl={item.logoUrl}
-                  crestUrl={item.crestUrl}
-                  name={item.name}
-                  size={20}
-                />
-                <div className="tls-option-info">
-                  <span className="tls-option-name">
-                    {renderHighlightedName(item.name, query)}
-                  </span>
-                  <span className="tls-option-caption">{item.caption}</span>
+            suggestions.map((item, index) => {
+              const isHighlighted = index === highlightedIndex;
+              return (
+                <div
+                  key={item.id}
+                  role="option"
+                  aria-selected={isHighlighted}
+                  tabIndex={0}
+                  className={`tls-option${isHighlighted ? ' tls-option--highlighted' : ''}`}
+                  onClick={() => handleSelectItem(item)}
+                  onMouseEnter={() => setHighlightedIndex(index)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSelectItem(item);
+                  }}
+                >
+                  <Crest
+                    team={item.teamObj}
+                    logoUrl={item.logoUrl}
+                    crestUrl={item.crestUrl}
+                    name={item.name}
+                    size={20}
+                  />
+                  <div className="tls-option-info">
+                    <span className="tls-option-name">
+                      {renderHighlightedName(item.name, query)}
+                    </span>
+                    <span className="tls-option-caption">{item.caption}</span>
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       )}

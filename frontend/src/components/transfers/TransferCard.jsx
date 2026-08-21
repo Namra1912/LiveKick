@@ -1,8 +1,8 @@
 // src/components/transfers/TransferCard.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, ChevronRight } from 'lucide-react';
-import Crest from '../shared/Crest';
+import { ArrowRight } from 'lucide-react';
+import Crest, { nameToHue } from '../shared/Crest';
 import TierPill from './TierPill';
 import './TransferCard.css';
 
@@ -18,6 +18,8 @@ function PlayerAvatar({ photo, name, position }) {
         .toUpperCase()
     : '??';
 
+  const hue = nameToHue(name);
+
   return (
     <div className="transfer-card__avatar-wrap">
       {photo && !failed ? (
@@ -25,11 +27,21 @@ function PlayerAvatar({ photo, name, position }) {
           src={photo}
           alt={name}
           className="transfer-card__avatar"
+          referrerPolicy="no-referrer"
           onError={() => setFailed(true)}
           loading="lazy"
         />
       ) : (
-        <div className="transfer-card__avatar-fallback">{initials}</div>
+        <div
+          className="transfer-card__avatar-fallback"
+          style={{
+            backgroundColor: `hsl(${hue}, 42%, 22%)`,
+            borderColor: `hsl(${hue}, 42%, 32%)`,
+            color: `hsl(${hue}, 75%, 85%)`,
+          }}
+        >
+          {initials}
+        </div>
       )}
       <span className="transfer-card__position-badge">{position}</span>
     </div>
@@ -43,7 +55,7 @@ function getFeeClass(fee) {
   return 'transfer-card__fee';
 }
 
-export default function TransferCard({ item, onSelectRow }) {
+export default function TransferCard({ item }) {
   const navigate = useNavigate();
   const isConfirmed = item.status === 'confirmed';
   const tier = Math.min(Math.max(item.tier, 1), 3);
@@ -55,13 +67,7 @@ export default function TransferCard({ item, onSelectRow }) {
   ].filter(Boolean).join(' ');
 
   return (
-    <div
-      className={cardClass}
-      role="button"
-      tabIndex={0}
-      onClick={() => onSelectRow && onSelectRow(item)}
-      onKeyDown={(e) => e.key === 'Enter' && onSelectRow && onSelectRow(item)}
-    >
+    <div className={cardClass}>
       {/* Col 1: Clubs */}
       <div className="transfer-card__clubs">
         <div
@@ -151,7 +157,6 @@ export default function TransferCard({ item, onSelectRow }) {
       {/* Col 5: Date */}
       <div className="transfer-card__date-col">
         <span className="transfer-card__date">{item.timestamp}</span>
-        <ChevronRight size={12} className="transfer-card__hover-chevron" />
       </div>
     </div>
   );
