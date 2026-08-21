@@ -14,8 +14,8 @@ const BREADCRUMB_ITEMS = [
   { label: 'News' },
 ];
 
-const INITIAL_VISIBLE = 6;
-const SHOW_MORE_INCREMENT = 6;
+const INITIAL_VISIBLE = 4;
+const SHOW_MORE_INCREMENT = 4;
 
 export default function News() {
   const [activeCategory, setActiveCategory] = useState('LATEST');

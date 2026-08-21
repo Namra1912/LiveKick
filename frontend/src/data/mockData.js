@@ -1,9 +1,9 @@
-// LiveKick — Mock Data (Phase 0: frontend-only, no backend/API yet)
-// Field names match LiveKick_PRD_FINAL_v5_1.md §5 (camelCase here for direct
-// frontend use — your real API layer will map snake_case Postgres columns to
+// LiveKick â€” Mock Data (Phase 0: frontend-only, no backend/API yet)
+// Field names match LiveKick_PRD_FINAL_v5_1.md Â§5 (camelCase here for direct
+// frontend use â€” your real API layer will map snake_case Postgres columns to
 // this same shape when Phase 1 wires up the real backend).
 //
-// Crest/avatar URLs use ui-avatars.com / raw.githubusercontent / thesportsdb — keyless
+// Crest/avatar URLs use ui-avatars.com / raw.githubusercontent / thesportsdb â€” keyless
 // placeholder service that generates initial badges or real team crests.
 
 const photoSeed = (id, width, height) =>
@@ -15,7 +15,7 @@ const player = (name, bg = "00B370") =>
 // ---------------------------------------------------------------- teams ----
 // logoUrl added to every team so Crest component has a unified field.
 export const teams = [
-  // ── Existing 16 Teams ──────────────────────────────────────────────────────
+  // â”€â”€ Existing 16 Teams â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { id: 1, name: "Arsenal", shortName: "ARS", league: "Premier League", country: "England", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Arsenal%20FC.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Arsenal%20FC.png", primaryColor: "#EF0107", secondaryColor: "#063672" },
   { id: 2, name: "Man City", shortName: "MCI", league: "Premier League", country: "England", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Manchester%20City.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Manchester%20City.png", primaryColor: "#6CABDD", secondaryColor: "#1C2C5B" },
   { id: 3, name: "Liverpool", shortName: "LIV", league: "Premier League", country: "England", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Liverpool%20FC.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Liverpool%20FC.png", primaryColor: "#C8102E", secondaryColor: "#00B2A9" },
@@ -33,7 +33,7 @@ export const teams = [
   { id: 15, name: "Juventus", shortName: "JUV", league: "Serie A", country: "Italy", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/Juventus%20FC.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/Juventus%20FC.png", primaryColor: "#e5e5e5", secondaryColor: "#000000" },
   { id: 16, name: "AC Milan", shortName: "ACM", league: "Serie A", country: "Italy", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/AC%20Milan.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/AC%20Milan.png", primaryColor: "#AC122A", secondaryColor: "#000000" },
 
-  // ── Premier League Additional Teams ────────────────────────────────────────
+  // â”€â”€ Premier League Additional Teams â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { id: 17, name: "Aston Villa", shortName: "AVL", league: "Premier League", country: "England", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Aston%20Villa.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Aston%20Villa.png", primaryColor: "#95BFE6", secondaryColor: "#670E36" },
   { id: 18, name: "Newcastle", shortName: "NEW", league: "Premier League", country: "England", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Newcastle%20United.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Newcastle%20United.png", primaryColor: "#242424", secondaryColor: "#FFFFFF" },
   { id: 19, name: "Brighton", shortName: "BHA", league: "Premier League", country: "England", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Brighton%20%26%20Hove%20Albion.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Brighton%20%26%20Hove%20Albion.png", primaryColor: "#0057B8", secondaryColor: "#FFCD00" },
@@ -49,7 +49,7 @@ export const teams = [
   { id: 29, name: "Ipswich Town", shortName: "IPS", league: "Premier League", country: "England", logoUrl: "https://r2.thesportsdb.com/images/media/team/badge/9d77fl1718012690.png", crestUrl: "https://r2.thesportsdb.com/images/media/team/badge/9d77fl1718012690.png", primaryColor: "#003399", secondaryColor: "#FFFFFF" },
   { id: 30, name: "Southampton", shortName: "SOU", league: "Premier League", country: "England", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Southampton%20FC.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Southampton%20FC.png", primaryColor: "#D00027", secondaryColor: "#130C0E" },
 
-  // ── La Liga Additional Teams ───────────────────────────────────────────────
+  // â”€â”€ La Liga Additional Teams â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { id: 31, name: "Athletic Bilbao", shortName: "ATH", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Athletic%20Club.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Athletic%20Club.png", primaryColor: "#EE2523", secondaryColor: "#000000" },
   { id: 32, name: "Real Sociedad", shortName: "RSO", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Real%20Sociedad.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Real%20Sociedad.png", primaryColor: "#0067B1", secondaryColor: "#FFFFFF" },
   { id: 33, name: "Villarreal", shortName: "VIL", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Villarreal%20CF.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Villarreal%20CF.png", primaryColor: "#FFE600", secondaryColor: "#00519E" },
@@ -67,7 +67,7 @@ export const teams = [
   { id: 45, name: "Valladolid", shortName: "VLD", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Real%20Valladolid.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Real%20Valladolid.png", primaryColor: "#5B2B82", secondaryColor: "#FFFFFF" },
   { id: 46, name: "Valencia", shortName: "VAL", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Valencia%20CF.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Valencia%20CF.png", primaryColor: "#FF7300", secondaryColor: "#000000" },
 
-  // ── Bundesliga Additional Teams ───────────────────────────────────────────
+  // â”€â”€ Bundesliga Additional Teams â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { id: 47, name: "Bayer Leverkusen", shortName: "LEV", league: "Bundesliga", country: "Germany", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/Bayer%2004%20Leverkusen.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/Bayer%2004%20Leverkusen.png", primaryColor: "#E32221", secondaryColor: "#000000" },
   { id: 48, name: "Eintracht Frankfurt", shortName: "SGE", league: "Bundesliga", country: "Germany", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/Eintracht%20Frankfurt.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/Eintracht%20Frankfurt.png", primaryColor: "#E1000F", secondaryColor: "#000000" },
   { id: 49, name: "VfB Stuttgart", shortName: "VFB", league: "Bundesliga", country: "Germany", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/VfB%20Stuttgart.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/VfB%20Stuttgart.png", primaryColor: "#E32219", secondaryColor: "#FFFFFF" },
@@ -84,7 +84,7 @@ export const teams = [
   { id: 60, name: "VfL Bochum", shortName: "BOC", league: "Bundesliga", country: "Germany", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/VfL%20Bochum.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/VfL%20Bochum.png", primaryColor: "#005CA9", secondaryColor: "#FFFFFF" },
   { id: 61, name: "Holstein Kiel", shortName: "KSV", league: "Bundesliga", country: "Germany", logoUrl: "https://r2.thesportsdb.com/images/media/team/badge/xswvxu1421448858.png", crestUrl: "https://r2.thesportsdb.com/images/media/team/badge/xswvxu1421448858.png", primaryColor: "#0055A5", secondaryColor: "#E30613" },
 
-  // ── Serie A Additional Teams ───────────────────────────────────────────────
+  // â”€â”€ Serie A Additional Teams â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { id: 62, name: "Atalanta", shortName: "ATA", league: "Serie A", country: "Italy", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/Atalanta%20BC.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/Atalanta%20BC.png", primaryColor: "#0055A5", secondaryColor: "#000000" },
   { id: 63, name: "Napoli", shortName: "NAP", league: "Serie A", country: "Italy", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/SSC%20Napoli.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/SSC%20Napoli.png", primaryColor: "#0080FF", secondaryColor: "#FFFFFF" },
   { id: 64, name: "Lazio", shortName: "LAZ", league: "Serie A", country: "Italy", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/SS%20Lazio.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/SS%20Lazio.png", primaryColor: "#87CEEB", secondaryColor: "#FFFFFF" },
@@ -103,7 +103,7 @@ export const teams = [
   { id: 77, name: "Lecce", shortName: "LEC", league: "Serie A", country: "Italy", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/US%20Lecce.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/US%20Lecce.png", primaryColor: "#FFCC00", secondaryColor: "#CC0000" },
   { id: 78, name: "Venezia", shortName: "VEN", league: "Serie A", country: "Italy", logoUrl: "https://r2.thesportsdb.com/images/media/team/badge/uxpvwq1473504938.png", crestUrl: "https://r2.thesportsdb.com/images/media/team/badge/uxpvwq1473504938.png", primaryColor: "#0055A5", secondaryColor: "#FF6600" },
 
-  // ── Champions League Additional European Clubs ─────────────────────────────
+  // â”€â”€ Champions League Additional European Clubs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   { id: 79, name: "Monaco", shortName: "ASM", league: "Champions League", country: "France", logoUrl: "https://r2.thesportsdb.com/images/media/team/badge/wqtupy1420658428.png", crestUrl: "https://r2.thesportsdb.com/images/media/team/badge/wqtupy1420658428.png", primaryColor: "#E30613", secondaryColor: "#FFFFFF" },
   { id: 80, name: "Sporting CP", shortName: "SCP", league: "Champions League", country: "Portugal", logoUrl: "https://r2.thesportsdb.com/images/media/team/badge/yutvtr1421448937.png", crestUrl: "https://r2.thesportsdb.com/images/media/team/badge/yutvtr1421448937.png", primaryColor: "#008040", secondaryColor: "#FFFFFF" },
   { id: 81, name: "Brest", shortName: "SB29", league: "Champions League", country: "France", logoUrl: "https://r2.thesportsdb.com/images/media/team/badge/qvpqsu1420658448.png", crestUrl: "https://r2.thesportsdb.com/images/media/team/badge/qvpqsu1420658448.png", primaryColor: "#E30613", secondaryColor: "#FFFFFF" },
@@ -148,7 +148,7 @@ function getRelativeIso(offsetDays, hours = 15, mins = 0) {
 
 // -------------------------------------------------------------- matches ----
 export const matches = [
-  // ── Past 2 Days (offset -2) ────────────────────────────────────────────────
+  // â”€â”€ Past 2 Days (offset -2) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 120,
     homeTeam: t(11), awayTeam: t(14),
@@ -170,7 +170,7 @@ export const matches = [
     lastSynced: new Date().toISOString(),
   },
 
-  // ── Yesterday (offset -1) ──────────────────────────────────────────────────
+  // â”€â”€ Yesterday (offset -1) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 107,
     homeTeam: t(13), awayTeam: t(14),
@@ -192,7 +192,7 @@ export const matches = [
     lastSynced: new Date().toISOString(),
   },
 
-  // ── Today (offset 0) ───────────────────────────────────────────────────────
+  // â”€â”€ Today (offset 0) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 101,
     homeTeam: t(1), awayTeam: t(2),
@@ -260,7 +260,7 @@ export const matches = [
     status: "live", minute: 58,
     pressureHome: 58, pressureAway: 42,
     matchDateUtc: getRelativeIso(0, 15, 30),
-    league: "La Liga", venue: "Santiago Bernabéu", referee: "Jesús Gil Manzano",
+    league: "La Liga", venue: "Santiago BernabÃ©u", referee: "JesÃºs Gil Manzano",
     lastSynced: new Date().toISOString(),
   },
   {
@@ -270,7 +270,7 @@ export const matches = [
     status: "upcoming", minute: 0,
     pressureHome: 50, pressureAway: 50,
     matchDateUtc: getRelativeIso(0, 18, 0),
-    league: "La Liga", venue: "Estadi Olímpic Lluís Companys", referee: "Ricardo de Burgos",
+    league: "La Liga", venue: "Estadi OlÃ­mpic LluÃ­s Companys", referee: "Ricardo de Burgos",
     lastSynced: new Date().toISOString(),
   },
   {
@@ -280,7 +280,7 @@ export const matches = [
     status: "upcoming", minute: 0,
     pressureHome: 50, pressureAway: 50,
     matchDateUtc: getRelativeIso(0, 21, 0),
-    league: "La Liga", venue: "Santiago Bernabéu", referee: "Mateu Lahoz",
+    league: "La Liga", venue: "Santiago BernabÃ©u", referee: "Mateu Lahoz",
     lastSynced: new Date().toISOString(),
   },
   {
@@ -294,7 +294,7 @@ export const matches = [
     lastSynced: new Date().toISOString(),
   },
 
-  // ── Tomorrow (offset +1) ───────────────────────────────────────────────────
+  // â”€â”€ Tomorrow (offset +1) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 109,
     homeTeam: t(1), awayTeam: t(3),
@@ -312,7 +312,7 @@ export const matches = [
     status: "upcoming", minute: 0,
     pressureHome: 50, pressureAway: 50,
     matchDateUtc: getRelativeIso(1, 17, 0),
-    league: "La Liga", venue: "Santiago Bernabéu", referee: "Mateu Lahoz",
+    league: "La Liga", venue: "Santiago BernabÃ©u", referee: "Mateu Lahoz",
     lastSynced: new Date().toISOString(),
   },
   {
@@ -326,7 +326,7 @@ export const matches = [
     lastSynced: new Date().toISOString(),
   },
 
-  // ── 3 Days Ahead (offset +3) ───────────────────────────────────────────────
+  // â”€â”€ 3 Days Ahead (offset +3) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 111,
     homeTeam: t(13), awayTeam: t(11),
@@ -348,7 +348,7 @@ export const matches = [
     lastSynced: new Date().toISOString(),
   },
 
-  // ── 7 Days Ahead (offset +7) ───────────────────────────────────────────────
+  // â”€â”€ 7 Days Ahead (offset +7) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 113,
     homeTeam: t(2), awayTeam: t(6),
@@ -372,7 +372,7 @@ export const matches = [
 ];
 
 /* =============================================================================
-   MOCK DATA EXTENSION (CHUNK 1 — DATA AUDIT & STANDINGS COMPLETION)
+   MOCK DATA EXTENSION (CHUNK 1 â€” DATA AUDIT & STANDINGS COMPLETION)
    
    SUMMARY OF TEAMS REUSED VS NEWLY ADDED:
    
@@ -400,7 +400,7 @@ export const matches = [
         Bologna (67), Torino (68), Udinese (69), Genoa (70), Cagliari (71), Parma (72),
         Hellas Verona (73), Como (74), Empoli (75), Monza (76), Lecce (77), Venezia (78)
         
-   5. Champions League (36 Teams Total — Swiss League Single-Table Format):
+   5. Champions League (36 Teams Total â€” Swiss League Single-Table Format):
       - Reused European Clubs (18): Liverpool (3), Barcelona (9), Arsenal (1), Inter Milan (12),
         Atletico Madrid (8), Bayer Leverkusen (47), Aston Villa (17), Atalanta (62),
         Borussia Dortmund (11), Real Madrid (7), Bayern Munich (13), Man City (2), Juventus (15),
@@ -569,30 +569,30 @@ export const topScorers = {
   ],
   "La Liga": [
     { rank: 1, name: "Robert Lewandowski", team: t(9), goals: 19, matches: 22, playerPhotoUrl: player("Robert Lewandowski", "004D98") },
-    { rank: 2, name: "Kylian Mbappé", team: t(7), goals: 16, matches: 21, playerPhotoUrl: player("Kylian Mbappe", "FEBE10") },
+    { rank: 2, name: "Kylian MbappÃ©", team: t(7), goals: 16, matches: 21, playerPhotoUrl: player("Kylian Mbappe", "FEBE10") },
     { rank: 3, name: "Raphinha", team: t(9), goals: 13, matches: 23, playerPhotoUrl: player("Raphinha", "A50044") },
-    { rank: 4, name: "Vinícius Júnior", team: t(7), goals: 12, matches: 20, playerPhotoUrl: player("Vinicius Junior", "00529F") },
+    { rank: 4, name: "VinÃ­cius JÃºnior", team: t(7), goals: 12, matches: 20, playerPhotoUrl: player("Vinicius Junior", "00529F") },
     { rank: 5, name: "Antoine Griezmann", team: t(8), goals: 11, matches: 22, playerPhotoUrl: player("Antoine Griezmann", "CB3524") },
   ],
   "Bundesliga": [
     { rank: 1, name: "Harry Kane", team: t(13), goals: 21, matches: 20, playerPhotoUrl: player("Harry Kane", "DC052D") },
     { rank: 2, name: "Omar Marmoush", team: t(48), goals: 15, matches: 19, playerPhotoUrl: player("Omar Marmoush", "D10000") },
     { rank: 3, name: "Victor Boniface", team: t(47), goals: 12, matches: 18, playerPhotoUrl: player("Victor Boniface", "E32221") },
-    { rank: 4, name: "Loïs Openda", team: t(14), goals: 11, matches: 20, playerPhotoUrl: player("Lois Openda", "DD013F") },
+    { rank: 4, name: "LoÃ¯s Openda", team: t(14), goals: 11, matches: 20, playerPhotoUrl: player("Lois Openda", "DD013F") },
     { rank: 5, name: "Serhou Guirassy", team: t(11), goals: 10, matches: 19, playerPhotoUrl: player("Serhou Guirassy", "FDE100") },
   ],
   "Serie A": [
     { rank: 1, name: "Mateo Retegui", team: t(62), goals: 16, matches: 22, playerPhotoUrl: player("Mateo Retegui", "0055A5") },
     { rank: 2, name: "Marcus Thuram", team: t(12), goals: 13, matches: 23, playerPhotoUrl: player("Marcus Thuram", "0068A8") },
-    { rank: 3, name: "Lautaro Martínez", team: t(12), goals: 12, matches: 21, playerPhotoUrl: player("Lautaro Martinez", "0068A8") },
-    { rank: 4, name: "Dušan Vlahović", team: t(15), goals: 11, matches: 22, playerPhotoUrl: player("Dusan Vlahovic", "000000") },
+    { rank: 3, name: "Lautaro MartÃ­nez", team: t(12), goals: 12, matches: 21, playerPhotoUrl: player("Lautaro Martinez", "0068A8") },
+    { rank: 4, name: "DuÅ¡an VlahoviÄ‡", team: t(15), goals: 11, matches: 22, playerPhotoUrl: player("Dusan Vlahovic", "000000") },
     { rank: 5, name: "Ademola Lookman", team: t(62), goals: 10, matches: 20, playerPhotoUrl: player("Ademola Lookman", "0055A5") },
   ],
   "Champions League": [
     { rank: 1, name: "Robert Lewandowski", team: t(9), goals: 9, matches: 8, playerPhotoUrl: player("Robert Lewandowski", "004D98") },
     { rank: 2, name: "Harry Kane", team: t(13), goals: 8, matches: 8, playerPhotoUrl: player("Harry Kane", "DC052D") },
     { rank: 3, name: "Raphinha", team: t(9), goals: 7, matches: 8, playerPhotoUrl: player("Raphinha", "A50044") },
-    { rank: 4, name: "Viktor Gyökeres", team: t(80), goals: 6, matches: 8, playerPhotoUrl: player("Viktor Gyokeres", "008040") },
+    { rank: 4, name: "Viktor GyÃ¶keres", team: t(80), goals: 6, matches: 8, playerPhotoUrl: player("Viktor Gyokeres", "008040") },
     { rank: 5, name: "Erling Haaland", team: t(2), goals: 6, matches: 7, playerPhotoUrl: player("Erling Haaland", "6CABDD") },
   ],
 };
@@ -609,7 +609,7 @@ export const topAssists = {
   "La Liga": [
     { rank: 1, name: "Lamine Yamal", team: t(9), assists: 11, matches: 22, playerPhotoUrl: player("Lamine Yamal", "004D98") },
     { rank: 2, name: "Raphinha", team: t(9), assists: 9, matches: 23, playerPhotoUrl: player("Raphinha", "A50044") },
-    { rank: 3, name: "Vinícius Júnior", team: t(7), assists: 8, matches: 20, playerPhotoUrl: player("Vinicius Junior", "00529F") },
+    { rank: 3, name: "VinÃ­cius JÃºnior", team: t(7), assists: 8, matches: 20, playerPhotoUrl: player("Vinicius Junior", "00529F") },
     { rank: 4, name: "Alex Baena", team: t(33), assists: 7, matches: 21, playerPhotoUrl: player("Alex Baena", "FFE600") },
     { rank: 5, name: "Antoine Griezmann", team: t(8), assists: 6, matches: 22, playerPhotoUrl: player("Antoine Griezmann", "CB3524") },
   ],
@@ -624,7 +624,7 @@ export const topAssists = {
     { rank: 1, name: "Nuno Tavares", team: t(64), assists: 8, matches: 18, playerPhotoUrl: player("Nuno Tavares", "87CEEB") },
     { rank: 2, name: "Ademola Lookman", team: t(62), assists: 7, matches: 20, playerPhotoUrl: player("Ademola Lookman", "0055A5") },
     { rank: 3, name: "Federico Dimarco", team: t(12), assists: 6, matches: 22, playerPhotoUrl: player("Federico Dimarco", "0068A8") },
-    { rank: 4, name: "Rafael Leão", team: t(16), assists: 6, matches: 21, playerPhotoUrl: player("Rafael Leao", "AC122A") },
+    { rank: 4, name: "Rafael LeÃ£o", team: t(16), assists: 6, matches: 21, playerPhotoUrl: player("Rafael Leao", "AC122A") },
     { rank: 5, name: "Khvicha Kvaratskhelia", team: t(63), assists: 5, matches: 23, playerPhotoUrl: player("Khvicha Kvaratskhelia", "0080FF") },
   ],
   "Champions League": [
@@ -632,47 +632,296 @@ export const topAssists = {
     { rank: 2, name: "Florian Wirtz", team: t(47), assists: 4, matches: 8, playerPhotoUrl: player("Florian Wirtz", "E32221") },
     { rank: 3, name: "Bukayo Saka", team: t(1), assists: 4, matches: 8, playerPhotoUrl: player("Bukayo Saka", "EF0107") },
     { rank: 4, name: "Achraf Hakimi", team: t(89), assists: 4, matches: 8, playerPhotoUrl: player("Achraf Hakimi", "001C46") },
-    { rank: 5, name: "Vinícius Júnior", team: t(7), assists: 4, matches: 8, playerPhotoUrl: player("Vinicius Junior", "00529F") },
+    { rank: 5, name: "VinÃ­cius JÃºnior", team: t(7), assists: 4, matches: 8, playerPhotoUrl: player("Vinicius Junior", "00529F") },
   ],
 };
 
 // ------------------------------------------------------------ transfers ----
+const transferPhoto = (name) =>
+  `https://ui-avatars.com/api/?name=${name.replace(/ /g, '+')}&background=0d1520&color=00B370&size=128&bold=true&format=svg`;
+
 export const transfers = [
+  // 1 — confirmed + free
   {
-    id: 201, player: "Alessandro Ricci", position: "CM", playerPhotoUrl: player("Alessandro Ricci", "334155"),
-    fromTeam: t(11), toTeam: t(12), transferType: "permanent", fee: "€65M",
-    tier: 1, sourceName: "Confirmed — Fabrizio Romano", transferDate: "2026-07-30", league: "Champions League",
+    id: 1,
+    player: 'Kylian Mbappé',
+    playerPhoto: transferPhoto('Kylian Mbappé'),
+    position: 'ST',
+    age: 26,
+    fromTeam: t(89),
+    toTeam: t(7),
+    fee: 'FREE',
+    transferType: 'free',
+    tier: 1,
+    status: 'confirmed',
+    league: 'La Liga',
+    timestamp: '2h ago',
+    transferDate: '2025-07-01',
+    sourceName: 'Fabrizio Romano',
   },
+  // 2 — confirmed + paid EUR
   {
-    id: 202, player: "Jamie Osei", position: "ST", playerPhotoUrl: player("Jamie Osei", "334155"),
-    fromTeam: t(6), toTeam: t(4), transferType: "loan", fee: "Loan", tier: 2,
-    sourceName: "Sky Sports", transferDate: "2026-07-29", league: "Premier League",
+    id: 2,
+    player: 'Victor Osimhen',
+    playerPhoto: transferPhoto('Victor Osimhen'),
+    position: 'ST',
+    age: 26,
+    fromTeam: t(63),
+    toTeam: t(4),
+    fee: '€85M',
+    transferType: 'permanent',
+    tier: 1,
+    status: 'confirmed',
+    league: 'Premier League',
+    timestamp: '5h ago',
+    transferDate: '2025-07-10',
+    sourceName: 'Sky Sports',
   },
+  // 3 — confirmed + loan
   {
-    id: 203, player: "Théo Marchand", position: "CB", playerPhotoUrl: player("Theo Marchand", "334155"),
-    fromTeam: t(9), toTeam: t(7), transferType: "permanent", fee: "€40M", tier: 1,
-    sourceName: "Confirmed — Fabrizio Romano", transferDate: "2026-07-28", league: "La Liga",
+    id: 3,
+    player: 'João Félix',
+    playerPhoto: transferPhoto('João Félix'),
+    position: 'AM',
+    age: 25,
+    fromTeam: t(8),
+    toTeam: t(9),
+    fee: 'LOAN',
+    transferType: 'loan',
+    tier: 1,
+    status: 'confirmed',
+    league: 'La Liga',
+    timestamp: '1d ago',
+    transferDate: '2025-07-05',
+    sourceName: 'The Athletic',
   },
+  // 4 — confirmed + paid GBP
   {
-    id: 204, player: "Kenji Watanabe", position: "RW", playerPhotoUrl: player("Kenji Watanabe", "334155"),
-    fromTeam: t(2), toTeam: t(3), transferType: "permanent", fee: "€28M", tier: 3,
-    sourceName: "Unconfirmed report", transferDate: "2026-07-27", league: "Premier League",
+    id: 4,
+    player: 'Declan Rice',
+    playerPhoto: transferPhoto('Declan Rice'),
+    position: 'CDM',
+    age: 26,
+    fromTeam: t(20),
+    toTeam: t(1),
+    fee: '£105M',
+    transferType: 'permanent',
+    tier: 1,
+    status: 'confirmed',
+    league: 'Premier League',
+    timestamp: '3d ago',
+    transferDate: '2025-07-14',
+    sourceName: 'Fabrizio Romano',
   },
+  // 5 — confirmed + paid EUR (Ligue 1)
   {
-    id: 205, player: "Marco Bellini", position: "GK", playerPhotoUrl: player("Marco Bellini", "334155"),
-    fromTeam: t(12), toTeam: t(11), transferType: "free", fee: "Free", tier: 2,
-    sourceName: "The Athletic", transferDate: "2026-07-25", league: "Champions League",
+    id: 5,
+    player: 'Khvicha Kvaratskhelia',
+    playerPhoto: transferPhoto('Khvicha Kvaratskhelia'),
+    position: 'LW',
+    age: 24,
+    fromTeam: t(63),
+    toTeam: t(89),
+    fee: '€72M',
+    transferType: 'permanent',
+    tier: 1,
+    status: 'confirmed',
+    league: 'Ligue 1',
+    timestamp: '2d ago',
+    transferDate: '2025-07-08',
+    sourceName: "L'Equipe",
+  },
+  // 6 — tier 1 rumor + undisclosed
+  {
+    id: 6,
+    player: 'Bukayo Saka',
+    playerPhoto: transferPhoto('Bukayo Saka'),
+    position: 'RW',
+    age: 23,
+    fromTeam: t(1),
+    toTeam: t(7),
+    fee: 'UNDISCLOSED',
+    transferType: 'permanent',
+    tier: 1,
+    status: 'rumor',
+    league: 'La Liga',
+    timestamp: '4h ago',
+    transferDate: '2025-08-01',
+    sourceName: 'Fabrizio Romano',
+  },
+  // 7 — tier 2 rumor + €60M
+  {
+    id: 7,
+    player: 'Jamal Musiala',
+    playerPhoto: transferPhoto('Jamal Musiala'),
+    position: 'AM',
+    age: 22,
+    fromTeam: t(13),
+    toTeam: t(2),
+    fee: '€60M',
+    transferType: 'permanent',
+    tier: 2,
+    status: 'rumor',
+    league: 'Premier League',
+    timestamp: '8h ago',
+    transferDate: '2025-08-10',
+    sourceName: 'Sky Sports',
+  },
+  // 8 — tier 2 rumor + undisclosed
+  {
+    id: 8,
+    player: 'Lautaro Martínez',
+    playerPhoto: transferPhoto('Lautaro Martínez'),
+    position: 'ST',
+    age: 27,
+    fromTeam: t(12),
+    toTeam: null,
+    fee: 'UNDISCLOSED',
+    transferType: 'permanent',
+    tier: 2,
+    status: 'rumor',
+    league: 'Serie A',
+    timestamp: '12h ago',
+    transferDate: '2025-08-15',
+    sourceName: 'The Athletic',
+  },
+  // 9 — tier 3 rumor + undisclosed
+  {
+    id: 9,
+    player: 'Marcus Rashford',
+    playerPhoto: transferPhoto('Marcus Rashford'),
+    position: 'LW',
+    age: 27,
+    fromTeam: t(6),
+    toTeam: t(9),
+    fee: 'UNDISCLOSED',
+    transferType: 'permanent',
+    tier: 3,
+    status: 'rumor',
+    league: 'La Liga',
+    timestamp: '1d ago',
+    transferDate: '2025-08-20',
+    sourceName: 'Mundo Deportivo',
+  },
+  // 10 — negotiating + tier 2 + undisclosed
+  {
+    id: 10,
+    player: 'Florian Wirtz',
+    playerPhoto: transferPhoto('Florian Wirtz'),
+    position: 'AM',
+    age: 22,
+    fromTeam: t(47),
+    toTeam: t(7),
+    fee: 'UNDISCLOSED',
+    transferType: 'permanent',
+    tier: 2,
+    status: 'negotiating',
+    league: 'Bundesliga',
+    timestamp: '6h ago',
+    transferDate: '2025-08-05',
+    sourceName: 'Kicker',
+  },
+  // 11 — loan + tier 1
+  {
+    id: 11,
+    player: 'Randal Kolo Muani',
+    playerPhoto: transferPhoto('Randal Kolo Muani'),
+    position: 'ST',
+    age: 26,
+    fromTeam: t(89),
+    toTeam: t(15),
+    fee: 'LOAN',
+    transferType: 'loan',
+    tier: 1,
+    status: 'loan',
+    league: 'Serie A',
+    timestamp: '3h ago',
+    transferDate: '2025-07-20',
+    sourceName: 'Sky Sports',
+  },
+  // 12 — tier 3 rumor (CM, Bundesliga)
+  {
+    id: 12,
+    player: 'Joshua Kimmich',
+    playerPhoto: transferPhoto('Joshua Kimmich'),
+    position: 'CM',
+    age: 30,
+    fromTeam: t(13),
+    toTeam: t(9),
+    fee: 'UNDISCLOSED',
+    transferType: 'permanent',
+    tier: 3,
+    status: 'rumor',
+    league: 'Bundesliga',
+    timestamp: '2d ago',
+    transferDate: '2025-08-25',
+    sourceName: 'Sport Bild',
+  },
+  // 13 — confirmed + GK
+  {
+    id: 13,
+    player: 'Gianluigi Donnarumma',
+    playerPhoto: transferPhoto('Gianluigi Donnarumma'),
+    position: 'GK',
+    age: 26,
+    fromTeam: t(89),
+    toTeam: t(16),
+    fee: '€18M',
+    transferType: 'permanent',
+    tier: 1,
+    status: 'confirmed',
+    league: 'Serie A',
+    timestamp: '1d ago',
+    transferDate: '2025-07-12',
+    sourceName: 'Fabrizio Romano',
+  },
+  // 14 — tier 1 rumor (CB, PL)
+  {
+    id: 14,
+    player: 'William Saliba',
+    playerPhoto: transferPhoto('William Saliba'),
+    position: 'CB',
+    age: 24,
+    fromTeam: t(1),
+    toTeam: t(7),
+    fee: '£72M',
+    transferType: 'permanent',
+    tier: 1,
+    status: 'rumor',
+    league: 'Premier League',
+    timestamp: '10h ago',
+    transferDate: '2025-08-12',
+    sourceName: 'The Athletic',
+  },
+  // 15 — confirmed + paid EUR
+  {
+    id: 15,
+    player: 'Jude Bellingham',
+    playerPhoto: transferPhoto('Jude Bellingham'),
+    position: 'CM',
+    age: 22,
+    fromTeam: t(7),
+    toTeam: t(2),
+    fee: '€120M',
+    transferType: 'permanent',
+    tier: 1,
+    status: 'confirmed',
+    league: 'Premier League',
+    timestamp: '4d ago',
+    transferDate: '2025-07-18',
+    sourceName: 'Fabrizio Romano',
   },
 ];
 
+
 // -------------------------------------------------------------- news -------
 //
-// ── CHUNK 1 DELIVERABLE CONFIRMATION ─────────────────────────────────────────
+// â”€â”€ CHUNK 1 DELIVERABLE CONFIRMATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 //
 // 1. FIELDS AUDIT PER ENTRY:
 //    Previously present fields (from original 4-entry export):
-//      id, title (renamed → headline below), thumbnailUrl (dropped → imageUrl),
-//      source, publishedAt (dropped → timeAgo), category (updated to uppercase spec strings)
+//      id, title (renamed â†’ headline below), thumbnailUrl (dropped â†’ imageUrl),
+//      source, publishedAt (dropped â†’ timeAgo), category (updated to uppercase spec strings)
 //    Newly added fields per entry:
 //      headline (replaces title), sourceUrl, author, readTime, timeAgo,
 //      imageUrl (replaces thumbnailUrl), featured
@@ -680,12 +929,12 @@ export const transfers = [
 //    NewsList.jsx on Home Feed (which reads item.title). Both fields are present.
 //
 // 2. FEATURED ENTRY: Exactly ONE entry has featured: true
-//    → id: 301, headline: "Salah's Contract Talks Stall as Liverpool Set Summer Deadline"
+//    â†’ id: 301, headline: "Salah's Contract Talks Stall as Liverpool Set Summer Deadline"
 //
-// 3. IMAGE URL UNIQUENESS — all 12 use different Unsplash IDs from verified list:
-//    301→1508098682  302→1574629810  303→1522778119  304→1516108103
-//    305→1551958425  306→1547347298  307→1543326727  308→1552674466
-//    309→1571019613  310→1529900748  311→1577223625  312→1518604743
+// 3. IMAGE URL UNIQUENESS â€” all 12 use different Unsplash IDs from verified list:
+//    301â†’1508098682  302â†’1574629810  303â†’1522778119  304â†’1516108103
+//    305â†’1551958425  306â†’1547347298  307â†’1543326727  308â†’1552674466
+//    309â†’1571019613  310â†’1529900748  311â†’1577223625  312â†’1518604743
 //
 // 4. CATEGORY TOKENS: 5 tokens added to tokens.css under
 //    "/* News category label colors */" section without touching existing tokens.
@@ -694,10 +943,10 @@ export const transfers = [
 //    Verified: skysports.com / bbc.com/sport/football / theathletic.com /
 //    theguardian.com/football / premierleague.com / fotmob.com
 //
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export const news = [
-  // ── LATEST (1 entry, featured: true) ─────────────────────────────────────
+  // â”€â”€ LATEST (1 entry, featured: true) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 301,
     headline: "Salah's Contract Talks Stall as Liverpool Set Summer Deadline",
@@ -712,7 +961,7 @@ export const news = [
     featured: true,
   },
 
-  // ── RESULTS (2 entries) ───────────────────────────────────────────────────
+  // â”€â”€ RESULTS (2 entries) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 302,
     headline: "Haaland Hat-Trick Crushes Arsenal's Title Hopes in Five-Goal Etihad Thriller",
@@ -740,11 +989,11 @@ export const news = [
     featured: false,
   },
 
-  // ── TRANSFERS (3 entries) ─────────────────────────────────────────────────
+  // â”€â”€ TRANSFERS (3 entries) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 304,
-    headline: "Chelsea Reach Agreement with Napoli for Khvicha Kvaratskhelia in Record £95M Move",
-    title:    "Chelsea Reach Agreement with Napoli for Khvicha Kvaratskhelia in Record £95M Move",
+    headline: "Chelsea Reach Agreement with Napoli for Khvicha Kvaratskhelia in Record Â£95M Move",
+    title:    "Chelsea Reach Agreement with Napoli for Khvicha Kvaratskhelia in Record Â£95M Move",
     category: "TRANSFERS",
     source: "Sky Sports",
     sourceUrl: "https://www.skysports.com",
@@ -756,8 +1005,8 @@ export const news = [
   },
   {
     id: 305,
-    headline: "City Eye Bundesliga Striker as Haaland Cover After Injury Blow — Sources",
-    title:    "City Eye Bundesliga Striker as Haaland Cover After Injury Blow — Sources",
+    headline: "City Eye Bundesliga Striker as Haaland Cover After Injury Blow â€” Sources",
+    title:    "City Eye Bundesliga Striker as Haaland Cover After Injury Blow â€” Sources",
     category: "TRANSFERS",
     source: "The Athletic",
     sourceUrl: "https://theathletic.com",
@@ -781,11 +1030,11 @@ export const news = [
     featured: false,
   },
 
-  // ── INJURIES (3 entries) ──────────────────────────────────────────────────
+  // â”€â”€ INJURIES (3 entries) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 307,
-    headline: "Bellingham Ruled Out of El Clasico After Training Ground Scare — Ancelotti",
-    title:    "Bellingham Ruled Out of El Clasico After Training Ground Scare — Ancelotti",
+    headline: "Bellingham Ruled Out of El Clasico After Training Ground Scare â€” Ancelotti",
+    title:    "Bellingham Ruled Out of El Clasico After Training Ground Scare â€” Ancelotti",
     category: "INJURIES",
     source: "Sky Sports",
     sourceUrl: "https://www.skysports.com",
@@ -822,7 +1071,7 @@ export const news = [
     featured: false,
   },
 
-  // ── RUMOURS (3 entries) ───────────────────────────────────────────────────
+  // â”€â”€ RUMOURS (3 entries) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 310,
     headline: "Barcelona Plot Audacious Summer Swoop for Premier League's Top Scorer",
@@ -838,8 +1087,8 @@ export const news = [
   },
   {
     id: 311,
-    headline: "PSG Preparing £80M Bid for Rodri as Inesta-Era Rebuild Accelerates",
-    title:    "PSG Preparing £80M Bid for Rodri as Inesta-Era Rebuild Accelerates",
+    headline: "PSG Preparing Â£80M Bid for Rodri as Inesta-Era Rebuild Accelerates",
+    title:    "PSG Preparing Â£80M Bid for Rodri as Inesta-Era Rebuild Accelerates",
     category: "RUMOURS",
     source: "Sky Sports",
     sourceUrl: "https://www.skysports.com",
@@ -906,7 +1155,7 @@ export const savedFormations = [
       { playerName: "Gabriel", position: "DEF", x: 0.38, y: 0.82 },
       { playerName: "Timber", position: "DEF", x: 0.18, y: 0.78 },
       { playerName: "Rice", position: "MID", x: 0.5, y: 0.6 },
-      { playerName: "Ødegaard", position: "MID", x: 0.68, y: 0.5 },
+      { playerName: "Ã˜degaard", position: "MID", x: 0.68, y: 0.5 },
       { playerName: "Merino", position: "MID", x: 0.32, y: 0.5 },
       { playerName: "Saka", position: "FWD", x: 0.82, y: 0.25 },
       { playerName: "Havertz", position: "FWD", x: 0.5, y: 0.15 },

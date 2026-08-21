@@ -1,0 +1,143 @@
+/* src/components/transfers/TransferSidebar.css */
+
+.transfer-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ts-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-dim);
+  border-radius: var(--radius-card);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ts-section-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-faint);
+}
+
+.ts-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.ts-filter-group__label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+.ts-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.ts-pill {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-secondary);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.ts-pill:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-primary);
+}
+
+.ts-pill--active {
+  background: var(--color-pitch-green);
+  border-color: var(--color-pitch-green);
+  color: #000000;
+  font-weight: 700;
+}
+
+.ts-pill:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* ── Top Deals Widget ─────────────────────────────────────── */
+.ts-top-deals {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.ts-deal-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.ts-deal-rank {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-faint);
+  min-width: 14px;
+  text-align: center;
+}
+
+.ts-deal-rank--1 {
+  color: var(--color-pitch-green);
+}
+
+.ts-deal-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ts-deal-name {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ts-deal-clubs {
+  font-size: 10px;
+  color: var(--color-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ts-deal-fee {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ts-empty {
+  font-size: 11px;
+  color: var(--color-faint);
+}

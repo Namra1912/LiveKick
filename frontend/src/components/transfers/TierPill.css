@@ -1,0 +1,37 @@
+/* src/components/transfers/TierPill.css */
+
+.tier-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1.4;
+  user-select: none;
+}
+
+/* Tier 1 — pitch-green */
+.tier-pill--1 {
+  background: rgba(0, 179, 112, 0.1);
+  color: var(--color-pitch-green);
+  border: 1px solid rgba(0, 179, 112, 0.3);
+}
+
+/* Tier 2 — gold */
+.tier-pill--2 {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--color-gold);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* Tier 3 — faint */
+.tier-pill--3 {
+  background: rgba(71, 85, 105, 0.2);
+  color: var(--color-faint);
+  border: 1px solid var(--color-border);
+}

@@ -1,0 +1,254 @@
+/* src/components/transfers/TransferCard.css */
+
+.transfer-card {
+  display: grid;
+  grid-template-columns: 220px 1fr 80px 64px 72px;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-card);
+  border: 1px solid transparent;
+  border-left: 3px solid transparent;
+  transition: background 0.12s ease, border-color 0.12s ease;
+  cursor: default;
+  min-height: 0;
+}
+
+.transfer-card:hover {
+  background: var(--color-surface);
+  border-color: var(--color-border-dim);
+}
+
+/* Tier accent — left border shows on hover */
+.transfer-card--tier-1:hover {
+  border-left-color: var(--color-pitch-green);
+}
+
+.transfer-card--tier-2:hover {
+  border-left-color: var(--color-gold);
+}
+
+.transfer-card--tier-3:hover {
+  border-left-color: var(--color-faint);
+}
+
+.transfer-card--tier-3 .transfer-card__player-name {
+  color: var(--color-secondary);
+}
+
+/* Confirmed row — thin green left accent always, zero green background */
+.transfer-card--confirmed {
+  border-left-color: var(--color-pitch-green);
+}
+
+.transfer-card--confirmed:hover {
+  background: var(--color-surface);
+  border-color: var(--color-border-dim);
+  border-left-color: var(--color-pitch-green);
+}
+
+/* ── Column 1: Clubs ──────────────────────────────────────── */
+.transfer-card__clubs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.transfer-card__club {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+.transfer-card__club:hover .transfer-card__club-name {
+  color: var(--color-pitch-green);
+}
+
+.transfer-card__club-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 54px;
+  transition: color 0.12s ease;
+}
+
+.transfer-card__arrow {
+  color: var(--color-dimmer);
+  flex-shrink: 0;
+}
+
+.transfer-card__unknown-crest {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  min-height: 22px;
+  border-radius: 50%;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── Column 2: Player ─────────────────────────────────────── */
+.transfer-card__player {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+  min-width: 0;
+}
+
+.transfer-card__player:hover .transfer-card__player-name {
+  color: var(--color-pitch-green);
+}
+
+.transfer-card__avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.transfer-card__avatar {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  min-height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  background: var(--color-surface-elevated);
+}
+
+.transfer-card__avatar-fallback {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  min-height: 38px;
+  border-radius: 50%;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.transfer-card__position-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -4px;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  font-size: 8px;
+  font-weight: 800;
+  font-family: var(--font-body);
+  color: var(--color-secondary);
+  padding: 1px 3px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.transfer-card__player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.transfer-card__player-name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.12s ease;
+}
+
+.transfer-card__confirmed-dot {
+  width: 5px;
+  height: 5px;
+  min-width: 5px;
+  border-radius: 50%;
+  background: var(--color-pitch-green);
+  display: inline-block;
+}
+
+.transfer-card__player-meta {
+  font-size: 11px;
+  color: var(--color-faint);
+  white-space: nowrap;
+}
+
+/* ── Column 3: Fee ────────────────────────────────────────── */
+.transfer-card__fee-col {
+  text-align: right;
+}
+
+.transfer-card__fee {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.transfer-card__fee--green {
+  color: var(--color-pitch-green);
+  font-weight: 700;
+}
+
+.transfer-card__fee--dim {
+  color: var(--color-faint);
+  font-style: italic;
+  font-family: var(--font-body);
+  font-size: 11px;
+}
+
+/* ── Column 4: Tier ───────────────────────────────────────── */
+.transfer-card__tier-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ── Column 5: Date ───────────────────────────────────────── */
+.transfer-card__date-col {
+  text-align: right;
+}
+
+.transfer-card__date {
+  font-size: 11px;
+  color: var(--color-faint);
+  white-space: nowrap;
+  font-family: var(--font-body);
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .transfer-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+}
