@@ -41,6 +41,35 @@ export default function Transfers() {
     setVisibleCount(8);
   };
 
+  // Clamp Fee Range slider handles into valid range when activeTab changes
+  useEffect(() => {
+    const tabItems = transfers.filter((t) => {
+      if (activeTab === 'tier1') return t.tier === 1;
+      if (activeTab === 'done') return t.status === 'confirmed';
+      if (activeTab === 'rumors') return t.tier === 2 || t.tier === 3;
+      return true;
+    });
+
+    const numericFees = tabItems
+      .map((t) => {
+        if (!t.fee || t.fee === 'FREE' || t.fee === 'LOAN' || t.fee === 'UNDISCLOSED') return null;
+        const num = parseFloat(t.fee.replace(/[^0-9.]/g, ''));
+        return isNaN(num) ? null : num;
+      })
+      .filter((n) => n !== null);
+
+    if (numericFees.length > 0) {
+      const maxFeeInTab = Math.ceil(Math.max(...numericFees));
+      setFeeRange((prev) => {
+        let newMin = prev.min;
+        let newMax = prev.max;
+        if (newMin > maxFeeInTab) newMin = 0;
+        if (newMin === prev.min && newMax === prev.max) return prev;
+        return { min: newMin, max: newMax };
+      });
+    }
+  }, [activeTab]);
+
   const handleHeaderSort = (key) => {
     if (sortKey === key) {
       setSortDir((prev) => (prev === 'desc' ? 'asc' : 'desc'));

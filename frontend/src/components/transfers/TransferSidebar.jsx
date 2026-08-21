@@ -1,10 +1,11 @@
 // src/components/transfers/TransferSidebar.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Clock } from 'lucide-react';
 import TeamLeagueSearch from './TeamLeagueSearch';
 import FeeRangeSlider from './FeeRangeSlider';
 import TimeframeSelect from './TimeframeSelect';
+import { TRANSFER_WINDOW_DEADLINE } from '../../data/mockData';
 import './TransferSidebar.css';
 
 const POSITIONS = [
@@ -28,6 +29,18 @@ const TRANSFER_TYPES = [
   { value: 'free', label: 'Free' },
 ];
 
+function getTimeRemaining(deadline) {
+  const total = Date.parse(deadline) - Date.parse(new Date());
+  if (total <= 0) {
+    return { days: 0, hours: 0, mins: 0, secs: 0 };
+  }
+  const secs = Math.floor((total / 1000) % 60);
+  const mins = Math.floor((total / 1000 / 60) % 60);
+  const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(total / (1000 * 60 * 60 * 24));
+  return { days, hours, mins, secs };
+}
+
 export default function TransferSidebar({
   selectedTeamLeagues = [],
   onTeamLeaguesChange,
@@ -44,6 +57,14 @@ export default function TransferSidebar({
 }) {
   const navigate = useNavigate();
   const [moreOpen, setMoreOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(() => getTimeRemaining(TRANSFER_WINDOW_DEADLINE));
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(getTimeRemaining(TRANSFER_WINDOW_DEADLINE));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const hasSecondaryActive = positionFilter !== 'all' || transferTypeFilter !== 'all';
 
@@ -153,7 +174,8 @@ export default function TransferSidebar({
         )}
       </div>
 
-      {/* 3.3 Top Deals Widget (Integrated Section) */}
+      {/* 3.3 Top Deals Widget */}
+      {/* NOTE: Top Deals is intentionally global (top 3 confirmed transfers by fee across the full dataset) to serve as a fixed baseline reference rather than competing with feed filters. */}
       <div className="ts-section ts-section--top-deals">
         <span className="ts-eyebrow-label">TOP DEALS</span>
         <div className="ts-top-deals">
@@ -182,6 +204,36 @@ export default function TransferSidebar({
             <span className="ts-empty">No confirmed deals yet</span>
           )}
         </div>
+      </div>
+
+      {/* 3.4 Transfer Window Countdown */}
+      <div className="ts-section ts-section--countdown">
+        <div className="ts-countdown-header">
+          <Clock size={12} className="ts-countdown-icon" />
+          <span className="ts-eyebrow-label">WINDOW DEADLINE</span>
+        </div>
+        <div className="ts-countdown-grid">
+          <div className="ts-countdown-unit">
+            <span className="ts-countdown-num">{String(timeLeft.days).padStart(2, '0')}</span>
+            <span className="ts-countdown-lbl">DAYS</span>
+          </div>
+          <span className="ts-countdown-sep">:</span>
+          <div className="ts-countdown-unit">
+            <span className="ts-countdown-num">{String(timeLeft.hours).padStart(2, '0')}</span>
+            <span className="ts-countdown-lbl">HRS</span>
+          </div>
+          <span className="ts-countdown-sep">:</span>
+          <div className="ts-countdown-unit">
+            <span className="ts-countdown-num">{String(timeLeft.mins).padStart(2, '0')}</span>
+            <span className="ts-countdown-lbl">MINS</span>
+          </div>
+          <span className="ts-countdown-sep">:</span>
+          <div className="ts-countdown-unit">
+            <span className="ts-countdown-num">{String(timeLeft.secs).padStart(2, '0')}</span>
+            <span className="ts-countdown-lbl">SECS</span>
+          </div>
+        </div>
+        <span className="ts-countdown-caption">Summer Transfer Window Closes</span>
       </div>
     </div>
   );

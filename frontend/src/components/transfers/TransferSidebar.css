@@ -1,5 +1,11 @@
 /* src/components/transfers/TransferSidebar.css */
 
+.transfer-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
 .ts-filter-panel {
   position: sticky;
   top: var(--space-4);
@@ -79,6 +85,11 @@
 }
 
 .ts-section--top-deals {
+  border-top: 1px solid var(--color-border-dim);
+  padding-top: var(--space-3);
+}
+
+.ts-section--countdown {
   border-top: 1px solid var(--color-border-dim);
   padding-top: var(--space-3);
 }
@@ -294,4 +305,65 @@
 .ts-empty {
   font-size: 11px;
   color: var(--color-faint);
+}
+
+/* ── Transfer Window Countdown Section ─────────────────────── */
+.ts-countdown-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ts-countdown-icon {
+  color: var(--color-category-transfers);
+}
+
+.ts-countdown-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 8px 12px;
+}
+
+.ts-countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.ts-countdown-num {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-pitch-green);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ts-countdown-lbl {
+  font-family: var(--font-body);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-faint);
+}
+
+.ts-countdown-sep {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-faint);
+  margin-top: -6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ts-countdown-caption {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--color-faint);
+  text-align: center;
 }
