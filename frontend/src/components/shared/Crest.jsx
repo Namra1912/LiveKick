@@ -27,8 +27,8 @@ const SIZE_PRESETS = {
   lg: 42,
 };
 
-// Deterministic hue from name — same team/league always gets the same fallback background color.
-function nameToHue(name) {
+// Deterministic hue from name — same team/league/player always gets the same fallback background color.
+export function nameToHue(name) {
   if (!name) return 200;
   let hash = 0;
   for (let i = 0; i < name.length; i++) {

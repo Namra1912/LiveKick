@@ -133,6 +133,8 @@ export const leagues = [
   { id: 6, name: "Ligue 1", slug: "ligue1", matchday: 22, country: "France", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/France%20-%20Ligue%201/Ligue%201.png" },
 ];
 
+export const TRANSFER_WINDOW_DEADLINE = '2026-09-01T23:59:59Z';
+
 const t = (id) => teams.find((x) => x.id === id);
 
 // -------------------------------------------------------------- date helper -
@@ -637,9 +639,7 @@ export const topAssists = {
   ],
 };
 
-// ------------------------------------------------------------ transfers ----
-const transferPhoto = (name) =>
-  `https://ui-avatars.com/api/?name=${name.replace(/ /g, '+')}&background=0d1520&color=00B370&size=128&bold=true&format=svg`;
+const transferPhoto = (_name) => null;
 
 export const transfers = [
   // 1 — confirmed + free
