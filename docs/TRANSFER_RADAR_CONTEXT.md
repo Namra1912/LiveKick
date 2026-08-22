@@ -1,7 +1,7 @@
 # LiveKick — Transfer Radar Page: Comprehensive Context & Implementation Document
 
-> **Status:** Phase 1 Complete (Chunks 1, 2, and 3 implemented).
-> **Purpose:** Source of truth for the Transfer Radar feature. Use this file as context for AI prompts, code reviews, and future feature expansion.
+> **Status:** Fully Implemented & Polished (Passes 1–9 Complete).
+> **Purpose:** Canonical source of truth for the Transfer Radar feature (`/transfers`). Use this file as context for AI prompts, code reviews, and future feature expansion.
 
 ---
 
@@ -9,19 +9,19 @@
 
 LiveKick's **Transfer Radar** page (`/transfers`) is a real-time football transfer and rumor tracking index built with FotMob-inspired table aesthetics and dense, dark stadium UI design.
 
-### Core Stack Rules
+### Core Stack & Architecture Rules
 - **React 19 + Vite 8** (ES Modules, `"type": "module"`)
-- **React Router v7** (`useNavigate`, `AppRouter.jsx`)
-- **No Tailwind** — Plain CSS using CSS custom properties (`var(--token-name)`) from `src/styles/tokens.css`
-- **lucide-react** for all UI iconography (no native emojis allowed)
-- **Self-hosted Fonts via `@fontsource`** — `Big Shoulders Display` (headings), `Inter` (body), `JetBrains Mono` (fees/timestamps)
-- **Client-Side Filter Architecture** — All filtering, sorting, and pagination run via React `useMemo` on mock data (`src/data/mockData.js`)
+- **React Router v7** (`useNavigate`, `/teams/:id`, `/players/:id`)
+- **No Tailwind** — Plain Vanilla CSS using tokens defined in `src/styles/tokens.css`
+- **lucide-react** for all UI iconography
+- **Self-hosted Fonts via `@fontsource`** — `Big Shoulders Display` (headings), `Inter` (body), `JetBrains Mono` (fees, timestamps, countdown numbers with `tabular-nums`)
+- **Client-Side Filter Pipeline** — All filtering, in-table sorting, search debouncing, and pagination run via React `useMemo` & `useEffect` on mock data (`src/data/mockData.js`)
 
 ---
 
 ## 2. Design Tokens & Visual Architecture
 
-All components consume tokens defined in `src/styles/tokens.css`.
+All Transfer Radar components strictly consume tokens defined in `src/styles/tokens.css`.
 
 ### Key Design Tokens
 ```css
@@ -34,7 +34,7 @@ All components consume tokens defined in `src/styles/tokens.css`.
 /* Border & Lines */
 --color-border:           #1e2a35;   /* Standard container borders */
 --color-border-dim:       #131c26;   /* Subtle divider lines */
---color-border-focus:     #00B370;   /* Accessibility focus ring color */
+--color-border-focus:     #00B370;   /* Focus ring color */
 
 /* Typography Colors */
 --color-primary:          #f1f5f9;   /* High-contrast primary text */
@@ -67,139 +67,118 @@ frontend/
   src/
     components/
       shared/
-        Crest.jsx + Crest.css         ← Canonical club logo & HSL monogram component
-        Breadcrumb.jsx                ← Page header breadcrumb bar
+        Crest.jsx + Crest.css             ← Canonical club/league badge logo & HSL nameToHue monogram component
+        Breadcrumb.jsx                    ← Page header breadcrumb bar
       transfers/
-        TierPill.jsx + TierPill.css   ← Credibility badge component (TIER 1/2/3)
-        TransferCard.jsx + .css       ← 5-column table row component
-        TransferFilters.jsx + .css    ← Tab row + Position pills + Custom sort popover
-        TransferSidebar.jsx + .css    ← Right-panel sidebar (Filters card + Top Deals card)
+        TierPill.jsx + TierPill.css       ← Credibility badge component (TIER 1/2/3)
+        TransferCard.jsx + .css           ← 5-column inert table row component with HSL player monogram
+        TeamLeagueSearch.jsx + .css       ← Autocomplete team/league search with debouncing & chips
+        FeeRangeSlider.jsx + .css         ← Dual-handle fee range slider (€0M - €150M+)
+        TimeframeSelect.jsx + .css        ← Custom popover dropdown for timeframe filtering
+        TransferSidebar.jsx + .css        ← Single sticky right panel (Filters + Top Deals + Countdown)
     pages/
-      Transfers.jsx + Transfers.css   ← Main route page controller & state management
+      Transfers.jsx + Transfers.css       ← Main route page controller & state management pipeline
     data/
-      mockData.js                     ← Contains exported transfers mock data array
+      mockData.js                         ← Mock dataset (transfers array, leagues array, TRANSFER_WINDOW_DEADLINE)
 ```
 
 ---
 
-## 4. Current Component Specs & Architecture
+## 4. Component Specifications & Implementation Details
 
-### 4.1 `mockData.js` — Data Model
-Exported array `export const transfers` contains **15 realistic mock items**.
+### 4.1 `mockData.js` — Data Model & Constants
+- Exported array `export const transfers` contains **15 realistic mock items**.
+- Exported array `export const leagues` contains **6 major leagues** with official badge URLs.
+- Exported constant `export const TRANSFER_WINDOW_DEADLINE = '2026-09-01T23:59:59Z'`.
 
 ```javascript
 {
   id: 1,
   player: 'Kylian Mbappé',
-  playerPhoto: 'https://ui-avatars.com/api/?name=Kylian+Mbappé&background=0d1520&color=00B370&size=128&bold=true&format=svg',
+  playerPhoto: null,            // Falsy value triggers deterministic HSL monogram; img onError pipeline ready for API
   position: 'ST',               // "ST" | "AM" | "CM" | "CDM" | "LW" | "RW" | "LB" | "RB" | "CB" | "GK"
   age: 26,
-  fromTeam: teamObject,         // Full team object from teams array ({ id, name, shortName, logoUrl, crestUrl })
+  fromTeam: teamObject,         // Team object ({ id, name, shortName, logoUrl, crestUrl })
   toTeam: teamObject | null,    // Null if destination is unknown
   fee: 'FREE',                  // "€85M" | "£105M" | "FREE" | "LOAN" | "UNDISCLOSED"
   transferType: 'free',         // "permanent" | "loan" | "free"
-  tier: 1,                      // 1 | 2 | 3 only
+  tier: 1,                      // 1 | 2 | 3
   status: 'confirmed',          // "confirmed" | "rumor" | "negotiating" | "loan"
   league: 'La Liga',            // "Premier League" | "La Liga" | "Serie A" | "Bundesliga" | "Ligue 1"
   timestamp: '2h ago',          // Relative time string
   transferDate: '2025-07-01',   // ISO date string
-  sourceName: 'Fabrizio Romano' // Media outlet / journalist
+  sourceName: 'Fabrizio Romano' // Journalist or media source
 }
 ```
 
 ---
 
-### 4.2 `TransferFilters.jsx` — Filter & Control Bar
-Includes:
-1. **Tabs Row (Top)**:
-   - Tabs: `ALL TRANSFERS` (`'all'`), `TIER 1` (`'tier1'`), `DONE DEALS` (`'done'`), `RUMORS` (`'rumors'`).
-   - Active Tab: `--color-pitch-green` text with 2px bottom border.
-2. **Position Pills Row (Bottom Left)**:
-   - Horizontal scrollable pill buttons: `ALL`, `ST`, `AM`, `CM`, `CDM`, `LW`, `RW`, `LB`, `RB`, `CB`, `GK`.
-   - Selected state: solid pitch green background (`#00B370`) with `#000` text.
-3. **Sort Dropdown Panel (Bottom Right)**:
-   - Custom floating popover panel (NOT native `<select>`).
-   - Options: `Latest First` (`'recency'`), `Fee (High → Low)` (`'fee'`), `League A–Z` (`'league'`).
-   - Dismisses automatically when clicking outside via React `useRef` + `useEffect`.
-
----
-
-### 4.3 `TransferCard.jsx` — Table Row Component
+### 4.2 FotMob Inert Row & Navigation (`TransferCard.jsx`)
 Renders each transfer item as a **5-column FotMob-style CSS Grid row**:
 
 ```css
 grid-template-columns: 220px 1fr 80px 64px 72px;
 ```
 
-- **Col 1 (Clubs — 220px)**: `fromTeam` logo (22px) + shortName → ArrowRight icon (10px) → `toTeam` logo (22px) + shortName. Clickable to `/teams/:id`.
+- **Row Navigation Rule (FotMob Parity)**: The outer `.transfer-card` container is **inert** (`cursor: default`, no wrapper click handler or hover chevron). Only named entities are clickable links:
+  - Team Crest/Name (`fromTeam` / `toTeam`) → `/teams/:id`
+  - Player Avatar/Name → `/players/:id`
+- **Col 1 (Clubs — 220px)**: `fromTeam` crest (22px) + shortName → ArrowRight icon (10px) → `toTeam` crest (22px) + shortName.
 - **Col 2 (Player — 1fr)**:
-  - 38px player avatar circle with an absolute-positioned position badge overlay (`.transfer-card__position-badge`) in the bottom-right corner.
+  - 38px player avatar circle with position badge overlay (`.transfer-card__position-badge`) in bottom-right corner.
+  - **Deterministic HSL Monogram**: Uses `nameToHue(player.name)` from `Crest.jsx` to render a unique stadium-tinted background (`hsl(hue, 42%, 22%)`), border (`hsl(hue, 42%, 32%)`), and text color (`hsl(hue, 75%, 85%)`) for every player.
   - Player name (clickable to `/players/:id`). If `status === 'confirmed'`, displays a 5px glowing green dot (`.transfer-card__confirmed-dot`).
   - Subtext: `{position} · {age}`.
-- **Col 3 (Fee — 80px, Right-Aligned)**: Monospace font (`var(--font-mono)`). Green for `FREE`/`LOAN`, dim italic for `UNDISCLOSED`.
+- **Col 3 (Fee — 80px, Right-Aligned)**: Monospace font (`var(--font-mono)`). Green for `FREE`/`LOAN`, dim for `UNDISCLOSED`.
 - **Col 4 (Tier — 64px, Centered)**: `<TierPill tier={tier} />` (`TIER 1`, `TIER 2`, `TIER 3`).
 - **Col 5 (Date — 72px, Right-Aligned)**: Relative timestamp string in `--color-faint`.
-
-#### Row States & Hover Behaviors:
-- **Default State**: Dark uniform row with transparent left border.
-- **Hover State**: Highlights with `--color-surface` background and reveals a 3px tier-colored left border (T1: green, T2: gold, T3: faint).
-- **Confirmed State**: Permanently displays a 3px green left accent border (`--color-pitch-green`).
+- **Hover & Tier Accents**: Row background highlights with `--color-surface` and reveals a 3px tier-colored left border (T1: green, T2: gold, T3: faint). Confirmed deals show permanent green left border.
 
 ---
 
-### 4.4 `TransferSidebar.jsx` — Right Panel Sidebar
-Located in `<aside className="transfers__right">` (hides on mobile/tablet `<1024px`):
-
-1. **Filters Card (`.ts-card`)**:
-   - **League Filter Pills**: `All`, `PL`, `La Liga`, `Serie A`, `BL`, `L1`.
-   - **Timeframe Filter Pills**: `This Week`, `This Month`, `All Time`.
-   - Selected pill gets solid `--color-pitch-green` fill.
-2. **Top Deals Widget (`.ts-card`)**:
-   - Displays top 3 confirmed transfers sorted numerically by fee.
-   - Shows rank number (`#1` highlighted in green), player name, transfer flow (`from → to`), and fee in monospace.
+### 4.3 Center Feed & In-Table Sorting (`Transfers.jsx`)
+- **Feed Header**: Contains 4 top-level category tabs (`ALL TRANSFERS`, `TIER 1`, `DONE DEALS`, `RUMORS`).
+- **In-Table Column Header Sorting**:
+  - `FEE` and `DATE` table headers are clickable sort buttons with directional chevron glyphs (`ChevronDown`/`ChevronUp`) and neutral default icons (`ArrowUpDown`).
+  - **Mutually Exclusive State**: Single state `sortKey` (`'date'` | `'fee'`) ensures only one column header is active at a time.
 
 ---
 
-### 4.5 `Transfers.jsx` — Main Page Controller
-- **State Managed**:
-  - `activeTab` (`'all' | 'tier1' | 'done' | 'rumors'`)
-  - `positionFilter` (`'all' | 'ST' | ...`)
-  - `sortBy` (`'recency' | 'fee' | 'league'`)
-  - `leagueFilter` (`'all' | 'PL' | 'La Liga' | 'Serie A' | 'Bundesliga' | 'Ligue 1'`)
-  - `timeframeFilter` (`'week' | 'month' | 'all'`)
-  - `visibleCount` (initial 8 items, increments by 8 on "Load More")
-  - `isSearchOpen` (controls `SearchModal` via `Cmd/Ctrl + K`)
-- **Filtering Pipeline (`useMemo`)**:
-  - Filters transfers sequentially across active tab, position pill, sidebar league, and sidebar timeframe.
-  - Sorts by numeric fee parsing (converting `€85M` / `£105M` strings into numbers) or alphabetical league name.
-- **Pagination**: Displays 8 items per page. Triggers "Load More Transfers" button or displays "You're all caught up" when exhausted.
+### 4.4 Sticky Filter Panel Sidebar (`TransferSidebar.jsx`)
+Located in `<aside className="transfers__right">` with `position: sticky; top: var(--space-4)`:
+
+1. **Panel Header**:
+   - Title `FILTERS` with an active filter counter badge (`N active`) and a `Reset` button when any filter is active.
+2. **Team & League Autocomplete Search (`TeamLeagueSearch.jsx`)**:
+   - ~200ms query debouncing.
+   - Keyboard navigation (`ArrowDown`, `ArrowUp`, `Enter`, `Escape`, `.tls-option--highlighted`).
+   - Renders real league crest badges via `Crest` component (`logoUrl`).
+   - Additive multi-select chips with crest + name + `✕` remove button.
+3. **Fee Range Slider (`FeeRangeSlider.jsx`)**:
+   - Dual-handle range slider (`€0M` to `€150M+`).
+   - **Tab Clamping**: Handles automatically clamp into valid bounds on tab changes (`activeTab`) to prevent zero-result states.
+4. **Timeframe Dropdown (`TimeframeSelect.jsx`)**:
+   - Custom popover dropdown: `Anytime`, `Past 24 Hours`, `Past 7 Days`, `Past 30 Days`.
+5. **Secondary Filters Disclosure**:
+   - Collapsible section (`More filters` / `Fewer filters`) containing `Position` pills and `Transfer Type` pills (`Permanent`, `Loan`, `Free`).
+6. **Top Deals Widget**:
+   - Integrated section showing top 3 confirmed deals sorted by fee.
+   - **Design Rationale**: Kept intentionally global (independent of feed filters) to act as a fixed reference point.
+7. **Transfer Window Countdown Widget**:
+   - Real-time countdown timer displaying `DAYS : HRS : MINS : SECS` until `TRANSFER_WINDOW_DEADLINE`.
+   - Uses `font-variant-numeric: tabular-nums` to prevent horizontal width shifting as seconds tick.
 
 ---
 
-## 13. Current State & Opportunities for Improvement
-
-While the core Transfer Radar is fully functional, styled, and responsive, there are several key areas where the page can be enhanced further. Below are structured improvement topics for future prompt generation:
-
-### A. UX & Filtering Enhancements
-1. **Transfer Search Bar**: Add an in-page search input inside `TransferFilters` to instantly filter transfers by player name, team name, or source journalist.
-2. **Transfer Type Filter**: Add a pill or toggle for `Permanent` vs `Loan` vs `Free Agent`.
-3. **Filter Reset / Clear All Button**: When multiple filters (Position + League + Timeframe + Tab) are applied, show a clear "Reset Filters" pill showing active filter count.
-4. **Market Value / Fee Range Slider**: Allow users to filter deals by fee brackets (e.g. `< €20M`, `€20M - €60M`, `€60M+`).
-
-### B. Visual & Information Architecture Improvements
-1. **Source Credibility & Media Badges**: Display source publication logos/chips (e.g. Fabrizio Romano, Sky Sports, The Athletic) with verification ticks on hover.
-2. **Transfer Probability Meter / Rumor Gauge**: For unconfirmed rumors, add a visual 0-100% progress bar or credibility gauge based on Tier rating and recency.
-3. **Interactive Transfer Detail Modal / Drawer**: Clicking a row opens a slide-over panel showing:
-   - Full player profile stats (appearances, goals, market value trend).
-   - Deal breakdown (agent fee, contract duration, add-ons).
-   - Timeline of news articles linked to the transfer.
-4. **Mobile Responsive Card Fallback**: On smaller mobile screens (`<640px`), convert table rows into compact cards so grid columns don't truncate text.
-
-### C. Motion & Polish
-1. **Framer Motion Row Transitions**: Add layout animations when switching tabs or applying filters so items re-order smoothly instead of snapping.
-2. **Live Feed Sync Indicator**: Add a subtle "Live Syncing" pulse dot in the header showing when data was last updated (e.g., "Updated 42s ago").
-3. **Stat Summary Header Cards**: Add 3 micro-metric cards above the table (e.g., Total Spend This Window, Highest Fee, Total Confirmed Deals).
+### 4.5 Filter & Pagination Pipeline (`Transfers.jsx`)
+- All filter changes (`activeTab`, `selectedTeamLeagues`, `feeRange`, `timeframeFilter`, `positionFilter`, `transferTypeFilter`, `sortKey/sortDir`, `handleResetFilters`) automatically reset `visibleCount` to `8`.
+- "Load More Transfers" button increments `visibleCount` by 8 until all items are loaded, where "You're all caught up" is displayed.
 
 ---
 
-> **Note for AI Prompt Generators:** Refer to Section 2 for token names, Section 3 for file paths, and Section 4 for current component signatures when drafting code modifications for LiveKick Transfer Radar.
+## 5. Future Improvement Roadmap
+
+1. **Backend API Integration**: Replace mock dataset with Express/MongoDB transfer feeds and real player photo URLs.
+2. **Transfer Probability Meter**: For rumors, add a visual 0-100% progress gauge based on Tier rating and recency.
+3. **Interactive Player Profile Modal**: Slide-over drawer detailing player appearance stats, market value history, and deal add-ons.
+4. **Mobile Responsive Card View**: Convert table rows into compact stacked cards for viewports under `<640px`.

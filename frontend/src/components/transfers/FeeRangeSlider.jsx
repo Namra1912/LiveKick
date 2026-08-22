@@ -11,7 +11,7 @@ export default function FeeRangeSlider({ minVal = 0, maxVal = 150, onChange }) {
     const value = Math.max(Number(e.target.value), minVal + 5);
     onChange({ min: minVal, max: value });
   };
-
+  
   const minPercent = (minVal / 150) * 100;
   const maxPercent = (maxVal / 150) * 100;
 
