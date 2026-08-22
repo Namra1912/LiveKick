@@ -1,0 +1,88 @@
+/* AuthHero.css — Logo + tagline, positioned in the open left space */
+
+.auth-hero {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  /* Entrance — starts hidden, slides up on mount */
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.auth-hero--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Logo wrapper — positions the glow halo behind the icon */
+.auth-hero__logo-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.auth-hero__logo {
+  position: relative;
+  z-index: 1;
+}
+
+/* Very subtle idle glow behind the cleat icon — slow, restrained */
+.auth-hero__glow {
+  position: absolute;
+  left: -8px;
+  top: -8px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 179, 112, 0.28) 0%,
+    transparent 70%
+  );
+  filter: blur(10px);
+  animation: heroGlowPulse 4s ease-in-out infinite alternate;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes heroGlowPulse {
+  0%   { opacity: 0.3; transform: scale(0.92); }
+  100% { opacity: 0.85; transform: scale(1.08); }
+}
+
+/* Tagline */
+.auth-hero__tagline {
+  margin: 10px 0 0 2px;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 1.075rem;
+  font-weight: 500;
+  color: var(--color-secondary, #94a3b8);
+  letter-spacing: -0.01em;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+/* Below 900px the hero moves out of absolute position — stacked flow */
+@media (max-width: 900px) {
+  .auth-hero {
+    align-items: center;
+    margin-bottom: 28px;
+  }
+
+  .auth-hero__tagline {
+    text-align: center;
+    font-size: 0.95rem;
+    margin-top: 8px;
+  }
+
+  .auth-hero__glow {
+    width: 60px;
+    height: 60px;
+  }
+}

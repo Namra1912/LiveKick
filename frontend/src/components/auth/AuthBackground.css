@@ -1,0 +1,135 @@
+/* AuthBackground.css — Full-viewport animated background layer */
+
+/* ─── Root container ─────────────────────────────────────────── */
+.auth-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ─── Layer 0: Base dark canvas ──────────────────────────────── */
+.auth-bg__base {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-base, #080c11);
+}
+
+/* ─── Layer 1: Parallax-shifted grid + streaks ───────────────── */
+.auth-bg__parallax-layer {
+  position: absolute;
+  /* Slightly oversized so edge gaps don't show during parallax shift */
+  inset: -30px;
+  transform: translate(var(--parallax-x, 0px), var(--parallax-y, 0px));
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Subtle grid — breathing opacity animation */
+.auth-bg__grid {
+  position: absolute;
+  inset: 0;
+  background-size: 38px 38px;
+  background-image:
+    linear-gradient(to right, rgba(0, 179, 112, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 179, 112, 0.045) 1px, transparent 1px);
+  animation: gridBreath 7s ease-in-out infinite alternate;
+}
+
+@keyframes gridBreath {
+  0%   { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Floodlight diagonal beam streaks */
+.auth-bg__streak {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(36px);
+  pointer-events: none;
+}
+
+.auth-bg__streak--1 {
+  width: 55vw;
+  height: 120px;
+  top: 8%;
+  left: -10%;
+  transform: rotate(-28deg);
+  background: linear-gradient(90deg, transparent, rgba(0, 179, 112, 0.18), transparent);
+  animation: streakPulse 9s ease-in-out infinite alternate;
+}
+
+.auth-bg__streak--2 {
+  width: 60vw;
+  height: 100px;
+  bottom: 10%;
+  right: -12%;
+  transform: rotate(-22deg);
+  background: linear-gradient(90deg, transparent, rgba(0, 179, 112, 0.14), transparent);
+  animation: streakPulse 11s ease-in-out 2s infinite alternate;
+}
+
+.auth-bg__streak--3 {
+  width: 40vw;
+  height: 80px;
+  top: 52%;
+  left: 18%;
+  transform: rotate(36deg);
+  background: linear-gradient(90deg, transparent, rgba(0, 179, 112, 0.1), transparent);
+  animation: streakPulse 13s ease-in-out 1s infinite alternate;
+}
+
+@keyframes streakPulse {
+  0%   { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* ─── Layer 2: Cursor-reactive spotlight ─────────────────────── */
+.auth-bg__spotlight {
+  position: absolute;
+  inset: 0;
+  /* Extends past viewport so glow doesn't hard-clip near edges */
+  background: radial-gradient(
+    circle at var(--mouse-x, 40%) var(--mouse-y, 50%),
+    rgba(0, 179, 112, 0.26) 0%,
+    rgba(0, 179, 112, 0.09) 30%,
+    rgba(0, 179, 112, 0.02) 55%,
+    transparent 75%
+  );
+  transition: background 0.06s linear;
+  will-change: background;
+}
+
+/* ─── Layer 3: Ambient atmosphere particles ───────────────────── */
+.auth-bg__particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.auth-bg__particle {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-pitch-green, #00B370);
+  bottom: -10px;             /* starts just below viewport */
+  filter: blur(1.5px);
+  animation: particleDrift linear infinite;
+}
+
+@keyframes particleDrift {
+  0% {
+    transform: translateY(105vh) translateX(0px);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-5vh) translateX(var(--drift-x, 0px));
+    opacity: 0;
+  }
+}

@@ -1,0 +1,124 @@
+/* AuthLeftPanel.css — Left panel visual design & interactive effects */
+
+.auth-left-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  background-color: var(--color-base, #080c11);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6, 24px);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* 1. Cursor-reactive Spotlight (Extends past panel bounds to cross the seam) */
+.auth-left-panel__spotlight {
+  position: absolute;
+  inset: -100px -100px -100px -100px;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 179, 112, 0.24) 0%,
+    rgba(0, 179, 112, 0.08) 35%,
+    transparent 75%
+  );
+  transition: background 0.08s ease-out;
+}
+
+/* 2. Parallax background container */
+.auth-left-panel__bg-layer {
+  position: absolute;
+  inset: -20px;
+  pointer-events: none;
+  z-index: 0;
+  transform: translate(var(--parallax-x, 0px), var(--parallax-y, 0px));
+  transition: transform 0.18s ease-out;
+}
+
+/* Subtle stadium grid overlay */
+.auth-left-panel__grid {
+  position: absolute;
+  inset: 0;
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  mask-image: radial-gradient(circle at 50% 50%, black 45%, transparent 95%);
+}
+
+/* Soft stadium floodlight beam streaks */
+.auth-left-panel__streak {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(32px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.auth-left-panel__streak--1 {
+  width: 440px;
+  height: 90px;
+  top: 12%;
+  left: -15%;
+  transform: rotate(-32deg);
+  background: linear-gradient(90deg, transparent, rgba(0, 179, 112, 0.28), transparent);
+}
+
+.auth-left-panel__streak--2 {
+  width: 520px;
+  height: 110px;
+  bottom: 12%;
+  right: -20%;
+  transform: rotate(-22deg);
+  background: linear-gradient(90deg, transparent, rgba(0, 179, 112, 0.2), transparent);
+}
+
+.auth-left-panel__streak--3 {
+  width: 320px;
+  height: 70px;
+  top: 48%;
+  left: 15%;
+  transform: rotate(38deg);
+  background: linear-gradient(90deg, transparent, rgba(0, 179, 112, 0.14), transparent);
+}
+
+/* 3. Centered Brand Content (Logo + Tagline ONLY) */
+.auth-left-panel__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.auth-left-panel__logo {
+  margin-bottom: var(--space-3, 12px);
+}
+
+/* Tagline */
+.auth-left-panel__tagline {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-secondary, #94a3b8);
+  margin-top: 4px;
+  letter-spacing: -0.01em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .auth-left-panel {
+    min-height: 240px;
+    padding: var(--space-5, 20px);
+  }
+
+  .auth-left-panel__tagline {
+    font-size: 1rem;
+  }
+}
