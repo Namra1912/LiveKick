@@ -1,0 +1,63 @@
+/* Logo.css — Shared LiveKick Brand Logo Component */
+
+.livekick-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+
+.livekick-logo__img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.18s ease;
+}
+
+.livekick-logo__wordmark {
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-weight: 900;
+  font-size: 22px;
+  color: var(--color-pitch-green, #00B370);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Size Variants */
+.livekick-logo--small .livekick-logo__img {
+  height: 28px;
+}
+
+.livekick-logo--small .livekick-logo__wordmark {
+  font-size: 18px;
+}
+
+.livekick-logo--normal .livekick-logo__img {
+  height: 38px;
+}
+
+.livekick-logo--normal .livekick-logo__wordmark {
+  font-size: 22px;
+}
+
+.livekick-logo--large .livekick-logo__img {
+  height: 56px;
+}
+
+.livekick-logo--large .livekick-logo__wordmark {
+  font-size: 36px;
+  letter-spacing: -0.02em;
+}
+
+.livekick-logo--xl .livekick-logo__img {
+  height: 72px;
+  filter: drop-shadow(0 0 16px rgba(0, 179, 112, 0.4));
+}
+
+.livekick-logo--xl .livekick-logo__wordmark {
+  font-size: 48px;
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 20px rgba(0, 179, 112, 0.4);
+}

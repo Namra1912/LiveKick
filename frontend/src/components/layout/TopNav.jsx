@@ -4,18 +4,8 @@
 import { useState } from 'react';
 import { Bell, Search } from 'lucide-react';
 import CoinIcon from '../icons/CoinIcon';
-import bootIcon from '../../assets/livekick_boot_icon.png';
+import Logo from '../shared/Logo';
 import './TopNav.css';
-
-// Brand logo using livekick_boot_icon.png with green LiveKick wordmark
-function LiveKickLogo() {
-  return (
-    <div className="topnav__logo">
-      <img src={bootIcon} alt="LiveKick Logo" className="topnav__logo-img" />
-      <span className="topnav__wordmark">LiveKick</span>
-    </div>
-  );
-}
 
 export default function TopNav({ user, onSearchOpen }) {
   const [avatarError, setAvatarError] = useState(false);
@@ -24,7 +14,7 @@ export default function TopNav({ user, onSearchOpen }) {
     <header className="topnav">
       {/* Logo — fixed width to align with sidebar */}
       <div className="topnav__logo-block">
-        <LiveKickLogo />
+        <Logo size="normal" />
       </div>
 
       {/* Search bar — centered, expands */}
