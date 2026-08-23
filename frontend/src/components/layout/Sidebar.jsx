@@ -267,7 +267,8 @@ export default function Sidebar({
     : null;
 
   const scrollRef = useRef(null);
-  useLenisScroll(scrollRef);
+  const contentRef = useRef(null);
+  useLenisScroll(scrollRef, contentRef);
 
   // Trigger button references for portal popover positioning & outside click exclusion
   const addTeamBtnRef = useRef(null);
@@ -389,101 +390,103 @@ export default function Sidebar({
 
       {/* ── Region 3: Scrollable — My Teams + My Leagues ─────────────── */}
       <div className="sidebar__scroll" ref={scrollRef}>
+        <div className="sidebar__scroll-content" ref={contentRef}>
 
-        {/* MY TEAMS accordion */}
-        <div className="sidebar__section">
-          <button
-            className="sidebar__section-toggle"
-            onClick={() => setTeamsOpen((o) => !o)}
-            aria-expanded={teamsOpen}
-            aria-controls="sidebar-teams-list"
-          >
-            <span className="sidebar__section-label">My Teams</span>
-            <ChevronDown className="sidebar__chevron" size={12} strokeWidth={2} />
-          </button>
+          {/* MY TEAMS accordion */}
+          <div className="sidebar__section">
+            <button
+              className="sidebar__section-toggle"
+              onClick={() => setTeamsOpen((o) => !o)}
+              aria-expanded={teamsOpen}
+              aria-controls="sidebar-teams-list"
+            >
+              <span className="sidebar__section-label">My Teams</span>
+              <ChevronDown className="sidebar__chevron" size={12} strokeWidth={2} />
+            </button>
 
-          <div
-            className={`sidebar__collapsible${teamsOpen ? '' : ' is-collapsed'}`}
-            id="sidebar-teams-list"
-          >
-            <div className="sidebar__collapsible-inner">
-              <div className="sidebar__team-list">
-                {myTeams.length === 0 ? (
-                  <div className="sidebar__empty-msg">No favorite teams yet</div>
-                ) : (
-                  myTeams.map((team) => (
-                    <TeamRow
-                      key={team.id}
-                      team={team}
-                      onClick={(id) => navigate(`/teams/${id}`)}
-                      onRemove={handleRemoveTeam}
-                    />
-                  ))
-                )}
-              </div>
-
-              {/* Add Team trigger button */}
-              <button
-                ref={addTeamBtnRef}
-                className="sidebar__add-team-btn"
-                onClick={handleOpenTeamPicker}
-              >
-                <div className="sidebar__add-team-icon">
-                  <Plus size={11} strokeWidth={2} color="var(--color-faint)" />
+            <div
+              className={`sidebar__collapsible${teamsOpen ? '' : ' is-collapsed'}`}
+              id="sidebar-teams-list"
+            >
+              <div className="sidebar__collapsible-inner">
+                <div className="sidebar__team-list">
+                  {myTeams.length === 0 ? (
+                    <div className="sidebar__empty-msg">No favorite teams yet</div>
+                  ) : (
+                    myTeams.map((team) => (
+                      <TeamRow
+                        key={team.id}
+                        team={team}
+                        onClick={(id) => navigate(`/teams/${id}`)}
+                        onRemove={handleRemoveTeam}
+                      />
+                    ))
+                  )}
                 </div>
-                <span className="sidebar__add-team-label">Add Team</span>
-              </button>
+
+                {/* Add Team trigger button */}
+                <button
+                  ref={addTeamBtnRef}
+                  className="sidebar__add-team-btn"
+                  onClick={handleOpenTeamPicker}
+                >
+                  <div className="sidebar__add-team-icon">
+                    <Plus size={11} strokeWidth={2} color="var(--color-faint)" />
+                  </div>
+                  <span className="sidebar__add-team-label">Add Team</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* MY LEAGUES accordion */}
-        <div className="sidebar__section">
-          <button
-            className="sidebar__section-toggle"
-            onClick={() => setLeaguesOpen((o) => !o)}
-            aria-expanded={leaguesOpen}
-            aria-controls="sidebar-leagues-list"
-          >
-            <span className="sidebar__section-label">My Leagues</span>
-            <ChevronDown className="sidebar__chevron" size={12} strokeWidth={2} />
-          </button>
+          {/* MY LEAGUES accordion */}
+          <div className="sidebar__section">
+            <button
+              className="sidebar__section-toggle"
+              onClick={() => setLeaguesOpen((o) => !o)}
+              aria-expanded={leaguesOpen}
+              aria-controls="sidebar-leagues-list"
+            >
+              <span className="sidebar__section-label">My Leagues</span>
+              <ChevronDown className="sidebar__chevron" size={12} strokeWidth={2} />
+            </button>
 
-          <div
-            className={`sidebar__collapsible${leaguesOpen ? '' : ' is-collapsed'}`}
-            id="sidebar-leagues-list"
-          >
-            <div className="sidebar__collapsible-inner">
-              <div className="sidebar__league-list">
-                {myLeagues.length === 0 ? (
-                  <div className="sidebar__empty-msg">No favorite leagues yet</div>
-                ) : (
-                  myLeagues.map((league) => (
-                    <LeagueRow
-                      key={league.id}
-                      league={league}
-                      isActive={isStandingsPage && activeLeagueSlug === league.slug}
-                      onRemove={handleRemoveLeague}
-                    />
-                  ))
-                )}
-              </div>
-
-              {/* Add League trigger button */}
-              <button
-                ref={addLeagueBtnRef}
-                className="sidebar__add-team-btn"
-                onClick={handleOpenLeaguePicker}
-              >
-                <div className="sidebar__add-team-icon">
-                  <Plus size={11} strokeWidth={2} color="var(--color-faint)" />
+            <div
+              className={`sidebar__collapsible${leaguesOpen ? '' : ' is-collapsed'}`}
+              id="sidebar-leagues-list"
+            >
+              <div className="sidebar__collapsible-inner">
+                <div className="sidebar__league-list">
+                  {myLeagues.length === 0 ? (
+                    <div className="sidebar__empty-msg">No favorite leagues yet</div>
+                  ) : (
+                    myLeagues.map((league) => (
+                      <LeagueRow
+                        key={league.id}
+                        league={league}
+                        isActive={isStandingsPage && activeLeagueSlug === league.slug}
+                        onRemove={handleRemoveLeague}
+                      />
+                    ))
+                  )}
                 </div>
-                <span className="sidebar__add-team-label">Add League</span>
-              </button>
+
+                {/* Add League trigger button */}
+                <button
+                  ref={addLeagueBtnRef}
+                  className="sidebar__add-team-btn"
+                  onClick={handleOpenLeaguePicker}
+                >
+                  <div className="sidebar__add-team-icon">
+                    <Plus size={11} strokeWidth={2} color="var(--color-faint)" />
+                  </div>
+                  <span className="sidebar__add-team-label">Add League</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
 
       {/* ── Region 4: Fixed bottom — Settings + Match Day Live ───────── */}

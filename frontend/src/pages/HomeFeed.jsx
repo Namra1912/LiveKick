@@ -103,7 +103,8 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
   // Smooth scroll for .home-feed__center — the main match feed column.
   // Scoped to this element only — never window/document.
   const centerRef = useRef(null);
-  useLenisScroll(centerRef);
+  const centerContentRef = useRef(null);
+  useLenisScroll(centerRef, centerContentRef);
 
   // Filter matches by selected calendar date BEFORE grouping by league
   const grouped = useMemo(() => {
@@ -117,86 +118,87 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
   if (isLiveOnly) {
     return (
       <main className="home-feed__center" ref={centerRef}>
-        {/* Live Filter Header */}
-        <div className="home-feed__heading-row">
-          <div className="home-feed__live-title-wrap">
-            <span className={`live-dot${hasAnyLiveMatches ? '' : ' live-dot--static'}`} aria-hidden="true" />
-            <h1 className="home-feed__heading">Live Matches</h1>
-            <span className="home-feed__live-count">({liveMatches.length})</span>
-          </div>
-          <button className="home-feed__exit-btn" onClick={onExitLiveOnly}>
-            Exit Live View ×
-          </button>
-        </div>
-
-        {/* Live filtered content */}
-        {liveMatches.length === 0 ? (
-          <div className="home-feed__live-empty">
-            <span className="live-dot live-dot--static" aria-hidden="true" />
-            <h3 className="home-feed__empty-title">No live matches right now</h3>
-            <p className="home-feed__empty-desc">
-              Check back later or return to Today&apos;s full match schedule.
-            </p>
-            <button className="home-feed__exit-btn home-feed__exit-btn--cta" onClick={onExitLiveOnly}>
-              View Today&apos;s Schedule
+        <div className="home-feed__center-content" ref={centerContentRef}>
+          {/* Live Filter Header */}
+          <div className="home-feed__heading-row">
+            <div className="home-feed__live-title-wrap">
+              <span className={`live-dot${hasAnyLiveMatches ? '' : ' live-dot--static'}`} aria-hidden="true" />
+              <h1 className="home-feed__heading">Live Matches</h1>
+              <span className="home-feed__live-count">({liveMatches.length})</span>
+            </div>
+            <button className="home-feed__exit-btn" onClick={onExitLiveOnly}>
+              Exit Live View ×
             </button>
           </div>
-        ) : (
-          <div className="home-feed__live-list">
-            {liveMatches.map((match, i) => (
-              <div key={match.id} className={i > 0 ? 'league-group__row-divider' : ''}>
-                <MatchRow
-                  match={match}
-                  showLeague
-                  animationDelay={i * 35}
-                  isFavorited={favMatchIds.has(match.id)}
-                  onToggleFav={toggleFav}
-                />
-              </div>
-            ))}
-          </div>
-        )}
+
+          {/* Live filtered content */}
+          {liveMatches.length === 0 ? (
+            <div className="home-feed__live-empty">
+              <span className="live-dot live-dot--static" aria-hidden="true" />
+              <h3 className="home-feed__empty-title">No live matches right now</h3>
+              <p className="home-feed__empty-desc">
+                Check back later or return to Today&apos;s full match schedule.
+              </p>
+              <button className="home-feed__exit-btn home-feed__exit-btn--cta" onClick={onExitLiveOnly}>
+                View Today&apos;s Schedule
+              </button>
+            </div>
+          ) : (
+            <div className="home-feed__live-list">
+              {liveMatches.map((match, i) => (
+                <div key={match.id} className={i > 0 ? 'league-group__row-divider' : ''}>
+                  <MatchRow
+                    match={match}
+                    showLeague
+                    animationDelay={i * 35}
+                    isFavorited={favMatchIds.has(match.id)}
+                    onToggleFav={toggleFav}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </main>
     );
   }
 
   return (
     <main className="home-feed__center" ref={centerRef}>
-      {/* Section heading + date selector */}
-      <div className="home-feed__heading-row">
-        <h1 className="home-feed__heading">Matches</h1>
-        <DateSelector selected={selectedDate.value} onChange={selectedDate.set} />
-      </div>
+      <div className="home-feed__center-content" ref={centerContentRef}>
+        {/* Section heading + date selector */}
+        <div className="home-feed__heading-row">
+          <h1 className="home-feed__heading">Matches</h1>
+          <DateSelector selected={selectedDate.value} onChange={selectedDate.set} />
+        </div>
 
-      {/* League groups */}
-      {/* TASK B — all 5 leagues always render; LeagueGroup smart-default handles open/closed */}
-      {/* TASK E — dateLabel derived here, passed down so empty states say the right thing */}
-      <div className="home-feed__leagues">
-        {(() => {
-          const dateLabel =
-            selectedDate.value === 'today'     ? 'today' :
-            selectedDate.value === 'yesterday' ? 'yesterday' :
-            selectedDate.value === 'tomorrow'  ? 'tomorrow' :
-            'on this date';
+        {/* League groups */}
+        <div className="home-feed__leagues">
+          {(() => {
+            const dateLabel =
+              selectedDate.value === 'today'     ? 'today' :
+              selectedDate.value === 'yesterday' ? 'yesterday' :
+              selectedDate.value === 'tomorrow'  ? 'tomorrow' :
+              'on this date';
 
-          return LEAGUE_ORDER.map((leagueName) => {
-            const leagueMatches = grouped[leagueName] ?? [];
-            // TASK C: pass full league object so LeagueGroup can read logoUrl from data
-            const leagueObj = leaguesByName[leagueName] ?? { name: leagueName, logoUrl: null };
-            return (
-              <LeagueGroup
-                key={`${leagueName}-${selectedDate.value}`}
-                league={leagueObj}
-                matches={leagueMatches}
-                matchday={LEAGUE_MATCHDAY[leagueName]}
-                favMatchIds={favMatchIds}
-                onToggleFav={toggleFav}
-                dateLabel={dateLabel}
-              />
-            );
-          });
+            return LEAGUE_ORDER.map((leagueName) => {
+              const leagueMatches = grouped[leagueName] ?? [];
+              const leagueObj = leaguesByName[leagueName] ?? { name: leagueName, logoUrl: null };
+              return (
+                <LeagueGroup
+                  key={`${leagueName}-${selectedDate.value}`}
+                  league={leagueObj}
+                  matches={leagueMatches}
+                  matchday={LEAGUE_MATCHDAY[leagueName]}
+                  favMatchIds={favMatchIds}
+                  onToggleFav={toggleFav}
+                  dateLabel={dateLabel}
+                />
+              );
+            });
 
-        })()}
+          })()}
+        </div>
       </div>
     </main>
   );
@@ -205,10 +207,9 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
 function RightPanel() {
   // Smooth scroll for .home-feed__right — the right panel (MOTD, Predictor, News).
   // Scoped to this element only — never window/document.
-  // PredictorCard contents (buttons, fan lean bar) remain fully interactable while
-  // the panel scrolls — Lenis does not suppress pointer events on children.
   const rightRef = useRef(null);
-  useLenisScroll(rightRef);
+  const rightContentRef = useRef(null);
+  useLenisScroll(rightRef, rightContentRef);
 
   const featuredMatch = useMemo(
     () => matches.find((m) => m.id === 102),
@@ -222,9 +223,11 @@ function RightPanel() {
 
   return (
     <aside className="home-feed__right" ref={rightRef}>
-      <MatchOfTheDayCard match={featuredMatch} />
-      <PredictorCard predictorMatch={activePredictor} userBalance={currentUser.matchdayCoins} />
-      <NewsList newsItems={news} />
+      <div className="home-feed__right-content" ref={rightContentRef}>
+        <MatchOfTheDayCard match={featuredMatch} />
+        <PredictorCard predictorMatch={activePredictor} userBalance={currentUser.matchdayCoins} />
+        <NewsList newsItems={news} />
+      </div>
     </aside>
   );
 }
