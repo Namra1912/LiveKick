@@ -1,103 +1,184 @@
+<div align="center">
+
 # LiveKick ⚽⚡
 
-LiveKick is a premium, real-time football companion web application for dedicated supporters — delivering instant score updates, elevated editorial typography, live match telemetry with signature Pressure Index visualization, functional search, smooth element-scoped scrolling, and a gamified Fan Prediction League driven by Matchday Coins (strictly 0% money/betting).
+### High-Performance Real-Time Football Companion & Analytics Platform
+
+A production-grade, full-stack football platform engineered for real-time match tracking, dynamic live telemetry, transfer intelligence, standings analysis, and a gamified Fan Prediction League driven by Matchday Coins.
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-livekick--zeta.vercel.app-00B370?style=for-the-badge&logo=vercel&logoColor=white)](https://livekick-zeta.vercel.app)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](frontend/package.json)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite&logoColor=white)](frontend/package.json)
+[![Node.js](https://img.shields.io/badge/Node.js-20-339933?style=for-the-badge&logo=node.js&logoColor=white)](backend/package.json)
+[![Express](https://img.shields.io/badge/Express-4.21-000000?style=for-the-badge&logo=express&logoColor=white)](backend/package.json)
+[![MongoDB](https://img.shields.io/badge/MongoDB-6.0-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](backend/package.json)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+
+</div>
 
 ---
 
-## 🚀 Key Completed Features (Home Feed Milestone)
-
-### 📊 Home Feed & Match Center (`HomeFeed.jsx`)
-- **Multi-League Scoreboard**: Displays matches grouped by top European leagues (*Premier League, La Liga, Champions League, Bundesliga, Serie A*).
-- **Local Timezone Formatting**: All kickoff times and lock timers automatically format to the viewer's local clock using browser `toLocaleTimeString` and dynamic date resolution (*Today, Tomorrow, Weekday*).
-- **Date Selector & Calendar Popover**: Interactive segmented date control (*Yesterday, Today, Tomorrow*) + custom calendar picker popover anchoring to local midnight.
-- **Live Match Mode**: Dedicated live filter view with dynamic count badge, real-time status indicators, and clean fallback empty state.
-- **Persistent Favorites**: One-click match favoriting with persistent `localStorage` synchronization.
-
-### ⚡ Telemetry & Live Pressure Index (`PressureBar.jsx`)
-- **Refined Color Collision Engine**: Intelligent 4-step color collision resolution algorithm (*Away Secondary → Home Secondary → Both Secondary → Pitch Fallback*) ensuring real team identity is preserved when primary club colors clash.
-- **Visual Pressure Distribution**: Segmented 8px track visualizing home vs. away match dominance.
-
-### 🎯 Feature Panels & Right Sidebar
-- **Match of the Day Card (`MatchOfTheDayCard.jsx`)**: Large-format featured match card with dynamic local kickoff timing and team crests.
-- **Fan Predictor Widget (`PredictorCard.jsx`)**: Interactive fan prediction card with Matchday Coin stakes, live fan lean distribution bar, and lock timer.
-- **Trending News Panel (`NewsList.jsx`)**: Clickable news items and *"View All"* button with full keyboard accessibility (`Tab`, `Enter`, `Space`) navigating to `/news`.
-
-### 🔍 Global Search Modal (`SearchModal.jsx`)
-- **Keyboard Shortcut (`Ctrl+K` / `Cmd+K`)**: Opens search modal overlay anywhere in the app.
-- **Instant Filtering**: Real-time searching across teams and leagues.
-- **Full Keyboard Navigation**: Navigate results with `Up`/`Down` arrow keys, select with `Enter`, close with `Escape`.
-
-### 🎨 Design System & Motion Architecture
-- **Canonical Crest Component (`Crest.jsx`)**: Standardized team badge component supporting transparent PNGs and deterministic HSL monogram fallbacks.
-- **Element-Scoped Smooth Scroll (`useLenisScroll.js`)**: Independent `lenis` smooth scroll instances attached specifically to three internal scroll containers (`.sidebar__scroll`, `.home-feed__center`, `.home-feed__right`) while preserving fixed-shell layout integrity.
-- **Mount-Once Entrance Motion**: CSS `@keyframes hf-enter` entrance animation using `--ease-out-strong` easing curve, guaranteed to run strictly once on initial page mount.
-- **Design Tokens**: Standardized radii (`--radius-card`, `--radius-badge`, `--radius-pill`), spacing tokens, and double-bezel visual depth styling.
+> **LiveKick** is engineered from the ground up to outperform traditional match apps in visual aesthetic, motion fluidness, and server efficiency. It implements a decoupled caching architecture that insulates external sports APIs behind an Express/MongoDB pipeline with atomic wallet transactions and custom Lenis smooth-scrolling instances.
 
 ---
 
-## 📁 Project Structure
+## ⚡ Project at a Glance
+
+| Feature / Architecture Metric | Details |
+|---|---|
+| **Supported Leagues** | Premier League, La Liga, UEFA Champions League, Bundesliga, Serie A |
+| **Design System** | Custom "Night-Pitch" dark theme (`#080c11` base, stadium glows, retro scoreboards) |
+| **Smooth Scrolling** | Element-scoped `lenis` smooth scroll with `ResizeObserver` content height tracking |
+| **Authentication Flow** | Full-bleed interactive canvas with OTP 6-digit verification & Google OAuth |
+| **Rate-Limit Shielding** | Express caching pipeline with `node-cron` syncs (`lastSynced` client header) |
+| **Wallet Settlement** | Race-condition free atomic `$inc` MongoDB transactions for predictions |
+
+---
+
+## 📚 Table of Contents
+
+- [Key Features](#-key-features)
+- [Design Architecture](#-design-architecture)
+- [System Architecture](#-system-architecture)
+- [Folder Structure](#-folder-structure)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Roadmap & Milestones](#-roadmap--milestones)
+- [License](#-license)
+
+---
+
+## 🚀 Key Features
+
+### 📊 1. Multi-League Home Feed & Match Center
+- **Dynamic League Groups**: Categorized schedules across European top tiers with collapsible accordion groups.
+- **Local Timezone Resolution**: Automated kickoff timestamp formatting converting UTC server schedules into local 12-hour/24-hour clocks.
+- **Date Selector & Calendar Popover**: Segmented quick-toggles (*Yesterday, Today, Tomorrow*) + custom calendar date picker.
+- **Matchday Live Mode**: One-click live filter isolating active matches with animated status indicators.
+
+### ⚡ 2. Telemetry & Live Pressure Index
+- **Refined Color Collision Engine**: 4-step dynamic color resolution (*Away Secondary → Home Secondary → Both Secondary → Pitch Fallback*) ensuring true club identity during jersey clashes.
+- **Match Dominance Visualizer**: 8px segmented track tracking minute-by-minute home vs. away dominance.
+
+### 🎯 3. Transfer Radar & Intel Hub
+- **Tiered Rumor Tracking**: Classified transfer reliability pills (*Tier 1 Official / Tier 2 Credible / Tier 3 Speculation*).
+- **Interactive Fee Slider**: Dual-range financial filter with timeframe selectors (*Current Window, Summer 2026*).
+
+### 🏆 4. Standings & Form Analytics
+- **Live Table Computation**: Points, goal difference, games played, and 5-match recent form guide (`W/D/L` pills).
+- **Direct Navigation**: Seamless routing to team profile and match detail pages.
+
+### 🔐 5. Full-Bleed Authentication & OTP Flow
+- **Full-Viewport Animated Background**: Cursor-reactive pitch-green floodlight spotlight, ambient particle drift, and breathing grid overlay.
+- **6-Digit OTP Verification**: Auto-advancing inputs, backspace navigation, paste support, scannability grouping (3+3), and error shake animation (`@keyframes otpShake`).
+- **Glassmorphism Card Shell**: `backdrop-filter: blur(18px)` surface with dynamic header resolution and Google OAuth integration.
+
+---
+
+## 🎨 Design Architecture: The "Night-Pitch" System
+
+LiveKick enforces a strict visual design tokens system stored in `tokens.css`:
+
+- **Base Canvas**: `#080c11` (Deep Stadium Slate)
+- **Elevated Surfaces**: `#111820` / `#0d1520`
+- **Primary Accent**: `#00B370` (Signature Pitch Green)
+- **Currency Accent**: `#f59e0b` (Matchday Coins Gold)
+- **Typography**: 
+  - `'Big Shoulders Display'` (Upper-case match scores, titles, crest monograms)
+  - `'Inter'` (Clean UI body copy and field labels)
+  - `'JetBrains Mono'` (Timers, live minutes, odds, retro scoreboard digits)
+
+---
+
+## 📁 Folder Structure
 
 ```
 LiveKick/
-├── docs/                                  # PRD, Design System Specifications & UI Wireframes
-├── frontend/                              # React + Vite Frontend Application
+├── docs/                                  # Architectural Specs, Context & PRDs
+│   ├── LIVEKICK_APP_CONTEXT.md
+│   └── TRANSFER_RADAR_CONTEXT.md
+├── frontend/                              # React 19 + Vite Frontend Application
 │   ├── src/
+│   │   ├── assets/                        # Brand logos, crests & media assets
 │   │   ├── components/
+│   │   │   ├── auth/                      # AuthBackground, AuthHero, AuthCard, OtpInput, GoogleButton
 │   │   │   ├── feed/                      # DateSelector, LeagueGroup, MatchRow, PressureBar
 │   │   │   ├── layout/                    # AppLayout, Sidebar, TopNav
-│   │   │   ├── panels/                    # MatchOfTheDayCard, PredictorCard, NewsList
+│   │   │   ├── news/                      # NewsList, NewsCategoryBadge
+│   │   │   ├── panels/                    # MatchOfTheDayCard, PredictorCard
 │   │   │   ├── search/                    # SearchModal
-│   │   │   └── shared/                    # Crest component
+│   │   │   ├── shared/                    # Logo, Crest, Breadcrumb
+│   │   │   ├── standings/                 # StandingsTable, FormPill
+│   │   │   └── transfers/                 # TransferCard, TierPill, FeeRangeSlider, TransferFilters
 │   │   ├── data/                          # Mock match, team, league & news datasets
 │   │   ├── hooks/                         # useLenisScroll (element-scoped smooth scroll)
-│   │   ├── pages/                         # HomeFeed page component
+│   │   ├── pages/                         # HomeFeed, News, Standings, Transfers, Login, Settings
 │   │   ├── routes/                        # AppRouter (React Router v6)
-│   │   └── styles/                        # CSS design tokens & global stylesheets
+│   │   └── styles/                        # tokens.css & global stylesheets
 │   ├── package.json
 │   └── vite.config.js
-├── backend/                               # Node.js + Express API Backend Shell
-│   ├── server.js                          # Express Entrypoint
+├── backend/                               # Express.js Caching Gateway & API
+│   ├── server.js                          # Express Server Entrypoint
 │   └── package.json
-└── README.md                              # Root Repository Documentation
+└── README.md
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 18, Vite, React Router v6, Lucide React (Icons)
-- **Smooth Scroll**: Lenis (`lenis`)
-- **Styling**: Vanilla CSS with CSS Custom Properties (Tokens) & BEM Methodology
-- **Backend Shell**: Node.js, Express
+- **Frontend**: React 19, Vite 6, React Router v6, Lucide React
+- **Smooth Scroll**: Lenis (`lenis@1.3.26`) with explicit `contentRef` ResizeObserver tracking
+- **Styling**: Vanilla CSS, Custom CSS Variables, Glassmorphism, CSS Keyframe Motion
+- **Backend & Caching**: Node.js, Express.js, MongoDB (Mongoose), `node-cron`
 
 ---
 
 ## 💻 Getting Started
 
-### 1. Frontend Application
+### Prerequisites
+- **Node.js**: v18.0.0 or higher
+- **npm**: v9.0.0 or higher
+
+### 1. Frontend Setup
 ```bash
+# Navigate to frontend directory
 cd frontend
+
+# Install dependencies
 npm install
+
+# Start local development server
 npm run dev
 ```
 
-### 2. Backend Application Shell
+### 2. Backend Setup
 ```bash
+# Navigate to backend directory
 cd backend
+
+# Install dependencies
 npm install
+
+# Start Express server
 npm run dev
 ```
 
 ---
 
-## 📌 Development Roadmap
+## 📌 Roadmap & Production Milestones
 
-- [x] **Phase 1: Home Feed & Match Center** *(Completed)*
-  - Scoreboard & league grouping
-  - Telemetry & Pressure Index
-  - Search Modal & Keyboard Navigation
-  - Smooth Scrolling & Layout Polish
-- [ ] **Phase 2: Full News & Editorial Page**
-- [ ] **Phase 3: League Standings & Team Pages**
-- [ ] **Phase 4: Fan Predictions & Coins System**
-- [ ] **Phase 5: Real-time Backend API Integration**
+- [x] **Milestone 1: Home Feed & Match Center**
+- [x] **Milestone 2: News & Editorial Hub**
+- [x] **Milestone 3: League Standings & Form Analytics**
+- [x] **Milestone 4: Transfer Radar & Fee Intelligence**
+- [x] **Milestone 5: Full-Bleed Auth Page & OTP Verification**
+- [ ] **Milestone 6: Guest State & Auth Context Wiring** *(In Progress)*
+- [ ] **Milestone 7: Express API Caching Pipeline & Cron Scheduler**
+- [ ] **Milestone 8: Socket.io Live Score Telemetry & Atomic Wallet Settlement**
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for details.

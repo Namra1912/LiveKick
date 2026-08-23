@@ -24,6 +24,12 @@ Thumbs.db
 brain/
 scratch/
 
+# Archives & workspace locks
+*.zip
+*.tar.gz
+*.tgz
+skills-lock.json
+
 # Python & testing cache
 __pycache__/
 *.pyc
