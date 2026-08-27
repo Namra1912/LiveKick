@@ -1,0 +1,185 @@
+/* src/components/team-profile/StartingXI.css */
+
+.starting-xi-card {
+  background: var(--color-surface, #0d1520);
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.starting-xi-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.starting-xi-card__header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.starting-xi-card__title {
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-primary, #f1f5f9);
+  text-transform: uppercase;
+}
+
+.starting-xi-card__formation {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-pitch-green, #00B370);
+  background: rgba(0, 179, 112, 0.12);
+  border: 1px solid rgba(0, 179, 112, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.starting-xi-card__sub {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  color: var(--color-faint, #475569);
+  text-transform: uppercase;
+}
+
+/* Tactical Pitch Graphic */
+.starting-xi-pitch {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  background: radial-gradient(circle at center, #0f241a 0%, #08120d 100%);
+  border: 1px solid #1a3325;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 16px 12px;
+}
+
+/* Pitch Lines */
+.starting-xi-pitch__lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.starting-xi-pitch__center-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(0, 179, 112, 0.2);
+}
+
+.starting-xi-pitch__center-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(0, 179, 112, 0.2);
+  border-radius: 50%;
+}
+
+.starting-xi-pitch__penalty-top {
+  position: absolute;
+  top: 0;
+  left: 25%;
+  right: 25%;
+  height: 50px;
+  border: 1px solid rgba(0, 179, 112, 0.18);
+  border-top: none;
+}
+
+.starting-xi-pitch__penalty-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  right: 25%;
+  height: 50px;
+  border: 1px solid rgba(0, 179, 112, 0.18);
+  border-bottom: none;
+}
+
+/* Formation Layout */
+.starting-xi-pitch__squad {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.starting-xi-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.starting-xi-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.starting-xi-player__avatar-wrap {
+  position: relative;
+}
+
+.starting-xi-player__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #111e17;
+  border: 1.5px solid var(--color-pitch-green, #00B370);
+  box-shadow: 0 0 8px rgba(0, 179, 112, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 160ms ease;
+}
+
+.starting-xi-player:hover .starting-xi-player__avatar {
+  transform: scale(1.1);
+}
+
+.starting-xi-player__number {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--color-primary, #f1f5f9);
+}
+
+.starting-xi-player__rating-badge {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  background: #f59e0b;
+  color: #080c11;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.625rem;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 4px;
+  line-height: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.starting-xi-player__name {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-primary, #f1f5f9);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+}

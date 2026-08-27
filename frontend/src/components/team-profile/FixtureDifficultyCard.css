@@ -1,0 +1,176 @@
+/* src/components/team-profile/FixtureDifficultyCard.css */
+
+.fixture-card-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.fixture-diff-card,
+.upcoming-fixtures-card {
+  background: var(--color-surface, #0d1520);
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.fixture-diff-card__header,
+.upcoming-fixtures-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.fixture-diff-card__title,
+.upcoming-fixtures-card__title {
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-primary, #f1f5f9);
+  text-transform: uppercase;
+}
+
+.fixture-diff-card__sub {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  color: var(--color-faint, #475569);
+  text-transform: uppercase;
+}
+
+.fixture-diff-card__opponents {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.fixture-diff-item {
+  background: #080c11;
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: 10px;
+  padding: 10px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  transition: transform 160ms ease;
+}
+
+.fixture-diff-item:hover {
+  transform: translateY(-2px);
+}
+
+.fixture-diff-item__name {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-primary, #f1f5f9);
+}
+
+.fixture-diff-item__name small {
+  color: var(--color-faint, #475569);
+}
+
+.diff-badge {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.625rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.diff-badge--easy {
+  background: rgba(0, 179, 112, 0.18);
+  color: var(--color-pitch-green, #00B370);
+  border: 1px solid rgba(0, 179, 112, 0.4);
+}
+
+.diff-badge--mod {
+  background: rgba(245, 158, 11, 0.18);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.diff-badge--hard {
+  background: rgba(248, 113, 113, 0.18);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+}
+
+/* Upcoming Fixtures List */
+.upcoming-fixtures-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.upcoming-fixture-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: #080c11;
+  border: 1px solid rgba(30, 42, 53, 0.6);
+  border-radius: 8px;
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.upcoming-fixture-row:hover {
+  transform: translateX(2px);
+  border-color: var(--color-pitch-green, #00B370);
+}
+
+.upcoming-fixture-row__left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.upcoming-fixture-row__venue {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--color-faint, #475569);
+  width: 18px;
+}
+
+.upcoming-fixture-row__opp-name {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary, #f1f5f9);
+}
+
+.upcoming-fixture-row__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.upcoming-fixture-row__comp {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.6875rem;
+  color: var(--color-faint, #475569);
+}
+
+.upcoming-fixture-row__date {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--color-pitch-green, #00B370);
+}
+
+.fixture-diff-card__empty,
+.upcoming-fixtures-card__empty {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  color: var(--color-faint, #475569);
+  text-align: center;
+  padding: 12px;
+}

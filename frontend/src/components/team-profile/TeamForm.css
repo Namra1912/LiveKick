@@ -1,0 +1,201 @@
+/* src/components/team-profile/TeamForm.css */
+
+.team-form-row {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 16px;
+  width: 100%;
+}
+
+/* ── Team Form Card ───────────────────────────────────────────────────────── */
+
+.team-form-card,
+.next-match-card {
+  background: var(--color-surface, #0d1520);
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.team-form-card__header,
+.next-match-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.team-form-card__title,
+.next-match-card__title {
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-primary, #f1f5f9);
+  text-transform: uppercase;
+}
+
+.team-form-card__subtitle,
+.next-match-card__comp {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-faint, #475569);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.team-form-card__chips {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.team-form-chip {
+  background: #080c11;
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: 10px;
+  padding: 10px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  position: relative;
+  transition: transform 160ms ease;
+}
+
+.team-form-chip:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-pitch-green, #00B370);
+}
+
+.team-form-chip__score {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-primary, #f1f5f9);
+}
+
+.team-form-chip__opponent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.team-form-chip__opp-name {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-secondary, #94a3b8);
+}
+
+.team-form-chip__badge {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.team-form-chip--win .team-form-chip__badge {
+  background: rgba(0, 179, 112, 0.18);
+  color: var(--color-pitch-green, #00B370);
+  border: 1px solid rgba(0, 179, 112, 0.4);
+}
+
+.team-form-chip--draw .team-form-chip__badge {
+  background: rgba(245, 158, 11, 0.18);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.team-form-chip--loss .team-form-chip__badge {
+  background: rgba(248, 113, 113, 0.18);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+}
+
+/* ── Next Match Card ──────────────────────────────────────────────────────── */
+
+.next-match-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.next-match-card__teams {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.next-match-card__team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.next-match-card__team-name {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary, #f1f5f9);
+  text-align: center;
+}
+
+.next-match-card__vs-badge {
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: var(--color-faint, #475569);
+  padding: 4px 8px;
+  background: #080c11;
+  border-radius: 6px;
+  border: 1px solid var(--color-border, #1e2a35);
+}
+
+.next-match-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--color-border, #1e2a35);
+  padding-top: 10px;
+}
+
+.next-match-card__venue {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  color: var(--color-secondary, #94a3b8);
+}
+
+.next-match-card__time {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-pitch-green, #00B370);
+}
+
+.next-match-card__live-pill {
+  background: #f87171;
+  color: #080c11;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 800;
+}
+
+.team-form-card__empty,
+.next-match-card__empty {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  color: var(--color-faint, #475569);
+  text-align: center;
+  padding: 16px;
+}

@@ -1,0 +1,86 @@
+/* src/components/team-profile/AboutSection.css */
+
+.about-card {
+  background: var(--color-surface, #0d1520);
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.about-card__header {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border, #1e2a35);
+}
+
+.about-card__title {
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-primary, #f1f5f9);
+  text-transform: uppercase;
+}
+
+.about-card__text {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-secondary, #94a3b8);
+  margin: 0;
+}
+
+.about-card__expanded {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--color-border, #1e2a35);
+}
+
+.about-card__subheading {
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-primary, #f1f5f9);
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+}
+
+.about-card__honours-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.about-card__honour-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #080c11;
+  border: 1px solid var(--color-border, #1e2a35);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-pitch-green, #00B370);
+}
+
+.about-card__toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-pitch-green, #00B370);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 0 0 0;
+  margin-top: 8px;
+  align-self: flex-start;
+  transition: opacity 160ms ease;
+}
+
+.about-card__toggle-btn:hover {
+  opacity: 0.8;
+}
