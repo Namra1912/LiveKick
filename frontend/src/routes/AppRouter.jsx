@@ -3,6 +3,7 @@
 // Stub pages for routes that don't have full implementations yet.
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { FollowedTeamsProvider } from '../context/FollowedTeamsContext';
 import HomeFeed from '../pages/HomeFeed';
 import MatchDetail from '../pages/MatchDetail';
 import Standings from '../pages/Standings';
@@ -17,23 +18,25 @@ import Settings from '../pages/Settings';
 
 export default function AppRouter() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Core routes */}
-        <Route path="/"              element={<HomeFeed />} />
-        <Route path="/news"          element={<News />} />
-        <Route path="/standings"     element={<Standings />} />
-        <Route path="/transfers"     element={<Transfers />} />
-        <Route path="/predictions"   element={<PredictionsLeague />} />
-        <Route path="/tactics"       element={<TacticsLab />} />
-        <Route path="/login"         element={<Login />} />
-        <Route path="/settings"      element={<Settings />} />
+    <FollowedTeamsProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Core routes */}
+          <Route path="/"              element={<HomeFeed />} />
+          <Route path="/news"          element={<News />} />
+          <Route path="/standings"     element={<Standings />} />
+          <Route path="/transfers"     element={<Transfers />} />
+          <Route path="/predictions"   element={<PredictionsLeague />} />
+          <Route path="/tactics"       element={<TacticsLab />} />
+          <Route path="/login"         element={<Login />} />
+          <Route path="/settings"      element={<Settings />} />
 
-        {/* Detail routes — navigated to from match rows, team crests, and player names */}
-        <Route path="/matches/:id"   element={<MatchDetail />} />
-        <Route path="/teams/:id"     element={<TeamDetail />} />
-        <Route path="/players/:id"   element={<PlayerDetail />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Detail routes — navigated to from match rows, team crests, and player names */}
+          <Route path="/matches/:id"   element={<MatchDetail />} />
+          <Route path="/teams/:id"     element={<TeamDetail />} />
+          <Route path="/players/:id"   element={<PlayerDetail />} />
+        </Routes>
+      </BrowserRouter>
+    </FollowedTeamsProvider>
   );
 }

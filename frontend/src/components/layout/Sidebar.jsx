@@ -20,6 +20,7 @@ import {
 import { matches, leagues } from '../../data/mockData';
 import Crest from '../shared/Crest';
 import { useLenisScroll } from '../../hooks/useLenisScroll';
+import { useFollowedTeams } from '../../context/FollowedTeamsContext';
 import './Sidebar.css';
 
 // ── helpers & persistence ─────────────────────────────────────────────────────
@@ -274,6 +275,9 @@ export default function Sidebar({
   const addTeamBtnRef = useRef(null);
   const addLeagueBtnRef = useRef(null);
 
+  // Shared Followed Teams state from context
+  const { favTeamIds, followTeam: handleAddTeam, unfollowTeam: handleRemoveTeam } = useFollowedTeams();
+
   // Accordion state
   const [teamsOpen, setTeamsOpen] = useState(() => readJson('lk_sb_teams', true));
   const [leaguesOpen, setLeaguesOpen] = useState(() => readJson('lk_sb_leagues', true));
@@ -285,11 +289,8 @@ export default function Sidebar({
   const [showAddLeague, setShowAddLeague] = useState(false);
   const [leaguePickerPos, setLeaguePickerPos] = useState(null);
 
-  // Favorited Team & League IDs (localStorage-backed)
-  const defaultTeamIds = favoriteTeams.length > 0 ? favoriteTeams : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  // Favorited League IDs (localStorage-backed)
   const defaultLeagueIds = leagues.map((l) => l.id);
-
-  const [favTeamIds, setFavTeamIds] = useState(() => readJson(LS_FAV_TEAMS, defaultTeamIds));
   const [favLeagueIds, setFavLeagueIds] = useState(() => readJson(LS_FAV_LEAGUES, defaultLeagueIds));
 
   // Sync to localStorage
@@ -302,22 +303,10 @@ export default function Sidebar({
   }, [leaguesOpen]);
 
   useEffect(() => {
-    try { localStorage.setItem(LS_FAV_TEAMS, JSON.stringify(favTeamIds)); } catch { }
-  }, [favTeamIds]);
-
-  useEffect(() => {
     try { localStorage.setItem(LS_FAV_LEAGUES, JSON.stringify(favLeagueIds)); } catch { }
   }, [favLeagueIds]);
 
-  // Handlers for adding/removing favorites
-  const handleRemoveTeam = useCallback((teamId) => {
-    setFavTeamIds((prev) => prev.filter((id) => id !== teamId));
-  }, []);
-
-  const handleAddTeam = useCallback((teamId) => {
-    setFavTeamIds((prev) => (prev.includes(teamId) ? prev : [...prev, teamId]));
-  }, []);
-
+  // Handlers for adding/removing league favorites
   const handleRemoveLeague = useCallback((leagueId) => {
     setFavLeagueIds((prev) => prev.filter((id) => id !== leagueId));
   }, []);
