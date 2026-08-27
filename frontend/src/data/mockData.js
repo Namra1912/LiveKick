@@ -24,7 +24,7 @@ export const teams = [
   { id: 6, name: "Man United", shortName: "MUN", league: "Premier League", country: "England", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Manchester%20United.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/England%20-%20Premier%20League/Manchester%20United.png", primaryColor: "#DA291C", secondaryColor: "#FBE122" },
   { id: 7, name: "Real Madrid", shortName: "RMA", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Real%20Madrid.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Real%20Madrid.png", primaryColor: "#FEBE10", secondaryColor: "#00529F" },
   { id: 8, name: "Atletico Madrid", shortName: "ATM", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Atl%C3%A9tico%20de%20Madrid.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Atl%C3%A9tico%20de%20Madrid.png", primaryColor: "#CB3524", secondaryColor: "#272E61" },
-  { id: 9, name: "Barcelona", shortName: "BAR", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/FC%20Barcelona.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/FC%20Barcelona.png", primaryColor: "#004D98", secondaryColor: "#A50044" },
+  { id: 9, name: "Barcelona", shortName: "BAR", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/FC%20Barcelona.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/FC%20Barcelona.png", primaryColor: "#004D98", secondaryColor: "#A50044", founded: 1899, stadium: "Spotify Camp Nou", capacity: "99,354", manager: "Hansi Flick", stadiumOpenedYear: 1957, stadiumSurface: "Hybrid Grass", honours: ["5x Champions League", "27x La Liga", "31x Copa del Rey", "3x FIFA Club World Cup"], formation: "4-3-3", lastMatchXI: [901, 905, 907, 904, 909, 912, 914, 915, 921, 919, 923] },
   { id: 10, name: "Real Betis", shortName: "BET", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Real%20Betis%20Balompi%C3%A9.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Real%20Betis%20Balompi%C3%A9.png", primaryColor: "#00954C", secondaryColor: "#FFFFFF" },
   { id: 11, name: "Borussia Dortmund", shortName: "BVB", league: "Champions League", country: "Germany", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/Borussia%20Dortmund.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Germany%20-%20Bundesliga/Borussia%20Dortmund.png", primaryColor: "#FDE100", secondaryColor: "#000000" },
   { id: 12, name: "Inter Milan", shortName: "INT", league: "Champions League", country: "Italy", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/Inter%20Milan.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Italy%20-%20Serie%20A/Inter%20Milan.png", primaryColor: "#0068A8", secondaryColor: "#000000" },
@@ -170,6 +170,56 @@ export const matches = [
     pressureHome: 50, pressureAway: 50,
     matchDateUtc: getRelativeIso(-2, 20, 45),
     league: "Serie A", venue: "San Siro", referee: "Daniele Orsato",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 130,
+    homeTeam: t(9), awayTeam: t(31),
+    homeScore: 3, awayScore: 1,
+    status: "finished", minute: 90,
+    pressureHome: 65, pressureAway: 35,
+    matchDateUtc: getRelativeIso(-14, 20, 0),
+    league: "La Liga", venue: "Spotify Camp Nou", referee: "César Soto Grado",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 131,
+    homeTeam: t(32), awayTeam: t(9),
+    homeScore: 0, awayScore: 2,
+    status: "finished", minute: 90,
+    pressureHome: 42, pressureAway: 58,
+    matchDateUtc: getRelativeIso(-11, 20, 0),
+    league: "La Liga", venue: "Reale Arena", referee: "José María Sánchez Martínez",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 132,
+    homeTeam: t(9), awayTeam: t(33),
+    homeScore: 4, awayScore: 1,
+    status: "finished", minute: 90,
+    pressureHome: 70, pressureAway: 30,
+    matchDateUtc: getRelativeIso(-8, 20, 0),
+    league: "La Liga", venue: "Spotify Camp Nou", referee: "Alejandro Hernández Hernández",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 133,
+    homeTeam: t(8), awayTeam: t(9),
+    homeScore: 1, awayScore: 2,
+    status: "finished", minute: 90,
+    pressureHome: 48, pressureAway: 52,
+    matchDateUtc: getRelativeIso(-5, 20, 0),
+    league: "La Liga", venue: "Cívitas Metropolitano", referee: "Jesús Gil Manzano",
+    lastSynced: new Date().toISOString(),
+  },
+  {
+    id: 134,
+    homeTeam: t(9), awayTeam: t(10),
+    homeScore: 2, awayScore: 1,
+    status: "finished", minute: 90,
+    pressureHome: 62, pressureAway: 38,
+    matchDateUtc: getRelativeIso(-2, 20, 0),
+    league: "La Liga", venue: "Spotify Camp Nou", referee: "Ricardo de Burgos",
     lastSynced: new Date().toISOString(),
   },
 
@@ -914,40 +964,8 @@ export const transfers = [
   },
 ];
 
-
-// -------------------------------------------------------------- news -------
-//
-// â”€â”€ CHUNK 1 DELIVERABLE CONFIRMATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-//
-// 1. FIELDS AUDIT PER ENTRY:
-//    Previously present fields (from original 4-entry export):
-//      id, title (renamed â†’ headline below), thumbnailUrl (dropped â†’ imageUrl),
-//      source, publishedAt (dropped â†’ timeAgo), category (updated to uppercase spec strings)
-//    Newly added fields per entry:
-//      headline (replaces title), sourceUrl, author, readTime, timeAgo,
-//      imageUrl (replaces thumbnailUrl), featured
-//    NOTE: `title` alias kept alongside `headline` for backward compat with
-//    NewsList.jsx on Home Feed (which reads item.title). Both fields are present.
-//
-// 2. FEATURED ENTRY: Exactly ONE entry has featured: true
-//    â†’ id: 301, headline: "Salah's Contract Talks Stall as Liverpool Set Summer Deadline"
-//
-// 3. IMAGE URL UNIQUENESS â€” all 12 use different Unsplash IDs from verified list:
-//    301â†’1508098682  302â†’1574629810  303â†’1522778119  304â†’1516108103
-//    305â†’1551958425  306â†’1547347298  307â†’1543326727  308â†’1552674466
-//    309â†’1571019613  310â†’1529900748  311â†’1577223625  312â†’1518604743
-//
-// 4. CATEGORY TOKENS: 5 tokens added to tokens.css under
-//    "/* News category label colors */" section without touching existing tokens.
-//
-// 5. SOURCE URLS: All are homepage-level. No fake deep links used anywhere.
-//    Verified: skysports.com / bbc.com/sport/football / theathletic.com /
-//    theguardian.com/football / premierleague.com / fotmob.com
-//
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
 export const news = [
-  // â”€â”€ LATEST (1 entry, featured: true) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── LATEST (1 entry, featured: true) ──────────────────────────────────
   {
     id: 301,
     headline: "Salah's Contract Talks Stall as Liverpool Set Summer Deadline",
@@ -960,9 +978,11 @@ export const news = [
     timeAgo: "18m ago",
     imageUrl: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?w=800&auto=format&fit=crop&q=80",
     featured: true,
+    team: "liverpool",
+    teamId: 3,
   },
 
-  // â”€â”€ RESULTS (2 entries) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── RESULTS (2 entries) ───────────────────────────────────────────────────
   {
     id: 302,
     headline: "Haaland Hat-Trick Crushes Arsenal's Title Hopes in Five-Goal Etihad Thriller",
@@ -975,6 +995,8 @@ export const news = [
     timeAgo: "2h ago",
     imageUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&auto=format&fit=crop&q=80",
     featured: false,
+    team: "arsenal",
+    teamId: 1,
   },
   {
     id: 303,
@@ -988,13 +1010,15 @@ export const news = [
     timeAgo: "5h ago",
     imageUrl: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&auto=format&fit=crop&q=80",
     featured: false,
+    team: "barcelona",
+    teamId: 9,
   },
 
-  // â”€â”€ TRANSFERS (3 entries) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── TRANSFERS (3 entries) ─────────────────────────────────────────────────
   {
     id: 304,
-    headline: "Chelsea Reach Agreement with Napoli for Khvicha Kvaratskhelia in Record Â£95M Move",
-    title:    "Chelsea Reach Agreement with Napoli for Khvicha Kvaratskhelia in Record Â£95M Move",
+    headline: "Chelsea Reach Agreement with Napoli for Khvicha Kvaratskhelia in Record £95M Move",
+    title:    "Chelsea Reach Agreement with Napoli for Khvicha Kvaratskhelia in Record £95M Move",
     category: "TRANSFERS",
     source: "Sky Sports",
     sourceUrl: "https://www.skysports.com",
@@ -1003,11 +1027,13 @@ export const news = [
     timeAgo: "1h ago",
     imageUrl: "https://images.unsplash.com/photo-1517747614396-d21a78b850e8?w=800&auto=format&fit=crop&q=80",
     featured: false,
+    team: "chelsea",
+    teamId: 4,
   },
   {
     id: 305,
-    headline: "City Eye Bundesliga Striker as Haaland Cover After Injury Blow â€” Sources",
-    title:    "City Eye Bundesliga Striker as Haaland Cover After Injury Blow â€” Sources",
+    headline: "City Eye Bundesliga Striker as Haaland Cover After Injury Blow — Sources",
+    title:    "City Eye Bundesliga Striker as Haaland Cover After Injury Blow — Sources",
     category: "TRANSFERS",
     source: "The Athletic",
     sourceUrl: "https://theathletic.com",
@@ -1085,11 +1111,13 @@ export const news = [
     timeAgo: "1d ago",
     imageUrl: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=800&auto=format&fit=crop&q=80",
     featured: false,
+    team: "barcelona",
+    teamId: 9,
   },
   {
     id: 311,
-    headline: "PSG Preparing Â£80M Bid for Rodri as Inesta-Era Rebuild Accelerates",
-    title:    "PSG Preparing Â£80M Bid for Rodri as Inesta-Era Rebuild Accelerates",
+    headline: "PSG Preparing £80M Bid for Rodri as Inesta-Era Rebuild Accelerates",
+    title:    "PSG Preparing £80M Bid for Rodri as Inesta-Era Rebuild Accelerates",
     category: "RUMOURS",
     source: "Sky Sports",
     sourceUrl: "https://www.skysports.com",
@@ -1098,6 +1126,8 @@ export const news = [
     timeAgo: "1d ago",
     imageUrl: "https://images.unsplash.com/photo-1516567727-459e4558f42f?w=800&auto=format&fit=crop&q=80",
     featured: false,
+    team: "psg",
+    teamId: 89,
   },
   {
     id: 312,
@@ -1111,6 +1141,70 @@ export const news = [
     timeAgo: "1d ago",
     imageUrl: "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=800&auto=format&fit=crop&q=80",
     featured: false,
+    team: "manunited",
+    teamId: 6,
+  },
+
+  // ── BARCELONA EXCLUSIVES (Chunk 0 Data Expansion) ──────────────────────────
+  {
+    id: 313,
+    headline: "Lamine Yamal Agrees New Barcelona Deal with Record €1B Release Clause",
+    title:    "Lamine Yamal Agrees New Barcelona Deal with Record €1B Release Clause",
+    category: "LATEST",
+    source: "Mundo Deportivo",
+    sourceUrl: "https://www.theguardian.com/football",
+    author: "Fernando Polo",
+    readTime: 4,
+    timeAgo: "3h ago",
+    imageUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&auto=format&fit=crop&q=80",
+    featured: false,
+    team: "barcelona",
+    teamId: 9,
+  },
+  {
+    id: 314,
+    headline: "Hansi Flick Outlines Pressing Blueprint Ahead of Champions League Knockouts",
+    title:    "Hansi Flick Outlines Pressing Blueprint Ahead of Champions League Knockouts",
+    category: "RESULTS",
+    source: "The Athletic",
+    sourceUrl: "https://theathletic.com",
+    author: "Pol Ballús",
+    readTime: 5,
+    timeAgo: "6h ago",
+    imageUrl: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&auto=format&fit=crop&q=80",
+    featured: false,
+    team: "barcelona",
+    teamId: 9,
+  },
+  {
+    id: 315,
+    headline: "Gavi Returns to Full Team Training After 10-Month ACL Rehabilitation",
+    title:    "Gavi Returns to Full Team Training After 10-Month ACL Rehabilitation",
+    category: "INJURIES",
+    source: "Barça TV",
+    sourceUrl: "https://www.skysports.com",
+    author: "Marc Brau",
+    readTime: 3,
+    timeAgo: "12h ago",
+    imageUrl: "https://images.unsplash.com/photo-1517649763962-0c623266010b?w=800&auto=format&fit=crop&q=80",
+    featured: false,
+    team: "barcelona",
+    teamId: 9,
+  },
+  {
+    id: 316,
+    headline: "Spotify Camp Nou Renovation Ahead of Schedule for Winter Return",
+    title:    "Spotify Camp Nou Renovation Ahead of Schedule for Winter Return",
+    category: "LATEST",
+    source: "Sport",
+    sourceUrl: "https://www.bbc.com/sport/football",
+    author: "Toni Juanmartí",
+    readTime: 4,
+    timeAgo: "1d ago",
+    imageUrl: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&auto=format&fit=crop&q=80",
+    featured: false,
+    team: "barcelona",
+    teamId: 9,
   },
 ];
 
@@ -1164,3 +1258,131 @@ export const savedFormations = [
     ],
   },
 ];
+
+// ----------------------------------------------------- squads dataset ------
+export const squads = {
+  9: [ // Barcelona squad (~23 real current players)
+    // Goalkeepers
+    { id: 901, name: "Marc-André ter Stegen", position: "GK", shirtNumber: 1, age: 33, nationality: "Germany", rating: 8.4, goals: 0, assists: 0 },
+    { id: 902, name: "Iñaki Peña", position: "GK", shirtNumber: 13, age: 26, nationality: "Spain", rating: 7.2, goals: 0, assists: 0 },
+    { id: 903, name: "Wojciech Szczęsny", position: "GK", shirtNumber: 25, age: 35, nationality: "Poland", rating: 7.5, goals: 0, assists: 0 },
+
+    // Defenders
+    { id: 904, name: "Pau Cubarsí", position: "DEF", shirtNumber: 2, age: 18, nationality: "Spain", rating: 8.3, goals: 1, assists: 1 },
+    { id: 905, name: "Alejandro Balde", position: "DEF", shirtNumber: 3, age: 21, nationality: "Spain", rating: 8.1, goals: 1, assists: 5 },
+    { id: 906, name: "Ronald Araújo", position: "DEF", shirtNumber: 4, age: 26, nationality: "Uruguay", rating: 8.5, goals: 1, assists: 0 },
+    { id: 907, name: "Iñigo Martínez", position: "DEF", shirtNumber: 5, age: 34, nationality: "Spain", rating: 7.9, goals: 1, assists: 0 },
+    { id: 908, name: "Andreas Christensen", position: "DEF", shirtNumber: 15, age: 29, nationality: "Denmark", rating: 7.8, goals: 0, assists: 1 },
+    { id: 909, name: "Jules Koundé", position: "DEF", shirtNumber: 23, age: 26, nationality: "France", rating: 8.6, goals: 2, assists: 4 },
+    { id: 910, name: "Eric García", position: "DEF", shirtNumber: 24, age: 24, nationality: "Spain", rating: 7.4, goals: 0, assists: 1 },
+
+    // Midfielders
+    { id: 911, name: "Gavi", position: "MID", shirtNumber: 6, age: 21, nationality: "Spain", rating: 8.5, goals: 3, assists: 4 },
+    { id: 912, name: "Pedri", position: "MID", shirtNumber: 8, age: 22, nationality: "Spain", rating: 8.9, goals: 5, assists: 8 },
+    { id: 913, name: "Fermín López", position: "MID", shirtNumber: 16, age: 22, nationality: "Spain", rating: 8.0, goals: 5, assists: 4 },
+    { id: 914, name: "Marc Casadó", position: "MID", shirtNumber: 17, age: 21, nationality: "Spain", rating: 8.2, goals: 1, assists: 6 },
+    { id: 915, name: "Dani Olmo", position: "MID", shirtNumber: 20, age: 27, nationality: "Spain", rating: 8.6, goals: 7, assists: 5 },
+    { id: 916, name: "Frenkie de Jong", position: "MID", shirtNumber: 21, age: 28, nationality: "Netherlands", rating: 8.4, goals: 2, assists: 5 },
+    { id: 917, name: "Marc Bernal", position: "MID", shirtNumber: 28, age: 18, nationality: "Spain", rating: 7.6, goals: 0, assists: 2 },
+
+    // Forwards
+    { id: 918, name: "Ferran Torres", position: "FWD", shirtNumber: 7, age: 25, nationality: "Spain", rating: 7.7, goals: 6, assists: 3 },
+    { id: 919, name: "Robert Lewandowski", position: "FWD", shirtNumber: 9, age: 37, nationality: "Poland", rating: 8.8, goals: 21, assists: 4 },
+    { id: 920, name: "Ansu Fati", position: "FWD", shirtNumber: 10, age: 22, nationality: "Spain", rating: 7.3, goals: 2, assists: 1 },
+    { id: 921, name: "Raphinha", position: "FWD", shirtNumber: 11, age: 28, nationality: "Brazil", rating: 8.9, goals: 14, assists: 11 },
+    { id: 922, name: "Pau Víctor", position: "FWD", shirtNumber: 18, age: 23, nationality: "Spain", rating: 7.4, goals: 2, assists: 1 },
+    { id: 923, name: "Lamine Yamal", position: "FWD", shirtNumber: 19, age: 18, nationality: "Spain", rating: 9.2, goals: 11, assists: 13 }
+  ],
+  1: [ // Arsenal partial squad preview
+    { id: 101, name: "David Raya", position: "GK", shirtNumber: 22, age: 29, nationality: "Spain", rating: 8.2 },
+    { id: 102, name: "William Saliba", position: "DEF", shirtNumber: 2, age: 24, nationality: "France", rating: 8.7 },
+    { id: 103, name: "Gabriel Magalhães", position: "DEF", shirtNumber: 6, age: 27, nationality: "Brazil", rating: 8.5 },
+    { id: 104, name: "Declan Rice", position: "MID", shirtNumber: 4, age: 26, nationality: "England", rating: 8.8 },
+    { id: 105, name: "Martin Ødegaard", position: "MID", shirtNumber: 8, age: 26, nationality: "Norway", rating: 8.9 },
+    { id: 106, name: "Bukayo Saka", position: "FWD", shirtNumber: 7, age: 23, nationality: "England", rating: 9.1 },
+    { id: 107, name: "Kai Havertz", position: "FWD", shirtNumber: 29, age: 25, nationality: "Germany", rating: 8.2 },
+  ],
+  7: [ // Real Madrid partial squad preview
+    { id: 701, name: "Thibaut Courtois", position: "GK", shirtNumber: 1, age: 33, nationality: "Belgium", rating: 8.8 },
+    { id: 702, name: "Antonio Rüdiger", position: "DEF", shirtNumber: 22, age: 32, nationality: "Germany", rating: 8.6 },
+    { id: 703, name: "Jude Bellingham", position: "MID", shirtNumber: 5, age: 22, nationality: "England", rating: 9.2 },
+    { id: 704, name: "Federico Valverde", position: "MID", shirtNumber: 8, age: 27, nationality: "Uruguay", rating: 8.7 },
+    { id: 705, name: "Vinícius Júnior", position: "FWD", shirtNumber: 7, age: 25, nationality: "Brazil", rating: 9.3 },
+    { id: 706, name: "Kylian Mbappé", position: "FWD", shirtNumber: 9, age: 26, nationality: "France", rating: 9.4 },
+  ]
+};
+
+// --------------------------------------------------- team aggregate stats ---
+export const teamStats = {
+  9: { // Barcelona
+    matchesPlayed: 28,
+    wins: 21,
+    draws: 4,
+    losses: 3,
+    goalsFor: 72,
+    goalsAgainst: 26,
+    goalDifference: 46,
+    cleanSheets: 14,
+    avgPossession: "64.2%",
+    shotsPerGame: 16.4,
+    passAccuracy: "88.7%",
+    tacklesPerGame: 15.2,
+  },
+  1: { // Arsenal
+    matchesPlayed: 29,
+    wins: 20,
+    draws: 6,
+    losses: 3,
+    goalsFor: 65,
+    goalsAgainst: 24,
+    goalDifference: 41,
+    cleanSheets: 15,
+    avgPossession: "59.8%",
+    shotsPerGame: 15.1,
+    passAccuracy: "86.9%",
+    tacklesPerGame: 14.8,
+  },
+  2: { // Man City
+    matchesPlayed: 29,
+    wins: 21,
+    draws: 5,
+    losses: 3,
+    goalsFor: 71,
+    goalsAgainst: 28,
+    goalDifference: 43,
+    cleanSheets: 12,
+    avgPossession: "66.5%",
+    shotsPerGame: 17.2,
+    passAccuracy: "90.1%",
+    tacklesPerGame: 13.5,
+  },
+  3: { // Liverpool
+    matchesPlayed: 29,
+    wins: 19,
+    draws: 7,
+    losses: 3,
+    goalsFor: 63,
+    goalsAgainst: 30,
+    goalDifference: 33,
+    cleanSheets: 11,
+    avgPossession: "61.0%",
+    shotsPerGame: 16.0,
+    passAccuracy: "85.4%",
+    tacklesPerGame: 16.1,
+  },
+  7: { // Real Madrid
+    matchesPlayed: 28,
+    wins: 20,
+    draws: 5,
+    losses: 3,
+    goalsFor: 68,
+    goalsAgainst: 25,
+    goalDifference: 43,
+    cleanSheets: 13,
+    avgPossession: "59.1%",
+    shotsPerGame: 15.8,
+    passAccuracy: "88.2%",
+    tacklesPerGame: 14.2,
+  }
+};
+
