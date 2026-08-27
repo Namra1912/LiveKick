@@ -126,3 +126,11 @@ When this user asks what to learn or study next for React / LiveKick:
 - After those 1h 32m, they are 100% ready to build LiveKick frontend with mock data
 - Concepts like Protected Routes, Socket.io, useMemo, Framer Motion are learned WHILE BUILDING — not before
 - LiveKick build order: Navbar+Sidebar shell → Home Feed → Match Detail → Standings → Transfers → Predictions → Tactics Lab → Login/Signup
+
+---
+
+## 📌 7. GIT COMMIT STRATEGY & PACING (Strict Workflow)
+To maintain a high-quality, authentic developer git history (targeting ~200-270 commits at full project completion):
+- **No artificial/trivial micro-commits**: Never commit 1-line typos or junk spam.
+- **Clean feature scoping**: Break each prompt or page feature into 2 to 4 clean, logical, Conventional Commit messages (e.g., `feat(auth): ...`, `style(nav): ...`, `fix(scroll): ...`, `docs(...): ...`).
+- **Atomic modularity**: Keep components, hooks, styling, and route wiring in focused, well-described commits so the GitHub history reads like a senior engineer's production repository.

@@ -25,11 +25,13 @@
 // ══════════════════════════════════════════════════════════════════════════════
 
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Crest from '../shared/Crest';
 import { topScorers } from '../../data/mockData';
 import './TopScorersCard.css';
 
 export default function TopScorersCard({ league }) {
+  const navigate = useNavigate();
   const leagueName = league?.name ?? 'Premier League';
   const scorers = useMemo(() => topScorers[leagueName] ?? [], [leagueName]);
 
@@ -56,7 +58,15 @@ export default function TopScorersCard({ league }) {
 
               {/* Player & Team Info */}
               <div className="top-stats-card__player-info">
-                <span className="top-stats-card__player-name">{item.name}</span>
+                <span
+                  className="top-stats-card__player-name top-stats-card__player-name--link"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => navigate('/players/' + encodeURIComponent(item.name))}
+                  onKeyDown={(e) => e.key === 'Enter' && navigate('/players/' + encodeURIComponent(item.name))}
+                >
+                  {item.name}
+                </span>
                 <div className="top-stats-card__team-info">
                   <Crest team={item.team} name={item.team?.name} size={20} />
                   <span className="top-stats-card__team-name">{item.team?.name || 'Team'}</span>
