@@ -1,7 +1,7 @@
 // src/components/team-profile/TeamForm.jsx
 import { useMemo } from 'react';
 import Crest from '../shared/Crest';
-import { matches } from '../../data/mockData';
+import { matches, leagues } from '../../data/mockData';
 import './TeamForm.css';
 
 export default function TeamForm({ team }) {
@@ -27,13 +27,20 @@ export default function TeamForm({ team }) {
     );
   }, [team]);
 
+  // Derive league logo for next match
+  const nextMatchLeagueLogo = useMemo(() => {
+    const compName = nextMatch?.league ?? team?.league;
+    if (!compName) return null;
+    const found = leagues.find((l) => l.name.toLowerCase() === compName.toLowerCase());
+    return found?.logoUrl ?? null;
+  }, [nextMatch, team]);
+
   return (
     <div className="team-form-row">
-      {/* Team Form Card (55% width) */}
+      {/* Team Form Card */}
       <div className="team-form-card">
         <div className="team-form-card__header">
           <span className="team-form-card__title">RECENT FORM</span>
-          <span className="team-form-card__subtitle">Last 5 Matches</span>
         </div>
 
         <div className="team-form-card__chips">
@@ -46,26 +53,22 @@ export default function TeamForm({ team }) {
               const teamScore = isHome ? m.homeScore : m.awayScore;
               const oppScore = isHome ? m.awayScore : m.homeScore;
 
-              let outcome = 'D';
-              let outcomeClass = 'team-form-chip--draw';
+              let outcome = 'draw';
               if (teamScore > oppScore) {
-                outcome = 'W';
-                outcomeClass = 'team-form-chip--win';
+                outcome = 'win';
               } else if (teamScore < oppScore) {
-                outcome = 'L';
-                outcomeClass = 'team-form-chip--loss';
+                outcome = 'loss';
               }
 
               return (
-                <div key={m.id} className={`team-form-chip ${outcomeClass}`}>
-                  <span className="team-form-chip__score">
+                <div key={m.id} className="team-form-chip">
+                  <div className={`team-form-chip__score-box team-form-chip__score-box--${outcome}`}>
                     {m.homeScore}-{m.awayScore}
-                  </span>
+                  </div>
                   <div className="team-form-chip__opponent">
-                    <Crest logoUrl={opponent?.logoUrl ?? opponent?.crestUrl} name={opponent?.name} size={22} />
+                    <Crest logoUrl={opponent?.logoUrl ?? opponent?.crestUrl} name={opponent?.name} size={24} />
                     <span className="team-form-chip__opp-name">{opponent?.shortName ?? 'OPP'}</span>
                   </div>
-                  <span className="team-form-chip__badge">{outcome}</span>
                 </div>
               );
             })
@@ -73,11 +76,22 @@ export default function TeamForm({ team }) {
         </div>
       </div>
 
-      {/* Next Match Card (45% width) */}
+      {/* Next Match Card */}
       <div className="next-match-card">
         <div className="next-match-card__header">
           <span className="next-match-card__title">NEXT MATCH</span>
-          <span className="next-match-card__comp">{nextMatch?.league ?? team?.league ?? 'La Liga'}</span>
+          <div className="next-match-card__comp-wrap">
+            {nextMatchLeagueLogo && (
+              <img
+                src={nextMatchLeagueLogo}
+                alt={nextMatch?.league ?? team?.league}
+                className="next-match-card__league-logo"
+              />
+            )}
+            <span className="next-match-card__comp">
+              {nextMatch?.league ?? team?.league ?? 'La Liga'}
+            </span>
+          </div>
         </div>
 
         {nextMatch ? (
@@ -88,8 +102,12 @@ export default function TeamForm({ team }) {
                 <span className="next-match-card__team-name">{nextMatch.homeTeam?.name}</span>
               </div>
 
-              <div className="next-match-card__vs-badge">
-                <span>VS</span>
+              <div className="next-match-card__time-display">
+                {nextMatch.status === 'live' ? (
+                  <span className="next-match-card__live-pill">LIVE {nextMatch.minute}&rsquo;</span>
+                ) : (
+                  '21:00'
+                )}
               </div>
 
               <div className="next-match-card__team">
@@ -101,11 +119,8 @@ export default function TeamForm({ team }) {
             <div className="next-match-card__meta">
               <span className="next-match-card__venue">{nextMatch.venue ?? team?.stadium ?? 'Stadium'}</span>
               <span className="next-match-card__time">
-                {nextMatch.status === 'live' ? (
-                  <span className="next-match-card__live-pill">LIVE {nextMatch.minute}&rsquo;</span>
-                ) : (
-                  'Today · 21:00 UTC'
-                )}
+                <span className="next-match-card__today-dot" title="Match Today" />
+                Today · 21:00 UTC
               </span>
             </div>
           </div>
@@ -116,3 +131,4 @@ export default function TeamForm({ team }) {
     </div>
   );
 }
+

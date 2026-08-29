@@ -185,7 +185,7 @@ export const matches = [
   {
     id: 131,
     homeTeam: t(32), awayTeam: t(9),
-    homeScore: 0, awayScore: 2,
+    homeScore: 1, awayScore: 1,
     status: "finished", minute: 90,
     pressureHome: 42, pressureAway: 58,
     matchDateUtc: getRelativeIso(-11, 20, 0),
@@ -205,7 +205,7 @@ export const matches = [
   {
     id: 133,
     homeTeam: t(8), awayTeam: t(9),
-    homeScore: 1, awayScore: 2,
+    homeScore: 2, awayScore: 1,
     status: "finished", minute: 90,
     pressureHome: 48, pressureAway: 52,
     matchDateUtc: getRelativeIso(-5, 20, 0),
