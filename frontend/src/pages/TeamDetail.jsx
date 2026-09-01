@@ -135,7 +135,7 @@ export default function TeamDetail() {
 
                   {/* 2. League Table (Standings Embed) */}
                   <div className="team-profile__table-embed" data-highlight-team={team.id}>
-                    <StandingsTable league={activeLeague} />
+                    <StandingsTable league={activeLeague} highlightTeamId={team.id} />
                   </div>
 
                   {/* 3. Top Rated / Top Scorers / Top Assists (3 Columns) */}

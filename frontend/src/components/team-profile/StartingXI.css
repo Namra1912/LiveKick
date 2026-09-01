@@ -22,6 +22,20 @@
   gap: 8px;
 }
 
+.starting-xi-card__league-logo {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 160ms ease-out, opacity 160ms ease-out;
+}
+
+.starting-xi-card__league-logo:hover {
+  transform: translateY(-1px);
+  opacity: 0.85;
+}
+
 .starting-xi-card__title {
   font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
   font-size: 1.125rem;
@@ -33,35 +47,35 @@
 
 .starting-xi-card__formation {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--color-pitch-green, #00B370);
-  background: rgba(0, 179, 112, 0.12);
-  border: 1px solid rgba(0, 179, 112, 0.3);
-  padding: 2px 6px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-secondary, #94a3b8);
+  background: #080c11;
+  border: 1px solid var(--color-border, #1e2a35);
+  padding: 1px 6px;
   border-radius: 4px;
 }
 
 .starting-xi-card__sub {
   font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.75rem;
-  color: var(--color-faint, #475569);
-  text-transform: uppercase;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-secondary, #94a3b8);
 }
 
-/* Tactical Pitch Graphic */
+/* Tactical Pitch Graphic (Green pitch preserved) */
 .starting-xi-pitch {
   position: relative;
   width: 100%;
   height: 380px;
   background: radial-gradient(circle at center, #0f241a 0%, #08120d 100%);
-  border: 1px solid #1a3325;
+  border: 1px solid var(--color-border, #1e2a35);
   border-radius: 10px;
   overflow: hidden;
   padding: 16px 12px;
 }
 
-/* Pitch Lines */
+/* Pitch Lines (calm, subtle framing without neon glow) */
 .starting-xi-pitch__lines {
   position: absolute;
   inset: 0;
@@ -74,7 +88,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: rgba(0, 179, 112, 0.2);
+  background: rgba(0, 179, 112, 0.15);
 }
 
 .starting-xi-pitch__center-circle {
@@ -84,7 +98,7 @@
   width: 90px;
   height: 90px;
   transform: translate(-50%, -50%);
-  border: 1px solid rgba(0, 179, 112, 0.2);
+  border: 1px solid rgba(0, 179, 112, 0.15);
   border-radius: 50%;
 }
 
@@ -94,7 +108,7 @@
   left: 25%;
   right: 25%;
   height: 50px;
-  border: 1px solid rgba(0, 179, 112, 0.18);
+  border: 1px solid rgba(0, 179, 112, 0.15);
   border-top: none;
 }
 
@@ -104,7 +118,7 @@
   left: 25%;
   right: 25%;
   height: 50px;
-  border: 1px solid rgba(0, 179, 112, 0.18);
+  border: 1px solid rgba(0, 179, 112, 0.15);
   border-bottom: none;
 }
 
@@ -130,27 +144,39 @@
   flex-direction: column;
   align-items: center;
   gap: 3px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 160ms ease-out;
+}
+
+.starting-xi-player:hover {
+  transform: translateY(-2px);
+}
+
+.starting-xi-player:hover .starting-xi-player__name {
+  color: var(--color-pitch-green, #00B370);
 }
 
 .starting-xi-player__avatar-wrap {
   position: relative;
 }
 
+/* Plain filled circle with shirt number — no ring, border, or neon glow */
 .starting-xi-player__avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #111e17;
-  border: 1.5px solid var(--color-pitch-green, #00B370);
-  box-shadow: 0 0 8px rgba(0, 179, 112, 0.3);
+  background: #182720;
+  border: none;
+  box-shadow: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 160ms ease;
+  transition: background-color 160ms ease-out;
 }
 
 .starting-xi-player:hover .starting-xi-player__avatar {
-  transform: scale(1.1);
+  background: #21362c;
 }
 
 .starting-xi-player__number {
@@ -160,19 +186,28 @@
   color: var(--color-primary, #f1f5f9);
 }
 
+/* Rating badge — calmer treatment, smaller, no glow, color-coded by rating value */
 .starting-xi-player__rating-badge {
   position: absolute;
   top: -4px;
-  right: -8px;
-  background: #f59e0b;
-  color: #080c11;
+  right: -6px;
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
   font-size: 0.625rem;
-  font-weight: 800;
-  padding: 1px 4px;
-  border-radius: 4px;
+  font-weight: 700;
+  padding: 1px 3.5px;
+  border-radius: 3px;
   line-height: 1;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: none;
+}
+
+.starting-xi-player__rating--high {
+  background: #00B370;
+  color: #080c11;
+}
+
+.starting-xi-player__rating--mid {
+  background: #f59e0b;
+  color: #080c11;
 }
 
 .starting-xi-player__name {
@@ -183,3 +218,4 @@
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
   white-space: nowrap;
 }
+

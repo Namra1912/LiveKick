@@ -1,10 +1,20 @@
 // src/components/team-profile/StartingXI.jsx
 import { useMemo } from 'react';
-import { squads } from '../../data/mockData';
+import { useNavigate } from 'react-router-dom';
+import { squads, leagues } from '../../data/mockData';
 import './StartingXI.css';
 
 export default function StartingXI({ team }) {
+  const navigate = useNavigate();
   const squad = useMemo(() => squads[team?.id] ?? [], [team]);
+
+  // Derive league object & logo for Starting XI card
+  const activeLeagueObj = useMemo(() => {
+    const leagueName = team?.league ?? 'La Liga';
+    return leagues.find((l) => l.name.toLowerCase() === leagueName.toLowerCase()) ?? null;
+  }, [team]);
+
+  const leagueSlug = activeLeagueObj?.slug ?? 'laliga';
 
   // Map 11 player IDs from lastMatchXI into player objects
   const startingPlayers = useMemo(() => {
@@ -35,13 +45,34 @@ export default function StartingXI({ team }) {
     <div className="starting-xi-card">
       <div className="starting-xi-card__header">
         <div className="starting-xi-card__header-left">
-          <span className="starting-xi-card__title">STARTING XI</span>
-          <span className="starting-xi-card__formation">{team?.formation ?? '4-3-3'}</span>
+          {activeLeagueObj?.logoUrl && (
+            <img
+              src={activeLeagueObj.logoUrl}
+              alt={team?.league ?? 'League'}
+              className="starting-xi-card__league-logo"
+              role="button"
+              tabIndex={0}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/standings?league=${leagueSlug}`);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  navigate(`/standings?league=${leagueSlug}`);
+                }
+              }}
+              title={`View ${team?.league ?? 'La Liga'} standings`}
+            />
+          )}
+          <span className="starting-xi-card__title">SEASON STATS</span>
         </div>
-        <span className="starting-xi-card__sub">Last Match Lineup</span>
+        <span className="starting-xi-card__formation">{team?.formation ?? '4-3-3'}</span>
+        <span className="starting-xi-card__sub">Last starting XI</span>
       </div>
 
-      {/* Pitch graphic container */}
+      {/* Tactical pitch graphic container */}
       <div className="starting-xi-pitch">
         {/* Tactical pitch lines */}
         <div className="starting-xi-pitch__lines">
@@ -87,15 +118,45 @@ export default function StartingXI({ team }) {
 }
 
 function PlayerNode({ player }) {
+  const navigate = useNavigate();
   const shortName = player.name.split(' ').pop();
+  const ratingClass =
+    player.rating >= 8.0
+      ? 'starting-xi-player__rating--high'
+      : 'starting-xi-player__rating--mid';
+
+  const handleClick = (e) => {
+    e.stopPropagation();
+    if (player.id) {
+      navigate('/players/' + player.id);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
+      if (player.id) {
+        navigate('/players/' + player.id);
+      }
+    }
+  };
+
   return (
-    <div className="starting-xi-player">
+    <div
+      className="starting-xi-player"
+      role="button"
+      tabIndex={0}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      title={`View ${player.name} profile`}
+    >
       <div className="starting-xi-player__avatar-wrap">
         <div className="starting-xi-player__avatar">
           <span className="starting-xi-player__number">{player.shirtNumber}</span>
         </div>
         {player.rating && (
-          <span className="starting-xi-player__rating-badge">
+          <span className={`starting-xi-player__rating-badge ${ratingClass}`}>
             {player.rating.toFixed(1)}
           </span>
         )}
@@ -104,3 +165,5 @@ function PlayerNode({ player }) {
     </div>
   );
 }
+
+

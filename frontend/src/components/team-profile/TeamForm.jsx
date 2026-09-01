@@ -1,10 +1,13 @@
 // src/components/team-profile/TeamForm.jsx
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Crest from '../shared/Crest';
 import { matches, leagues } from '../../data/mockData';
 import './TeamForm.css';
 
 export default function TeamForm({ team }) {
+  const navigate = useNavigate();
+
   // Find past 5 finished matches for this team
   const pastMatches = useMemo(() => {
     if (!team) return [];
@@ -27,13 +30,14 @@ export default function TeamForm({ team }) {
     );
   }, [team]);
 
-  // Derive league logo for next match
-  const nextMatchLeagueLogo = useMemo(() => {
+  // Derive league object & logo for next match
+  const activeLeagueObj = useMemo(() => {
     const compName = nextMatch?.league ?? team?.league;
     if (!compName) return null;
-    const found = leagues.find((l) => l.name.toLowerCase() === compName.toLowerCase());
-    return found?.logoUrl ?? null;
+    return leagues.find((l) => l.name.toLowerCase() === compName.toLowerCase()) ?? null;
   }, [nextMatch, team]);
+
+  const leagueSlug = activeLeagueObj?.slug ?? 'laliga';
 
   return (
     <div className="team-form-row">
@@ -61,7 +65,24 @@ export default function TeamForm({ team }) {
               }
 
               return (
-                <div key={m.id} className="team-form-chip">
+                <div
+                  key={m.id}
+                  className="team-form-chip"
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (m?.id) navigate(`/matches/${m.id}`);
+                  }}
+                  onKeyDown={(e) => {
+                    if ((e.key === 'Enter' || e.key === ' ') && m?.id) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      navigate(`/matches/${m.id}`);
+                    }
+                  }}
+                  title={`View match details (${m.homeTeam?.name} vs ${m.awayTeam?.name})`}
+                >
                   <div className={`team-form-chip__score-box team-form-chip__score-box--${outcome}`}>
                     {m.homeScore}-{m.awayScore}
                   </div>
@@ -80,10 +101,26 @@ export default function TeamForm({ team }) {
       <div className="next-match-card">
         <div className="next-match-card__header">
           <span className="next-match-card__title">NEXT MATCH</span>
-          <div className="next-match-card__comp-wrap">
-            {nextMatchLeagueLogo && (
+          <div
+            className="next-match-card__comp-wrap"
+            role="button"
+            tabIndex={0}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/standings?league=${leagueSlug}`);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                e.stopPropagation();
+                navigate(`/standings?league=${leagueSlug}`);
+              }
+            }}
+            title={`View ${nextMatch?.league ?? team?.league ?? 'La Liga'} standings`}
+          >
+            {activeLeagueObj?.logoUrl && (
               <img
-                src={nextMatchLeagueLogo}
+                src={activeLeagueObj.logoUrl}
                 alt={nextMatch?.league ?? team?.league}
                 className="next-match-card__league-logo"
               />
@@ -95,7 +132,23 @@ export default function TeamForm({ team }) {
         </div>
 
         {nextMatch ? (
-          <div className="next-match-card__body">
+          <div
+            className="next-match-card__body"
+            role="button"
+            tabIndex={0}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (nextMatch?.id) navigate(`/matches/${nextMatch.id}`);
+            }}
+            onKeyDown={(e) => {
+              if ((e.key === 'Enter' || e.key === ' ') && nextMatch?.id) {
+                e.preventDefault();
+                e.stopPropagation();
+                navigate(`/matches/${nextMatch.id}`);
+              }
+            }}
+            title={`View ${nextMatch.homeTeam?.name} vs ${nextMatch.awayTeam?.name} match details`}
+          >
             <div className="next-match-card__teams">
               <div className="next-match-card__team">
                 <Crest logoUrl={nextMatch.homeTeam?.logoUrl} name={nextMatch.homeTeam?.name} size={36} />
@@ -131,4 +184,5 @@ export default function TeamForm({ team }) {
     </div>
   );
 }
+
 
