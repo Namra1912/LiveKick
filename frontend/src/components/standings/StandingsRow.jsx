@@ -18,10 +18,12 @@
 //   - Conference League:                  var(--color-star)
 //   - Relegation & Bundesliga 16th:       var(--color-live-red)
 
+import { useNavigate } from 'react-router-dom';
 import Crest from '../shared/Crest';
 import './StandingsRow.css';
 
-export default function StandingsRow({ rowData, leagueName, isLastRow }) {
+export default function StandingsRow({ rowData, leagueName, isLastRow, isHighlighted }) {
+  const navigate = useNavigate();
   const { position, team, played, won, drawn, lost, goalDifference, points, form } = rowData;
 
   // Format Goal Difference with explicit '+' prefix for positive values
@@ -51,8 +53,16 @@ export default function StandingsRow({ rowData, leagueName, isLastRow }) {
     return 'standings-row__zone--none';
   };
 
+  const rowClasses = [
+    'standings-row',
+    isLastRow ? 'standings-row--last' : '',
+    isHighlighted ? 'standings-row--highlighted' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <tr className={`standings-row${isLastRow ? ' standings-row--last' : ''}`}>
+    <tr className={rowClasses}>
       {/* POS */}
       <td className="standings-row__cell standings-row__cell--pos">
         {position}
@@ -60,7 +70,23 @@ export default function StandingsRow({ rowData, leagueName, isLastRow }) {
 
       {/* CLUB */}
       <td className="standings-row__cell standings-row__cell--club">
-        <div className="standings-row__club-wrap">
+        <div
+          className="standings-row__club-wrap"
+          role="button"
+          tabIndex={0}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (team?.id) navigate(`/teams/${team.id}`);
+          }}
+          onKeyDown={(e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && team?.id) {
+              e.preventDefault();
+              e.stopPropagation();
+              navigate(`/teams/${team.id}`);
+            }
+          }}
+          title={`View ${team?.name} profile`}
+        >
           <Crest logoUrl={team?.logoUrl} name={team?.name} size={24} />
           <span className="standings-row__team-name">{team?.name}</span>
         </div>

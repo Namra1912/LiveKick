@@ -43,7 +43,7 @@ import Crest from '../shared/Crest';
 import { standings } from '../../data/mockData';
 import './StandingsTable.css';
 
-export default function StandingsTable({ league }) {
+export default function StandingsTable({ league, highlightTeamId }) {
   const leagueName = league?.name ?? 'Premier League';
   const tableData = useMemo(() => standings[leagueName] ?? [], [leagueName]);
 
@@ -109,6 +109,7 @@ export default function StandingsTable({ league }) {
                   rowData={row}
                   leagueName={leagueName}
                   isLastRow={index === tableData.length - 1}
+                  isHighlighted={Boolean(highlightTeamId && row.team?.id === highlightTeamId)}
                 />
               ))}
             </tbody>
