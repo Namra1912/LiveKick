@@ -1,0 +1,106 @@
+/* src/components/team-profile/StadiumInfoCard.css */
+
+.stadium-info-card {
+  background: var(--color-surface, #0d1520);
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stadium-info-card__header {
+  margin-bottom: 12px;
+}
+
+.stadium-info-card__title {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-primary, #f1f5f9);
+}
+
+.stadium-info-card__venue-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stadium-info-card__icon {
+  color: var(--color-faint, #475569);
+  flex-shrink: 0;
+}
+
+.stadium-info-card__venue-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stadium-info-card__venue-link {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary, #f1f5f9);
+  text-decoration: none;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+
+.stadium-info-card__venue-link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--color-pitch-green, #00B370);
+  text-underline-offset: 3px;
+  color: var(--color-pitch-green, #00B370);
+}
+
+.stadium-info-card__location {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  color: var(--color-faint, #475569);
+  text-decoration: none;
+}
+
+.stadium-info-card__divider {
+  height: 1px;
+  background: var(--color-border, #1e2a35);
+  margin: 14px 0;
+  width: 100%;
+}
+
+.stadium-info-card__stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stadium-info-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  cursor: pointer;
+}
+
+.stadium-info-stat__value {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-primary, #f1f5f9);
+  line-height: 1.2;
+  transition: color 150ms ease;
+}
+
+.stadium-info-stat:hover .stadium-info-stat__value {
+  color: var(--color-pitch-green, #00B370);
+}
+
+.stadium-info-stat__label {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--color-faint, #475569);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

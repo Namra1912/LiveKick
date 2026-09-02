@@ -6,12 +6,14 @@ import Breadcrumb from '../components/shared/Breadcrumb';
 import Crest from '../components/shared/Crest';
 import SearchModal from '../components/search/SearchModal';
 import StandingsTable from '../components/standings/StandingsTable';
-import ArticleCard from '../components/news/ArticleCard';
 import TeamForm from '../components/team-profile/TeamForm';
 import TopPerformers from '../components/team-profile/TopPerformers';
 import StartingXI from '../components/team-profile/StartingXI';
 import FixtureDifficultyCard from '../components/team-profile/FixtureDifficultyCard';
+import StadiumInfoCard from '../components/team-profile/StadiumInfoCard';
 import AboutSection from '../components/team-profile/AboutSection';
+import TeamNews from '../components/team-profile/TeamNews';
+import TeamNewsTab from '../components/team-profile/TeamNewsTab';
 import { useFollowedTeams } from '../context/FollowedTeamsContext';
 import { useLenisScroll } from '../hooks/useLenisScroll';
 import { teams, leagues, news } from '../data/mockData';
@@ -23,6 +25,7 @@ const TABS = [
   { id: 'SQUAD', label: 'SQUAD', chunk: 'Chunk 7' },
   { id: 'TRANSFERS', label: 'TRANSFERS', chunk: 'Chunk 6' },
   { id: 'STATS', label: 'STATS', chunk: 'Chunk 8' },
+  { id: 'NEWS', label: 'NEWS', chunk: 'News' },
 ];
 
 export default function TeamDetail() {
@@ -49,11 +52,15 @@ export default function TeamDetail() {
     return leagues.find((l) => l.name === team.league) ?? leagues[1];
   }, [team]);
 
-  // Filter 6 news articles for Barcelona
+  // Filter news articles for this team
   const teamArticles = useMemo(() => {
-    return news
-      .filter((a) => a.teamId === team.id || a.team === 'barcelona')
-      .slice(0, 6);
+    return news.filter(
+      (a) =>
+        a.teamId === team.id ||
+        a.team?.toLowerCase() === team.name?.toLowerCase() ||
+        a.team === 'barcelona' ||
+        a.team === team.shortName?.toLowerCase()
+    );
   }, [team]);
 
   // Global ⌘K shortcut listener
@@ -141,18 +148,11 @@ export default function TeamDetail() {
                   {/* 3. Top Rated / Top Scorers / Top Assists (3 Columns) */}
                   <TopPerformers team={team} />
 
-                  {/* 4. Team News (2-Column Grid) */}
-                  <div className="team-profile__news-card">
-                    <div className="team-profile__news-header">
-                      <span className="team-profile__news-title">TEAM NEWS</span>
-                      <span className="team-profile__news-sub">{teamArticles.length} Articles</span>
-                    </div>
-                    <div className="team-profile__news-grid">
-                      {teamArticles.map((article) => (
-                        <ArticleCard key={article.id} article={article} />
-                      ))}
-                    </div>
-                  </div>
+                  {/* 4. Team News Card */}
+                  <TeamNews
+                    articles={teamArticles}
+                    onSeeMore={() => setActiveTab('NEWS')}
+                  />
 
                   {/* 5. About Section */}
                   <AboutSection team={team} />
@@ -167,30 +167,12 @@ export default function TeamDetail() {
                   <FixtureDifficultyCard team={team} />
 
                   {/* 4. Stadium Info Card */}
-                  <div className="stadium-info-card">
-                    <div className="stadium-info-card__header">
-                      <span className="stadium-info-card__title">STADIUM INFO</span>
-                    </div>
-                    <div className="stadium-info-card__grid">
-                      <div className="stadium-info-item">
-                        <span className="stadium-info-item__label">VENUE</span>
-                        <span className="stadium-info-item__val">{team.stadium ?? 'Spotify Camp Nou'}</span>
-                      </div>
-                      <div className="stadium-info-item">
-                        <span className="stadium-info-item__label">CAPACITY</span>
-                        <span className="stadium-info-item__val">{team.capacity ?? '99,354'}</span>
-                      </div>
-                      <div className="stadium-info-item">
-                        <span className="stadium-info-item__label">OPENED</span>
-                        <span className="stadium-info-item__val">{team.stadiumOpenedYear ?? '1957'}</span>
-                      </div>
-                      <div className="stadium-info-item">
-                        <span className="stadium-info-item__label">SURFACE</span>
-                        <span className="stadium-info-item__val">{team.stadiumSurface ?? 'Hybrid Grass'}</span>
-                      </div>
-                    </div>
-                  </div>
+                  <StadiumInfoCard team={team} />
                 </aside>
+              </section>
+            ) : activeTab === 'NEWS' ? (
+              <section className="team-profile__content">
+                <TeamNewsTab articles={teamArticles} />
               </section>
             ) : (
               <section className="team-profile__content">
