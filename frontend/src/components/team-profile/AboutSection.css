@@ -1,7 +1,14 @@
 /* src/components/team-profile/AboutSection.css */
 
+/* ── Card container — matches every other section card on this page ──────── */
+.about-card {
+  background: var(--color-surface, #0d1520);
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: 14px;
+  padding: 20px;
+}
+
 /* ── Section wrapper ─────────────────────────────────────────────────────── */
-/* No card border here — the parent card in TeamDetail handles the container */
 .about-section {
   padding: 0;
   display: flex;
@@ -31,6 +38,34 @@
   margin: 0 0 14px 0;
 }
 
+/* ── Fade mask container — holds the gradient ::after ────────────────────── */
+.about-stats-mask {
+  position: relative;
+}
+
+/* Gradient fade at bottom when collapsed — matches card bg exactly.
+   Using the literal hex #0d1520 avoids the gray-to-transparent browser bug. */
+.about-stats-mask::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #0d1520 100%
+  );
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 300ms ease;
+}
+
+.about-stats-mask.is-expanded::after {
+  opacity: 0;
+}
+
 /* ── Stats container with smooth height transition ───────────────────────── */
 .about-section__stats {
   display: flex;
@@ -46,7 +81,7 @@
 }
 
 /* ── Individual stat line ────────────────────────────────────────────────── */
-/* opacity is applied inline via getOpacity() to fade progressively */
+/* opacity is applied inline via getOpacity() for progressive fade */
 .about-section__stat-line {
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.875rem;
@@ -55,7 +90,7 @@
   margin: 0;
 }
 
-/* ── Player name: pitch-green, medium weight, no decoration, not a link ──── */
+/* ── Player name: pitch-green, medium weight, not a link ─────────────────── */
 .about-section__player-name {
   color: var(--color-pitch-green, #00B370);
   font-weight: 500;
@@ -65,6 +100,8 @@
 .about-section__toggle {
   background: transparent;
   border: none;
+  border-top: 1px solid var(--color-border, #1e2a35);
+  margin-top: 14px;
   color: var(--color-pitch-green, #00B370);
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.875rem;

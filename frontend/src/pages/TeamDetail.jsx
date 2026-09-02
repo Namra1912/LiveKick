@@ -1,4 +1,4 @@
-// src/pages/TeamDetail.jsx — Team Profile Page (Scroll Wiring Fix)
+// src/pages/TeamDetail.jsx — Team Profile Page
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import AppLayout from '../components/layout/AppLayout';
@@ -32,11 +32,13 @@ export default function TeamDetail() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState('OVERVIEW');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [indicatorStyle, setIndicatorStyle] = useState({});
   const { isFollowing, toggleFollow } = useFollowedTeams();
 
   // Scroll container refs & Lenis smooth scroll hook
   const scrollRef = useRef(null);
   const contentRef = useRef(null);
+  const tabBarRef = useRef(null);
   useLenisScroll(scrollRef, contentRef);
 
   // Find team by ID parameter, defaulting to Barcelona (id: 9)
@@ -74,6 +76,33 @@ export default function TeamDetail() {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, []);
+
+  // Sliding tab indicator — updates position whenever activeTab changes
+  useEffect(() => {
+    if (!tabBarRef.current) return;
+    const activeEl = tabBarRef.current.querySelector(`[data-tab="${activeTab}"]`);
+    if (!activeEl) return;
+    const { offsetLeft, offsetWidth } = activeEl;
+    setIndicatorStyle({ left: offsetLeft, width: offsetWidth });
+  }, [activeTab]);
+
+  // IntersectionObserver for section reveal animations — fires once per element
+  useEffect(() => {
+    const targets = document.querySelectorAll('.section-reveal');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08 }
+    );
+    targets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [activeTab]); // re-run when tab changes so newly mounted sections get observed
 
   const breadcrumbItems = [
     { label: 'Home', path: '/' },
@@ -115,14 +144,19 @@ export default function TeamDetail() {
               </button>
             </header>
 
-            {/* Navigation Tab Bar */}
-            <nav className="team-profile__tab-bar" aria-label="Team section tabs">
+            {/* Navigation Tab Bar — position:relative for the sliding indicator */}
+            <nav
+              ref={tabBarRef}
+              className="team-profile__tab-bar"
+              aria-label="Team section tabs"
+            >
               {TABS.map((tab) => {
                 const isActive = activeTab === tab.id;
                 return (
                   <button
                     key={tab.id}
                     type="button"
+                    data-tab={tab.id}
                     className={`team-profile__tab-btn ${isActive ? 'team-profile__tab-btn--active' : ''}`}
                     onClick={() => setActiveTab(tab.id)}
                   >
@@ -130,60 +164,82 @@ export default function TeamDetail() {
                   </button>
                 );
               })}
+              {/* Sliding green indicator — absolutely positioned inside the tab bar */}
+              <div className="tab-indicator" style={indicatorStyle} />
             </nav>
 
-            {/* Tab Content Section */}
-            {activeTab === 'OVERVIEW' ? (
-              <section className="team-profile__overview-grid">
-                {/* ── Center Column (Top to Bottom) ────────────────────── */}
-                <div className="team-profile__center-col">
-                  {/* 1. Team Form + Next Match (Side by Side Row) */}
-                  <TeamForm team={team} />
+            {/* Tab Content Section — key forces remount → re-triggers fade animation */}
+            <div key={activeTab} className="tab-content-panel">
+              {activeTab === 'OVERVIEW' ? (
+                <section className="team-profile__overview-grid">
+                  {/* ── Center Column (Top to Bottom) ────────────────────── */}
+                  <div className="team-profile__center-col">
+                    {/* 1. Team Form */}
+                    <div className="section-reveal" style={{ transitionDelay: '0ms' }}>
+                      <TeamForm team={team} />
+                    </div>
 
-                  {/* 2. League Table (Standings Embed) */}
-                  <div className="team-profile__table-embed" data-highlight-team={team.id}>
-                    <StandingsTable league={activeLeague} highlightTeamId={team.id} />
+                    {/* 2. League Table */}
+                    <div
+                      className="section-reveal team-profile__table-embed"
+                      data-highlight-team={team.id}
+                      style={{ transitionDelay: '60ms' }}
+                    >
+                      <StandingsTable league={activeLeague} highlightTeamId={team.id} />
+                    </div>
+
+                    {/* 3. Top Performers */}
+                    <div className="section-reveal" style={{ transitionDelay: '120ms' }}>
+                      <TopPerformers team={team} />
+                    </div>
+
+                    {/* 4. Team News Card */}
+                    <div className="section-reveal" style={{ transitionDelay: '180ms' }}>
+                      <TeamNews
+                        articles={teamArticles}
+                        onSeeMore={() => setActiveTab('NEWS')}
+                      />
+                    </div>
+
+                    {/* 5. About Section */}
+                    <div className="section-reveal" style={{ transitionDelay: '240ms' }}>
+                      <AboutSection team={team} />
+                    </div>
                   </div>
 
-                  {/* 3. Top Rated / Top Scorers / Top Assists (3 Columns) */}
-                  <TopPerformers team={team} />
+                  {/* ── Right Column (Sticky, Top to Bottom) ────────────── */}
+                  <aside className="team-profile__right-col">
+                    {/* 1. Starting XI Pitch Graphic */}
+                    <div className="section-reveal" style={{ transitionDelay: '0ms' }}>
+                      <StartingXI team={team} />
+                    </div>
 
-                  {/* 4. Team News Card */}
-                  <TeamNews
-                    articles={teamArticles}
-                    onSeeMore={() => setActiveTab('NEWS')}
-                  />
+                    {/* 2 & 3. Fixture Difficulty + Upcoming Fixtures */}
+                    <div className="section-reveal" style={{ transitionDelay: '60ms' }}>
+                      <FixtureDifficultyCard team={team} />
+                    </div>
 
-                  {/* 5. About Section */}
-                  <AboutSection team={team} />
-                </div>
-
-                {/* ── Right Column (Sticky, Top to Bottom) ────────────── */}
-                <aside className="team-profile__right-col">
-                  {/* 1. Starting XI Pitch Graphic */}
-                  <StartingXI team={team} />
-
-                  {/* 2 & 3. Fixture Difficulty + Upcoming Fixtures */}
-                  <FixtureDifficultyCard team={team} />
-
-                  {/* 4. Stadium Info Card */}
-                  <StadiumInfoCard team={team} />
-                </aside>
-              </section>
-            ) : activeTab === 'NEWS' ? (
-              <section className="team-profile__content">
-                <TeamNewsTab articles={teamArticles} />
-              </section>
-            ) : (
-              <section className="team-profile__content">
-                <div className="team-profile__placeholder" role="status">
-                  <span className="team-profile__placeholder-title">{currentTabObj.label}</span>
-                  <p className="team-profile__placeholder-sub">
-                    {currentTabObj.label} content coming in {currentTabObj.chunk}
-                  </p>
-                </div>
-              </section>
-            )}
+                    {/* 4. Stadium Info Card */}
+                    <div className="section-reveal" style={{ transitionDelay: '120ms' }}>
+                      <StadiumInfoCard team={team} />
+                    </div>
+                  </aside>
+                </section>
+              ) : activeTab === 'NEWS' ? (
+                <section className="team-profile__content">
+                  <TeamNewsTab articles={teamArticles} />
+                </section>
+              ) : (
+                <section className="team-profile__content">
+                  <div className="team-profile__placeholder" role="status">
+                    <span className="team-profile__placeholder-title">{currentTabObj.label}</span>
+                    <p className="team-profile__placeholder-sub">
+                      {currentTabObj.label} content coming in {currentTabObj.chunk}
+                    </p>
+                  </div>
+                </section>
+              )}
+            </div>
           </div>
         </main>
       </AppLayout>
