@@ -2,52 +2,67 @@
 import { useState } from 'react';
 import './AboutSection.css';
 
+// Progressive opacity fade: most important stat at full contrast,
+// subsequent lines step down to create visual reading hierarchy.
+const OPACITY_MAP = [1.0, 0.85, 0.65, 0.45];
+
+function getOpacity(index) {
+  return OPACITY_MAP[index] ?? 0.35;
+}
+
 export default function AboutSection({ team }) {
   const [expanded, setExpanded] = useState(false);
 
-  const honoursList = team?.honours ?? [
-    '5x Champions League',
-    '27x La Liga',
-    '31x Copa del Rey',
-    '3x FIFA Club World Cup',
-  ];
+  const about = team?.about;
+
+  // Graceful fallback: if no structured data, render nothing
+  if (!about?.bio && !about?.statLines?.length) return null;
+
+  const statLines = about?.statLines ?? [];
+  const visibleStats = expanded ? statLines : statLines.slice(0, 2);
+  const hasMore = statLines.length > 2;
 
   return (
-    <div className="about-card">
-      <div className="about-card__header">
-        <span className="about-card__title">ABOUT {team?.name?.toUpperCase() ?? 'CLUB'}</span>
-      </div>
+    <section className="about-section">
+      <h2 className="about-section__heading">About</h2>
 
-      <div className="about-card__body">
-        <p className="about-card__text">
-          Founded in {team?.founded ?? 1899}, {team?.name ?? 'FC Barcelona'} is one of European football&rsquo;s most prestigious clubs, playing home fixtures at {team?.stadium ?? 'Spotify Camp Nou'} (capacity {team?.capacity ?? '99,354'}). Managed by {team?.manager ?? 'Hansi Flick'}, the club competes in {team?.league ?? 'La Liga'} and international European competitions.
-        </p>
+      {about?.bio && (
+        <p className="about-section__bio">{about.bio}</p>
+      )}
 
-        {expanded && (
-          <div className="about-card__expanded">
-            <h4 className="about-card__subheading">Major Honours</h4>
-            <div className="about-card__honours-grid">
-              {honoursList.map((h, idx) => (
-                <div key={idx} className="about-card__honour-pill">
-                  <span className="about-card__honour-icon">🏆</span>
-                  <span>{h}</span>
-                </div>
-              ))}
-            </div>
-            <p className="about-card__text" style={{ marginTop: '12px' }}>
-              The club operates on a socio-owned membership model and is renowned for its world-famous La Masia youth academy, which has developed global football legends.
+      {statLines.length > 0 && (
+        <div
+          className={`about-section__stats${expanded ? ' about-section__stats--expanded' : ''}`}
+        >
+          {visibleStats.map((line, index) => (
+            <p
+              key={line.id}
+              className="about-section__stat-line"
+              style={{ opacity: getOpacity(index) }}
+            >
+              {line.parts.map((part, i) =>
+                part.isPlayer ? (
+                  <span key={i} className="about-section__player-name">
+                    {part.text}
+                  </span>
+                ) : (
+                  <span key={i}>{part.text}</span>
+                )
+              )}
             </p>
-          </div>
-        )}
+          ))}
+        </div>
+      )}
 
+      {hasMore && (
         <button
           type="button"
-          className="about-card__toggle-btn"
+          className="about-section__toggle"
           onClick={() => setExpanded((prev) => !prev)}
         >
-          {expanded ? 'Show Less ↑' : 'Read More ↓'}
+          {expanded ? 'Show Less' : 'Expand'}
         </button>
-      </div>
-    </div>
+      )}
+    </section>
   );
 }
