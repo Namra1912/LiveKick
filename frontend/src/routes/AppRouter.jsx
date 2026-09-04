@@ -34,6 +34,7 @@ export default function AppRouter() {
           {/* Detail routes — navigated to from match rows, team crests, and player names */}
           <Route path="/matches/:id"   element={<MatchDetail />} />
           <Route path="/teams/:id"     element={<TeamDetail />} />
+          <Route path="/teams/:id/:tab" element={<TeamDetail />} />
           <Route path="/players/:id"   element={<PlayerDetail />} />
         </Routes>
       </BrowserRouter>

@@ -1,6 +1,6 @@
 // src/pages/TeamDetail.jsx — Team Profile Page
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import AppLayout from '../components/layout/AppLayout';
 import Breadcrumb from '../components/shared/Breadcrumb';
 import Crest from '../components/shared/Crest';
@@ -14,23 +14,30 @@ import StadiumInfoCard from '../components/team-profile/StadiumInfoCard';
 import AboutSection from '../components/team-profile/AboutSection';
 import TeamNews from '../components/team-profile/TeamNews';
 import TeamNewsTab from '../components/team-profile/TeamNewsTab';
+import FixturesTab from '../components/team-profile/FixturesTab';
 import { useFollowedTeams } from '../context/FollowedTeamsContext';
 import { useLenisScroll } from '../hooks/useLenisScroll';
-import { teams, leagues, news } from '../data/mockData';
+import { teams, leagues, news, matches } from '../data/mockData';
 import './TeamDetail.css';
 
 const TABS = [
-  { id: 'OVERVIEW', label: 'OVERVIEW', chunk: 'Chunk 2-4' },
-  { id: 'FIXTURES', label: 'FIXTURES', chunk: 'Chunk 5' },
-  { id: 'SQUAD', label: 'SQUAD', chunk: 'Chunk 7' },
-  { id: 'TRANSFERS', label: 'TRANSFERS', chunk: 'Chunk 6' },
-  { id: 'STATS', label: 'STATS', chunk: 'Chunk 8' },
-  { id: 'NEWS', label: 'NEWS', chunk: 'News' },
+  { id: 'OVERVIEW',   label: 'OVERVIEW'  },
+  { id: 'FIXTURES',   label: 'FIXTURES'  },
+  { id: 'SQUAD',      label: 'SQUAD'     },
+  { id: 'TRANSFERS',  label: 'TRANSFERS' },
+  { id: 'STATS',      label: 'STATS'     },
+  { id: 'NEWS',       label: 'NEWS'      },
 ];
 
 export default function TeamDetail() {
-  const { id } = useParams();
-  const [activeTab, setActiveTab] = useState('OVERVIEW');
+  const { id, tab } = useParams();
+  const navigate = useNavigate();
+
+  const VALID_TABS = TABS.map(t => t.id);
+  const activeTab = VALID_TABS.includes(tab?.toUpperCase())
+    ? tab.toUpperCase()
+    : 'OVERVIEW';
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [indicatorStyle, setIndicatorStyle] = useState({});
   const { isFollowing, toggleFollow } = useFollowedTeams();
@@ -54,7 +61,7 @@ export default function TeamDetail() {
     return leagues.find((l) => l.name === team.league) ?? leagues[1];
   }, [team]);
 
-  // Filter news articles for this team
+  // Filter news articles for this team (overview card)
   const teamArticles = useMemo(() => {
     return news.filter(
       (a) =>
@@ -63,6 +70,13 @@ export default function TeamDetail() {
         a.team === 'barcelona' ||
         a.team === team.shortName?.toLowerCase()
     );
+  }, [team]);
+
+  // All news articles for full News Tab
+  const allArticles = useMemo(() => {
+    return news
+      .filter((a) => a.teamId === team.id || a.team === 'barcelona')
+      .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
   }, [team]);
 
   // Global ⌘K shortcut listener
@@ -110,8 +124,6 @@ export default function TeamDetail() {
     { label: team.name },
   ];
 
-  const currentTabObj = TABS.find((t) => t.id === activeTab) ?? TABS[0];
-
   return (
     <>
       <AppLayout onSearchOpen={() => setIsSearchOpen(true)}>
@@ -150,17 +162,17 @@ export default function TeamDetail() {
               className="team-profile__tab-bar"
               aria-label="Team section tabs"
             >
-              {TABS.map((tab) => {
-                const isActive = activeTab === tab.id;
+              {TABS.map((tabItem) => {
+                const isActive = activeTab === tabItem.id;
                 return (
                   <button
-                    key={tab.id}
+                    key={tabItem.id}
                     type="button"
-                    data-tab={tab.id}
+                    data-tab={tabItem.id}
                     className={`team-profile__tab-btn ${isActive ? 'team-profile__tab-btn--active' : ''}`}
-                    onClick={() => setActiveTab(tab.id)}
+                    onClick={() => navigate(`/teams/${id}/${tabItem.id.toLowerCase()}`)}
                   >
-                    {tab.label}
+                    {tabItem.label}
                   </button>
                 );
               })}
@@ -170,7 +182,7 @@ export default function TeamDetail() {
 
             {/* Tab Content Section — key forces remount → re-triggers fade animation */}
             <div key={activeTab} className="tab-content-panel">
-              {activeTab === 'OVERVIEW' ? (
+              {activeTab === 'OVERVIEW' && (
                 <section className="team-profile__overview-grid">
                   {/* ── Center Column (Top to Bottom) ────────────────────── */}
                   <div className="team-profile__center-col">
@@ -197,7 +209,7 @@ export default function TeamDetail() {
                     <div className="section-reveal" style={{ transitionDelay: '180ms' }}>
                       <TeamNews
                         articles={teamArticles}
-                        onSeeMore={() => setActiveTab('NEWS')}
+                        onSeeMore={() => navigate(`/teams/${id}/news`)}
                       />
                     </div>
 
@@ -225,17 +237,39 @@ export default function TeamDetail() {
                     </div>
                   </aside>
                 </section>
-              ) : activeTab === 'NEWS' ? (
-                <section className="team-profile__content">
-                  <TeamNewsTab articles={teamArticles} />
-                </section>
-              ) : (
+              )}
+
+              {activeTab === 'NEWS' && (
+                <TeamNewsTab articles={allArticles} />
+              )}
+
+              {activeTab === 'FIXTURES' && (
+                <FixturesTab team={team} matches={matches} leagues={leagues} />
+              )}
+
+              {activeTab === 'SQUAD' && (
                 <section className="team-profile__content">
                   <div className="team-profile__placeholder" role="status">
-                    <span className="team-profile__placeholder-title">{currentTabObj.label}</span>
-                    <p className="team-profile__placeholder-sub">
-                      {currentTabObj.label} content coming in {currentTabObj.chunk}
-                    </p>
+                    <span className="team-profile__placeholder-title">SQUAD</span>
+                    <p className="team-profile__placeholder-sub">Coming soon</p>
+                  </div>
+                </section>
+              )}
+
+              {activeTab === 'TRANSFERS' && (
+                <section className="team-profile__content">
+                  <div className="team-profile__placeholder" role="status">
+                    <span className="team-profile__placeholder-title">TRANSFERS</span>
+                    <p className="team-profile__placeholder-sub">Coming soon</p>
+                  </div>
+                </section>
+              )}
+
+              {activeTab === 'STATS' && (
+                <section className="team-profile__content">
+                  <div className="team-profile__placeholder" role="status">
+                    <span className="team-profile__placeholder-title">STATS</span>
+                    <p className="team-profile__placeholder-sub">Coming soon</p>
                   </div>
                 </section>
               )}
