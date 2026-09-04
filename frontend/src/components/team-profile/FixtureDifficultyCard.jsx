@@ -3,6 +3,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Crest from '../shared/Crest';
 import { matches, standings, leagues } from '../../data/mockData';
+import { renderMatchCenter } from '../../utils/matchHelpers';
 import './FixtureDifficultyCard.css';
 
 /**
@@ -314,14 +315,14 @@ export default function FixtureDifficultyCard({ team }) {
                   <div
                     key={m.id}
                     className="upcoming-fixture-row"
-                    onClick={() => navigate(`/match/${m.id}`)}
+                    onClick={() => navigate(`/matches/${m.id}`)}
                     style={{ animationDelay: `${(groupIdx * 2 + matchIdx) * 70}ms` }}
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        navigate(`/match/${m.id}`);
+                        navigate(`/matches/${m.id}`);
                       }
                     }}
                   >
@@ -337,7 +338,7 @@ export default function FixtureDifficultyCard({ team }) {
                     </div>
 
                     <div className="upcoming-fixture-tier2__time">
-                      {formatKickoffTime(m.matchDateUtc)}
+                      {renderMatchCenter(m)}
                     </div>
 
                     <div className="upcoming-fixture-tier2__away">

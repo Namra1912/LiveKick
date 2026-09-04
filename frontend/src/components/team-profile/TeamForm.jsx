@@ -5,6 +5,31 @@ import Crest from '../shared/Crest';
 import { matches, leagues } from '../../data/mockData';
 import './TeamForm.css';
 
+function formatKickoff(isoString) {
+  if (!isoString) return 'TBD';
+  const d = new Date(isoString);
+  if (isNaN(d.getTime())) return 'TBD';
+  return d.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+}
+
+function formatMatchDate(isoString) {
+  if (!isoString) return '';
+  const d = new Date(isoString);
+  if (isNaN(d.getTime())) return '';
+  const now = new Date();
+  const isToday = d.toDateString() === now.toDateString();
+  if (isToday) return 'Today';
+  return d.toLocaleDateString('en-GB', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  });
+}
+
 export default function TeamForm({ team }) {
   const navigate = useNavigate();
 
@@ -159,7 +184,7 @@ export default function TeamForm({ team }) {
                 {nextMatch.status === 'live' ? (
                   <span className="next-match-card__live-pill">LIVE {nextMatch.minute}&rsquo;</span>
                 ) : (
-                  '21:00'
+                  formatKickoff(nextMatch.matchDateUtc)
                 )}
               </div>
 
@@ -170,10 +195,8 @@ export default function TeamForm({ team }) {
             </div>
 
             <div className="next-match-card__meta">
-              <span className="next-match-card__venue">{nextMatch.venue ?? team?.stadium ?? 'Stadium'}</span>
               <span className="next-match-card__time">
-                <span className="next-match-card__today-dot" title="Match Today" />
-                Today · 21:00 UTC
+                {formatMatchDate(nextMatch.matchDateUtc)}
               </span>
             </div>
           </div>
@@ -184,5 +207,3 @@ export default function TeamForm({ team }) {
     </div>
   );
 }
-
-
