@@ -15,9 +15,10 @@ import AboutSection from '../components/team-profile/AboutSection';
 import TeamNews from '../components/team-profile/TeamNews';
 import TeamNewsTab from '../components/team-profile/TeamNewsTab';
 import FixturesTab from '../components/team-profile/FixturesTab';
+import SquadTab from '../components/team-profile/SquadTab';
 import { useFollowedTeams } from '../context/FollowedTeamsContext';
 import { useLenisScroll } from '../hooks/useLenisScroll';
-import { teams, leagues, news, matches } from '../data/mockData';
+import { teams, leagues, news, matches, squads } from '../data/mockData';
 import './TeamDetail.css';
 
 const TABS = [
@@ -248,12 +249,10 @@ export default function TeamDetail() {
               )}
 
               {activeTab === 'SQUAD' && (
-                <section className="team-profile__content">
-                  <div className="team-profile__placeholder" role="status">
-                    <span className="team-profile__placeholder-title">SQUAD</span>
-                    <p className="team-profile__placeholder-sub">Coming soon</p>
-                  </div>
-                </section>
+                <SquadTab
+                  team={team}
+                  squad={squads[team.id] ?? []}
+                />
               )}
 
               {activeTab === 'TRANSFERS' && (
