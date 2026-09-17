@@ -123,7 +123,10 @@ export default function SquadTab({ team, squad = [] }) {
       sorted.sort((a, b) => {
         let valA, valB;
 
-        if (sortKey === 'position') {
+        if (sortKey === 'name') {
+          valA = a.name || '';
+          valB = b.name || '';
+        } else if (sortKey === 'position') {
           valA = getPositionOrder(a.position);
           valB = getPositionOrder(b.position);
         } else if (sortKey === 'nationality') {
@@ -186,7 +189,12 @@ export default function SquadTab({ team, squad = [] }) {
         </colgroup>
         <thead className="squad-table__head">
           <tr>
-            <th className="squad-table__th squad-table__th--player">Player</th>
+            <th
+              className={`squad-table__th squad-table__th--player squad-table__th--sortable ${sortKey === 'name' ? 'squad-table__th--active' : ''}`}
+              onClick={() => handleHeaderClick('name')}
+            >
+              Player{renderSortIndicator('name')}
+            </th>
             <th
               className={`squad-table__th squad-table__th--sortable ${sortKey === 'position' ? 'squad-table__th--active' : ''}`}
               onClick={() => handleHeaderClick('position')}

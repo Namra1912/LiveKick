@@ -26,12 +26,12 @@
 
 .squad-table__th {
   font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-faint, #475569);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 16px 12px 10px 12px;
+  letter-spacing: 0.05em;
+  padding: 18px 12px 10px 12px;
   user-select: none;
   white-space: nowrap;
   text-align: left;
@@ -39,8 +39,7 @@
 }
 
 .squad-table__th--player {
-  padding-left: 10px;
-  cursor: default;
+  padding-left: 11px;
 }
 
 .squad-table__th--sortable {
