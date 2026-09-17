@@ -36,6 +36,7 @@ export default function AppRouter() {
           <Route path="/teams/:id"     element={<TeamDetail />} />
           <Route path="/teams/:id/:tab" element={<TeamDetail />} />
           <Route path="/players/:id"   element={<PlayerDetail />} />
+          <Route path="/coach/:id"     element={<PlayerDetail />} />
         </Routes>
       </BrowserRouter>
     </FollowedTeamsProvider>

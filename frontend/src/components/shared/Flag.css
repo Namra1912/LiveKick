@@ -1,0 +1,24 @@
+/* src/components/shared/Flag.css */
+
+.flag {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.flag--img {
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.flag--fallback {
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}

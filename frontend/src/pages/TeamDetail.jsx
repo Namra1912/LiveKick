@@ -251,7 +251,14 @@ export default function TeamDetail() {
               {activeTab === 'SQUAD' && (
                 <SquadTab
                   team={team}
-                  squad={squads[team.id] ?? []}
+                  squad={
+                    squads[team.id] ??
+                    (team.league === 'International' || team.country === team.name
+                      ? Object.values(squads)
+                          .flat()
+                          .filter((p) => !p.isCoach && p.nationality?.toLowerCase() === team.name.toLowerCase())
+                      : [])
+                  }
                 />
               )}
 

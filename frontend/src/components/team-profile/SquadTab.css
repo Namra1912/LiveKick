@@ -2,6 +2,8 @@
 
 .squad-tab {
   width: 100%;
+  border-top: 1px solid var(--color-border, #1e2a35);
+  padding-top: 20px;
 }
 
 .squad-table {
@@ -29,7 +31,7 @@
   color: var(--color-faint, #475569);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  padding: 18px 12px 10px 12px;
+  padding: 16px 12px 10px 12px;
   user-select: none;
   white-space: nowrap;
   text-align: left;
@@ -37,7 +39,7 @@
 }
 
 .squad-table__th--player {
-  padding-left: 0;
+  padding-left: 10px;
   cursor: default;
 }
 
@@ -59,7 +61,7 @@
 
 .squad-table__th--right {
   text-align: right;
-  padding-right: 0;
+  padding-right: 8px;
 }
 
 .squad-table__sort-icon {
@@ -69,9 +71,10 @@
 
 /* ── Table Rows & Cells ──────────────────────────────────────────────────── */
 .squad-table__row {
-  cursor: pointer;
-  transition: background-color 120ms ease;
+  cursor: default;
+  transition: background-color 120ms ease, border-left-color 120ms ease;
   border-bottom: 1px solid rgba(30, 42, 53, 0.5);
+  border-left: 3px solid transparent;
 }
 
 .squad-table__row:last-child {
@@ -79,17 +82,38 @@
 }
 
 .squad-table__row:hover {
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: rgba(255, 255, 255, 0.025);
+}
+
+/* Position Role Group Left-Border Accents */
+.squad-table__row--gk {
+  border-left-color: rgba(245, 158, 11, 0.55);
+}
+
+.squad-table__row--def {
+  border-left-color: rgba(59, 130, 246, 0.55);
+}
+
+.squad-table__row--mid {
+  border-left-color: rgba(0, 179, 112, 0.55);
+}
+
+.squad-table__row--fwd {
+  border-left-color: rgba(236, 72, 153, 0.55);
+}
+
+.squad-table__row--coach {
+  border-left-color: rgba(139, 92, 246, 0.55);
 }
 
 .squad-table__td {
-  padding: 12px;
+  padding: 10px 12px;
   vertical-align: middle;
   white-space: nowrap;
 }
 
 .squad-table__td--player {
-  padding-left: 0;
+  padding-left: 8px;
 }
 
 .squad-table__td--center {
@@ -98,36 +122,79 @@
 
 .squad-table__td--right {
   text-align: right;
-  padding-right: 0;
+  padding-right: 8px;
 }
 
-/* Cell 1: Player Avatar & Name */
-.squad-table__player-cell {
-  display: flex;
+/* Cell 1: Player Link Target (Avatar & Name) */
+.squad-table__player-link {
+  display: inline-flex;
   align-items: center;
   gap: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  border-radius: 4px;
+}
+
+.squad-table__player-link:focus-visible {
+  outline: 2px solid var(--color-pitch-green, #00B370);
+  outline-offset: 2px;
+}
+
+.squad-table__avatar-container {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
 }
 
 .squad-table__avatar-img {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
 }
 
 .squad-table__avatar-initials {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: #ffffff;
   flex-shrink: 0;
+}
+
+.squad-table__injury-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  background-color: #ef4444;
+  border: 2px solid var(--color-base, #080c11);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.squad-table__injury-icon {
+  width: 8px;
+  height: 8px;
+}
+
+.squad-table__player-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
 }
 
 .squad-table__player-name {
@@ -135,27 +202,26 @@
   font-size: 0.9375rem;
   font-weight: 600;
   color: var(--color-primary, #f1f5f9);
-  transition: color 150ms ease;
+  transition: color 150ms ease, text-decoration-color 150ms ease;
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 
-.squad-table__row:hover .squad-table__player-name {
-  color: var(--color-pitch-green, #00B370);
+.squad-table__injury-text {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.6875rem;
+  color: #f87171;
+  line-height: 1.2;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
-.squad-table__coach-badge {
-  background: rgba(245, 158, 11, 0.15);
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  color: #f59e0b;
-  font-size: 0.5625rem;
-  font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 3px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  line-height: 1;
+.squad-table__player-link:hover .squad-table__player-name {
+  color: var(--color-pitch-green, #00B370);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(0, 179, 112, 0.4);
 }
 
 /* Cell 2: Position */
@@ -166,22 +232,40 @@
   color: var(--color-faint, #475569);
 }
 
-/* Cell 3: Country */
+/* Cell 3: Country Link Target */
+.squad-table__country-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  border-radius: 4px;
+}
+
+.squad-table__country-link:focus-visible {
+  outline: 2px solid var(--color-primary, #f1f5f9);
+  outline-offset: 2px;
+}
+
 .squad-table__country-cell {
   display: flex;
   align-items: center;
-  gap: 6px;
-}
-
-.squad-table__flag {
-  font-size: 1rem;
-  line-height: 1;
+  gap: 8px;
 }
 
 .squad-table__country-name {
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.8125rem;
   color: var(--color-secondary, #94a3b8);
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+}
+
+.squad-table__country-link:hover .squad-table__country-name {
+  color: var(--color-primary, #f1f5f9);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(241, 245, 249, 0.4);
 }
 
 /* Cell 4: Shirt */

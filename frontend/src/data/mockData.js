@@ -187,7 +187,35 @@ export const teams = [
   { id: 96, name: "Slovan Bratislava", shortName: "SLO", league: "Champions League", country: "Slovakia", logoUrl: "https://r2.thesportsdb.com/images/media/team/badge/uwyvtr1421448947.png", crestUrl: "https://r2.thesportsdb.com/images/media/team/badge/uwyvtr1421448947.png", primaryColor: "#87CEEB", secondaryColor: "#FFFFFF" },
   { id: 97, name: "Levante", shortName: "LEV", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Levante%20UD.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Levante%20UD.png", primaryColor: "#666666", secondaryColor: "#ffffff" },
   { id: 98, name: "Racing Santander", shortName: "RAC", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Racing%20Santander.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Racing%20Santander.png", primaryColor: "#666666", secondaryColor: "#ffffff" },
+
+  // ── National Teams ──────────────────────────────────────────────────────────
+  { id: 10001, name: "Spain", shortName: "ESP", league: "International", country: "Spain", logoUrl: "https://flagcdn.com/w80/es.png", crestUrl: "https://flagcdn.com/w80/es.png", primaryColor: "#EF4444", secondaryColor: "#F59E0B", manager: "Luis de la Fuente" },
+  { id: 10002, name: "Germany", shortName: "GER", league: "International", country: "Germany", logoUrl: "https://flagcdn.com/w80/de.png", crestUrl: "https://flagcdn.com/w80/de.png", primaryColor: "#000000", secondaryColor: "#F59E0B", manager: "Julian Nagelsmann" },
+  { id: 10003, name: "Poland", shortName: "POL", league: "International", country: "Poland", logoUrl: "https://flagcdn.com/w80/pl.png", crestUrl: "https://flagcdn.com/w80/pl.png", primaryColor: "#DC2626", secondaryColor: "#FFFFFF", manager: "Michał Probierz" },
+  { id: 10004, name: "Uruguay", shortName: "URU", league: "International", country: "Uruguay", logoUrl: "https://flagcdn.com/w80/uy.png", crestUrl: "https://flagcdn.com/w80/uy.png", primaryColor: "#38BDF8", secondaryColor: "#0284C7", manager: "Marcelo Bielsa" },
+  { id: 10005, name: "Denmark", shortName: "DEN", league: "International", country: "Denmark", logoUrl: "https://flagcdn.com/w80/dk.png", crestUrl: "https://flagcdn.com/w80/dk.png", primaryColor: "#C8102E", secondaryColor: "#FFFFFF", manager: "Brian Riemer" },
+  { id: 10006, name: "France", shortName: "FRA", league: "International", country: "France", logoUrl: "https://flagcdn.com/w80/fr.png", crestUrl: "https://flagcdn.com/w80/fr.png", primaryColor: "#002395", secondaryColor: "#ED2939", manager: "Didier Deschamps" },
+  { id: 10007, name: "Netherlands", shortName: "NED", league: "International", country: "Netherlands", logoUrl: "https://flagcdn.com/w80/nl.png", crestUrl: "https://flagcdn.com/w80/nl.png", primaryColor: "#F97316", secondaryColor: "#2563EB", manager: "Ronald Koeman" },
+  { id: 10008, name: "Brazil", shortName: "BRA", league: "International", country: "Brazil", logoUrl: "https://flagcdn.com/w80/br.png", crestUrl: "https://flagcdn.com/w80/br.png", primaryColor: "#FFCC00", secondaryColor: "#009739", manager: "Dorival Júnior" },
+  { id: 10009, name: "England", shortName: "ENG", league: "International", country: "England", logoUrl: "https://flagcdn.com/w80/gb-eng.png", crestUrl: "https://flagcdn.com/w80/gb-eng.png", primaryColor: "#FFFFFF", secondaryColor: "#CE1124", manager: "Thomas Tuchel" },
+  { id: 10010, name: "Belgium", shortName: "BEL", league: "International", country: "Belgium", logoUrl: "https://flagcdn.com/w80/be.png", crestUrl: "https://flagcdn.com/w80/be.png", primaryColor: "#ED2939", secondaryColor: "#FAE100", manager: "Domenico Tedesco" },
+  { id: 10011, name: "Norway", shortName: "NOR", league: "International", country: "Norway", logoUrl: "https://flagcdn.com/w80/no.png", crestUrl: "https://flagcdn.com/w80/no.png", primaryColor: "#BA0C2F", secondaryColor: "#00205B", manager: "Ståle Solbakken" },
+  { id: 10012, name: "Argentina", shortName: "ARG", league: "International", country: "Argentina", logoUrl: "https://flagcdn.com/w80/ar.png", crestUrl: "https://flagcdn.com/w80/ar.png", primaryColor: "#74ACDF", secondaryColor: "#F6B40E", manager: "Lionel Scaloni" },
+  { id: 10013, name: "Portugal", shortName: "POR", league: "International", country: "Portugal", logoUrl: "https://flagcdn.com/w80/pt.png", crestUrl: "https://flagcdn.com/w80/pt.png", primaryColor: "#046A38", secondaryColor: "#DA291C", manager: "Roberto Martínez" },
+  { id: 10014, name: "Italy", shortName: "ITA", league: "International", country: "Italy", logoUrl: "https://flagcdn.com/w80/it.png", crestUrl: "https://flagcdn.com/w80/it.png", primaryColor: "#0064AA", secondaryColor: "#FFFFFF", manager: "Luciano Spalletti" },
+  { id: 10015, name: "Croatia", shortName: "CRO", league: "International", country: "Croatia", logoUrl: "https://flagcdn.com/w80/hr.png", crestUrl: "https://flagcdn.com/w80/hr.png", primaryColor: "#FF0000", secondaryColor: "#FFFFFF", manager: "Zlatko Dalić" },
 ];
+
+export function nationTeamId(nationalityName) {
+  if (!nationalityName) return null;
+  const nameClean = nationalityName.trim().toLowerCase();
+  const found = teams.find(
+    (t) =>
+      t.league === "International" &&
+      (t.name.toLowerCase() === nameClean || t.country?.toLowerCase() === nameClean)
+  );
+  return found ? found.id : null;
+}
 
 export const leagues = [
   { id: 1, name: "Premier League", slug: "pl", matchday: 29, country: "England", logoUrl: "https://r2.thesportsdb.com/images/media/league/badge/gasy9d1737743125.png" },
@@ -1642,47 +1670,47 @@ export const squads = {
     { id: 903, name: "Wojciech Szczęsny", position: "GK", shirtNumber: 25, age: 35, nationality: "Poland", countryFlag: "🇵🇱", height: 196, transferValue: "€1.0M", photoUrl: null, rating: 7.5, goals: 0, assists: 0 },
 
     // Defenders
-    { id: 904, name: "Pau Cubarsí", position: "DEF", shirtNumber: 2, age: 18, nationality: "Spain", countryFlag: "🇪🇸", height: 184, transferValue: "€60.0M", photoUrl: null, rating: 8.3, goals: 1, assists: 1 },
-    { id: 905, name: "Alejandro Balde", position: "DEF", shirtNumber: 3, age: 21, nationality: "Spain", countryFlag: "🇪🇸", height: 180, transferValue: "€60.0M", photoUrl: null, rating: 8.1, goals: 1, assists: 5 },
-    { id: 906, name: "Ronald Araújo", position: "DEF", shirtNumber: 4, age: 26, nationality: "Uruguay", countryFlag: "🇺🇾", height: 188, transferValue: "€65.0M", photoUrl: null, rating: 8.5, goals: 1, assists: 0 },
-    { id: 907, name: "Iñigo Martínez", position: "DEF", shirtNumber: 5, age: 34, nationality: "Spain", countryFlag: "🇪🇸", height: 181, transferValue: "€4.0M", photoUrl: null, rating: 7.9, goals: 1, assists: 0 },
-    { id: 908, name: "Andreas Christensen", position: "DEF", shirtNumber: 15, age: 29, nationality: "Denmark", countryFlag: "🇩🇰", height: 188, transferValue: "€13.5M", photoUrl: null, rating: 7.8, goals: 0, assists: 1 },
-    { id: 909, name: "Jules Koundé", position: "DEF", shirtNumber: 23, age: 26, nationality: "France", countryFlag: "🇫🇷", height: 180, transferValue: "€65.0M", photoUrl: null, rating: 8.6, goals: 2, assists: 4 },
-    { id: 910, name: "Eric García", position: "DEF", shirtNumber: 24, age: 24, nationality: "Spain", countryFlag: "🇪🇸", height: 182, transferValue: "€12.0M", photoUrl: null, rating: 7.4, goals: 0, assists: 1 },
+    { id: 904, name: "Pau Cubarsí", position: "CB", shirtNumber: 2, age: 18, nationality: "Spain", countryFlag: "🇪🇸", height: 184, transferValue: "€60.0M", photoUrl: null, rating: 8.3, goals: 1, assists: 1 },
+    { id: 905, name: "Alejandro Balde", position: "LB, LWB", shirtNumber: 3, age: 21, nationality: "Spain", countryFlag: "🇪🇸", height: 180, transferValue: "€60.0M", photoUrl: null, rating: 8.1, goals: 1, assists: 5 },
+    { id: 906, name: "Ronald Araújo", position: "CB", shirtNumber: 4, age: 26, nationality: "Uruguay", countryFlag: "🇺🇾", height: 188, transferValue: "€65.0M", photoUrl: null, rating: 8.5, goals: 1, assists: 0 },
+    { id: 907, name: "Iñigo Martínez", position: "CB", shirtNumber: 5, age: 34, nationality: "Spain", countryFlag: "🇪🇸", height: 181, transferValue: "€4.0M", photoUrl: null, rating: 7.9, goals: 1, assists: 0 },
+    { id: 908, name: "Andreas Christensen", position: "CB, CDM", shirtNumber: 15, age: 29, nationality: "Denmark", countryFlag: "🇩🇰", height: 188, transferValue: "€13.5M", photoUrl: null, rating: 7.8, goals: 0, assists: 1 },
+    { id: 909, name: "Jules Koundé", position: "RB, CB", shirtNumber: 23, age: 26, nationality: "France", countryFlag: "🇫🇷", height: 180, transferValue: "€65.0M", photoUrl: null, rating: 8.6, goals: 2, assists: 4 },
+    { id: 910, name: "Eric García", position: "CB, RB, CDM", shirtNumber: 24, age: 24, nationality: "Spain", countryFlag: "🇪🇸", height: 182, transferValue: "€12.0M", photoUrl: null, rating: 7.4, goals: 0, assists: 1 },
 
     // Midfielders
-    { id: 911, name: "Gavi", position: "MID", shirtNumber: 6, age: 21, nationality: "Spain", countryFlag: "🇪🇸", height: 173, transferValue: "€80.0M", photoUrl: null, rating: 8.5, goals: 3, assists: 4 },
-    { id: 912, name: "Pedri", position: "MID", shirtNumber: 8, age: 22, nationality: "Spain", countryFlag: "🇪🇸", height: 174, transferValue: "€120.0M", photoUrl: null, rating: 8.9, goals: 5, assists: 8 },
-    { id: 913, name: "Fermín López", position: "MID", shirtNumber: 16, age: 22, nationality: "Spain", countryFlag: "🇪🇸", height: 178, transferValue: "€40.0M", photoUrl: null, rating: 8.0, goals: 5, assists: 4 },
-    { id: 914, name: "Marc Casadó", position: "MID", shirtNumber: 17, age: 21, nationality: "Spain", countryFlag: "🇪🇸", height: 187, transferValue: "€35.0M", photoUrl: null, rating: 8.2, goals: 1, assists: 6 },
-    { id: 915, name: "Dani Olmo", position: "MID", shirtNumber: 20, age: 27, nationality: "Spain", countryFlag: "🇪🇸", height: 177, transferValue: "€70.0M", photoUrl: null, rating: 8.6, goals: 7, assists: 5 },
-    { id: 916, name: "Frenkie de Jong", position: "MID", shirtNumber: 21, age: 28, nationality: "Netherlands", countryFlag: "🇳🇱", height: 180, transferValue: "€60.0M", photoUrl: null, rating: 8.4, goals: 2, assists: 5 },
-    { id: 917, name: "Marc Bernal", position: "MID", shirtNumber: 28, age: 18, nationality: "Spain", countryFlag: "🇪🇸", height: 178, transferValue: "€8.0M", photoUrl: null, rating: 7.6, goals: 0, assists: 2 },
+    { id: 911, name: "Gavi", position: "CM, AM", shirtNumber: 6, age: 21, nationality: "Spain", countryFlag: "🇪🇸", height: 173, transferValue: "€80.0M", photoUrl: null, rating: 8.5, goals: 3, assists: 4 },
+    { id: 912, name: "Pedri", position: "CM, AM", shirtNumber: 8, age: 22, nationality: "Spain", countryFlag: "🇪🇸", height: 174, transferValue: "€120.0M", photoUrl: null, rating: 8.9, goals: 5, assists: 8 },
+    { id: 913, name: "Fermín López", position: "AM, CM", shirtNumber: 16, age: 22, nationality: "Spain", countryFlag: "🇪🇸", height: 178, transferValue: "€40.0M", photoUrl: null, rating: 8.0, goals: 5, assists: 4 },
+    { id: 914, name: "Marc Casadó", position: "CDM, CM", shirtNumber: 17, age: 21, nationality: "Spain", countryFlag: "🇪🇸", height: 187, transferValue: "€35.0M", photoUrl: null, rating: 8.2, goals: 1, assists: 6 },
+    { id: 915, name: "Dani Olmo", position: "AM, LW", shirtNumber: 20, age: 27, nationality: "Spain", countryFlag: "🇪🇸", height: 177, transferValue: "€70.0M", photoUrl: null, rating: 8.6, goals: 7, assists: 5 },
+    { id: 916, name: "Frenkie de Jong", position: "CM, CDM", shirtNumber: 21, age: 28, nationality: "Netherlands", countryFlag: "🇳🇱", height: 180, transferValue: "€60.0M", photoUrl: null, rating: 8.4, goals: 2, assists: 5, injury: "Meniscus injury — Early October 2026" },
+    { id: 917, name: "Marc Bernal", position: "CDM", shirtNumber: 28, age: 18, nationality: "Spain", countryFlag: "🇪🇸", height: 178, transferValue: "€8.0M", photoUrl: null, rating: 7.6, goals: 0, assists: 2 },
 
     // Forwards
-    { id: 918, name: "Ferran Torres", position: "FWD", shirtNumber: 7, age: 25, nationality: "Spain", countryFlag: "🇪🇸", height: 184, transferValue: "€35.0M", photoUrl: null, rating: 7.7, goals: 6, assists: 3 },
-    { id: 919, name: "Robert Lewandowski", position: "FWD", shirtNumber: 9, age: 37, nationality: "Poland", countryFlag: "🇵🇱", height: 185, transferValue: "€10.0M", photoUrl: null, rating: 8.8, goals: 21, assists: 4 },
-    { id: 920, name: "Ansu Fati", position: "FWD", shirtNumber: 10, age: 22, nationality: "Spain", countryFlag: "🇪🇸", height: 178, transferValue: "€25.0M", photoUrl: null, rating: 7.3, goals: 2, assists: 1 },
-    { id: 921, name: "Raphinha", position: "FWD", shirtNumber: 11, age: 28, nationality: "Brazil", countryFlag: "🇧🇷", height: 176, transferValue: "€70.0M", photoUrl: null, rating: 8.9, goals: 14, assists: 11 },
-    { id: 922, name: "Pau Víctor", position: "FWD", shirtNumber: 18, age: 23, nationality: "Spain", countryFlag: "🇪🇸", height: 178, transferValue: "€18.0M", photoUrl: null, rating: 7.4, goals: 2, assists: 1 },
-    { id: 923, name: "Lamine Yamal", position: "FWD", shirtNumber: 19, age: 18, nationality: "Spain", countryFlag: "🇪🇸", height: 180, transferValue: "€250.0M", photoUrl: null, rating: 9.2, goals: 11, assists: 13 }
+    { id: 918, name: "Ferran Torres", position: "LW, ST, RW", shirtNumber: 7, age: 25, nationality: "Spain", countryFlag: "🇪🇸", height: 184, transferValue: "€35.0M", photoUrl: null, rating: 7.7, goals: 6, assists: 3 },
+    { id: 919, name: "Robert Lewandowski", position: "ST", shirtNumber: 9, age: 37, nationality: "Poland", countryFlag: "🇵🇱", height: 185, transferValue: "€10.0M", photoUrl: null, rating: 8.8, goals: 21, assists: 4 },
+    { id: 920, name: "Ansu Fati", position: "LW, ST", shirtNumber: 10, age: 22, nationality: "Spain", countryFlag: "🇪🇸", height: 178, transferValue: "€25.0M", photoUrl: null, rating: 7.3, goals: 2, assists: 1 },
+    { id: 921, name: "Raphinha", position: "LW, RW, AM", shirtNumber: 11, age: 28, nationality: "Brazil", countryFlag: "🇧🇷", height: 176, transferValue: "€70.0M", photoUrl: null, rating: 8.9, goals: 14, assists: 11 },
+    { id: 922, name: "Pau Víctor", position: "ST, LW", shirtNumber: 18, age: 23, nationality: "Spain", countryFlag: "🇪🇸", height: 178, transferValue: "€18.0M", photoUrl: null, rating: 7.4, goals: 2, assists: 1 },
+    { id: 923, name: "Lamine Yamal", position: "RW, AM", shirtNumber: 19, age: 18, nationality: "Spain", countryFlag: "🇪🇸", height: 180, transferValue: "€250.0M", photoUrl: null, rating: 9.2, goals: 11, assists: 13 }
   ],
   1: [ // Arsenal partial squad preview
     { id: 101, name: "David Raya", position: "GK", shirtNumber: 22, age: 29, nationality: "Spain", rating: 8.2 },
-    { id: 102, name: "William Saliba", position: "DEF", shirtNumber: 2, age: 24, nationality: "France", rating: 8.7 },
-    { id: 103, name: "Gabriel Magalhães", position: "DEF", shirtNumber: 6, age: 27, nationality: "Brazil", rating: 8.5 },
-    { id: 104, name: "Declan Rice", position: "MID", shirtNumber: 4, age: 26, nationality: "England", rating: 8.8 },
-    { id: 105, name: "Martin Ødegaard", position: "MID", shirtNumber: 8, age: 26, nationality: "Norway", rating: 8.9 },
-    { id: 106, name: "Bukayo Saka", position: "FWD", shirtNumber: 7, age: 23, nationality: "England", rating: 9.1 },
-    { id: 107, name: "Kai Havertz", position: "FWD", shirtNumber: 29, age: 25, nationality: "Germany", rating: 8.2 },
+    { id: 102, name: "William Saliba", position: "CB", shirtNumber: 2, age: 24, nationality: "France", rating: 8.7 },
+    { id: 103, name: "Gabriel Magalhães", position: "CB", shirtNumber: 6, age: 27, nationality: "Brazil", rating: 8.5 },
+    { id: 104, name: "Declan Rice", position: "CDM, CM", shirtNumber: 4, age: 26, nationality: "England", rating: 8.8 },
+    { id: 105, name: "Martin Ødegaard", position: "AM, CM", shirtNumber: 8, age: 26, nationality: "Norway", rating: 8.9 },
+    { id: 106, name: "Bukayo Saka", position: "RW", shirtNumber: 7, age: 23, nationality: "England", rating: 9.1 },
+    { id: 107, name: "Kai Havertz", position: "CF, AM", shirtNumber: 29, age: 25, nationality: "Germany", rating: 8.2 },
   ],
   7: [ // Real Madrid partial squad preview
     { id: 701, name: "Thibaut Courtois", position: "GK", shirtNumber: 1, age: 33, nationality: "Belgium", rating: 8.8 },
-    { id: 702, name: "Antonio Rüdiger", position: "DEF", shirtNumber: 22, age: 32, nationality: "Germany", rating: 8.6 },
-    { id: 703, name: "Jude Bellingham", position: "MID", shirtNumber: 5, age: 22, nationality: "England", rating: 9.2 },
-    { id: 704, name: "Federico Valverde", position: "MID", shirtNumber: 8, age: 27, nationality: "Uruguay", rating: 8.7 },
-    { id: 705, name: "Vinícius Júnior", position: "FWD", shirtNumber: 7, age: 25, nationality: "Brazil", rating: 9.3 },
-    { id: 706, name: "Kylian Mbappé", position: "FWD", shirtNumber: 9, age: 26, nationality: "France", rating: 9.4 },
+    { id: 702, name: "Antonio Rüdiger", position: "CB", shirtNumber: 22, age: 32, nationality: "Germany", rating: 8.6 },
+    { id: 703, name: "Jude Bellingham", position: "AM, CM", shirtNumber: 5, age: 22, nationality: "England", rating: 9.2 },
+    { id: 704, name: "Federico Valverde", position: "CM, RM, RB", shirtNumber: 8, age: 27, nationality: "Uruguay", rating: 8.7 },
+    { id: 705, name: "Vinícius Júnior", position: "LW", shirtNumber: 7, age: 25, nationality: "Brazil", rating: 9.3 },
+    { id: 706, name: "Kylian Mbappé", position: "ST, LW", shirtNumber: 9, age: 26, nationality: "France", rating: 9.4 },
   ]
 };
 
