@@ -1,20 +1,53 @@
 /* ============================================================
    StubPage.css — Shared styles for stub/placeholder pages
+   Presented as a centered "coming soon" empty state using the same
+   double-bezel card language as the rest of the app, instead of bare
+   left-aligned text on the raw canvas.
    ============================================================ */
 
 .stub-page {
   flex: 1;
   overflow-y: auto;
   min-height: 0;   /* flex scroll containment */
-  padding: var(--space-5) var(--space-6);
   min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
   background-color: var(--color-base);
+  background-image: var(--texture-scanline);
+}
+
+.stub-page__panel {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  padding: var(--space-6) var(--space-5);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--bezel-double);
+}
+
+.stub-page__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--space-4);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-pitch-green);
 }
 
 .stub-page__heading {
   font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
   color: var(--color-primary);
   margin-bottom: var(--space-2);
   margin-top: 0;
@@ -23,6 +56,7 @@
 .stub-page__body {
   font-family: var(--font-body);
   font-size: 13px;
+  line-height: 1.5;
   color: var(--color-faint);
   margin: 0;
 }
@@ -33,4 +67,28 @@
   color: var(--color-secondary);
   margin-bottom: var(--space-1);
   margin-top: 0;
+}
+
+.stub-page__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--space-4);
+  padding: 5px var(--space-3);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.stub-page__badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-pitch-green);
 }
