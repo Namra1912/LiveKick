@@ -1,11 +1,10 @@
 // src/pages/Transfers.jsx
 import { useState, useMemo, useEffect } from 'react';
-import { Filter, ChevronUp, ChevronDown, ArrowUpDown } from 'lucide-react';
 import AppLayout from '../components/layout/AppLayout';
 import SearchModal from '../components/search/SearchModal';
 import Breadcrumb from '../components/shared/Breadcrumb';
 import TransferFilters from '../components/transfers/TransferFilters';
-import TransferCard from '../components/transfers/TransferCard';
+import TransferFeed from '../components/transfers/TransferFeed';
 import TransferSidebar from '../components/transfers/TransferSidebar';
 import { transfers } from '../data/mockData';
 import './Transfers.css';
@@ -222,83 +221,15 @@ export default function Transfers() {
 
           <TransferFilters activeTab={activeTab} onTabChange={handleTabChange} />
 
-          {/* Transfer feed */}
-          {filtered.length === 0 ? (
-            <div className="transfers__empty" role="status">
-              <Filter size={28} className="transfers__empty-icon" />
-              <p className="transfers__empty-title">No transfers match your filters</p>
-              <button
-                type="button"
-                className="transfers__empty-reset"
-                onClick={handleResetFilters}
-              >
-                Reset filters
-              </button>
-            </div>
-          ) : (
-            <div className="transfers__feed">
-              {/* Column Header Row with In-Table Sorting */}
-              <div className="transfer-feed__header">
-                <span className="transfer-feed__col">FROM → TO</span>
-                <span className="transfer-feed__col">PLAYER</span>
-                
-                {/* FEE Sort Button Header */}
-                <button
-                  type="button"
-                  className={`transfer-feed__sort-btn transfer-feed__sort-btn--right${
-                    sortKey === 'fee' ? ' transfer-feed__sort-btn--active' : ''
-                  }`}
-                  onClick={() => handleHeaderSort('fee')}
-                >
-                  <span>FEE</span>
-                  {sortKey === 'fee' ? (
-                    sortDir === 'desc' ? <ChevronDown size={11} /> : <ChevronUp size={11} />
-                  ) : (
-                    <ArrowUpDown size={9} className="transfer-feed__sort-neutral" />
-                  )}
-                </button>
-
-                <span className="transfer-feed__col transfer-feed__col--center">TIER</span>
-
-                {/* DATE Sort Button Header */}
-                <button
-                  type="button"
-                  className={`transfer-feed__sort-btn transfer-feed__sort-btn--right${
-                    sortKey === 'date' ? ' transfer-feed__sort-btn--active' : ''
-                  }`}
-                  onClick={() => handleHeaderSort('date')}
-                >
-                  <span>DATE</span>
-                  {sortKey === 'date' ? (
-                    sortDir === 'desc' ? <ChevronDown size={11} /> : <ChevronUp size={11} />
-                  ) : (
-                    <ArrowUpDown size={9} className="transfer-feed__sort-neutral" />
-                  )}
-                </button>
-              </div>
-
-              {visibleItems.map((item) => (
-                <TransferCard key={item.id} item={item} />
-              ))}
-            </div>
-          )}
-
-          {/* Footer */}
-          {filtered.length > 0 && (
-            <div className="transfers__footer">
-              {hasMore ? (
-                <button
-                  className="transfers__load-more"
-                  type="button"
-                  onClick={() => setVisibleCount((v) => v + 8)}
-                >
-                  Load More Transfers
-                </button>
-              ) : (
-                <p className="transfers__caught-up">You&rsquo;re all caught up</p>
-              )}
-            </div>
-          )}
+          <TransferFeed
+            items={visibleItems}
+            hasMore={hasMore}
+            onLoadMore={() => setVisibleCount((v) => v + 8)}
+            sortKey={sortKey}
+            sortDir={sortDir}
+            onSort={handleHeaderSort}
+            onReset={handleResetFilters}
+          />
         </main>
 
         {/* Right panel sidebar */}

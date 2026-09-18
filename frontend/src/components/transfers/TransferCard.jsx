@@ -85,7 +85,7 @@ export default function TransferCard({ item }) {
             }
           }}
         >
-          <Crest team={item.fromTeam} size={22} />
+          <Crest team={item.fromTeam} size={26} />
           <span className="transfer-card__club-name">{item.fromTeam?.shortName ?? '?'}</span>
         </div>
 
@@ -107,7 +107,7 @@ export default function TransferCard({ item }) {
               }
             }}
           >
-            <Crest team={item.toTeam} size={22} />
+            <Crest team={item.toTeam} size={26} />
             <span className="transfer-card__club-name">{item.toTeam?.shortName ?? '?'}</span>
           </div>
         ) : (

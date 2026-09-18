@@ -1,0 +1,161 @@
+/* src/components/team-profile/TransfersTab.css */
+
+.ttab {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* ── LEFT PANEL ── */
+.ttab__panel {
+  width: 200px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ttab__panel-heading {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--color-border);
+  margin: 0;
+}
+
+.ttab__panel-section {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+.ttab__panel-section:last-child { border-bottom: none; }
+
+.ttab__panel-label {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--color-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 10px;
+  font-family: var(--font-body);
+}
+
+/* In/Out/All toggle */
+.ttab__toggle-row {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  overflow: hidden;
+  width: 100%;
+}
+.ttab__toggle-btn {
+  flex: 1;
+  padding: 6px 4px;
+  border: none;
+  background: transparent;
+  color: var(--color-faint);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+.ttab__toggle-btn:hover { color: var(--color-primary); }
+.ttab__toggle-btn--active {
+  background: var(--color-base);
+  color: var(--color-primary);
+}
+
+/* This Window stats */
+.ttab__panel-section--stats { }
+.ttab__stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(30,42,53,0.5);
+  font-size: 0.8125rem;
+}
+.ttab__stat-row:last-child { border-bottom: none; }
+.ttab__stat-label {
+  color: var(--color-faint);
+  font-family: var(--font-body);
+}
+.ttab__stat-val {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 0.875rem;
+}
+.ttab__stat-val--green { color: var(--color-pitch-green); }
+.ttab__stat-val--red { color: #ef4444; }
+
+/* ── RIGHT MAIN ── */
+.ttab__main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Confirmed/Rumors status bar */
+.ttab__status-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.ttab__status-toggle {
+  display: flex;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.ttab__status-btn {
+  padding: 7px 20px;
+  border: none;
+  background: transparent;
+  color: var(--color-faint);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+  white-space: nowrap;
+}
+.ttab__status-btn:hover { color: var(--color-primary); }
+.ttab__status-btn--active {
+  background: var(--color-pitch-green);
+  color: var(--color-base);
+  font-weight: 700;
+}
+
+/* Direction accent wrapper */
+.ttab-row-wrap {
+  border-left: 2px solid transparent;
+  transition: border-color 150ms ease;
+}
+.ttab-row-wrap--in {
+  border-left-color: rgba(0, 179, 112, 0.45);
+}
+.ttab-row-wrap--out {
+  border-left-color: rgba(239, 68, 68, 0.35);
+}
+
+/* Below tablet width, the fixed 200px filter panel plus the transfer list's
+   minimum content no longer fit side by side — stack the panel above the
+   list instead of squeezing the list off the edge of the screen. */
+@media (max-width: 720px) {
+  .ttab {
+    flex-direction: column;
+  }
+  .ttab__panel {
+    width: 100%;
+    position: static;
+  }
+}
