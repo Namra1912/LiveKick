@@ -1,9 +1,9 @@
-// LiveKick â€” Mock Data (Phase 0: frontend-only, no backend/API yet)
+// LiveKick — Mock Data (Phase 0: frontend-only, no backend/API yet)
 // Field names match LiveKick_PRD_FINAL_v5_1.md Â§5 (camelCase here for direct
-// frontend use â€” your real API layer will map snake_case Postgres columns to
+// frontend use — your real API layer will map snake_case Postgres columns to
 // this same shape when Phase 1 wires up the real backend).
 //
-// Crest/avatar URLs use ui-avatars.com / raw.githubusercontent / thesportsdb â€” keyless
+// Crest/avatar URLs use ui-avatars.com / raw.githubusercontent / thesportsdb — keyless
 // placeholder service that generates initial badges or real team crests.
 
 const photoSeed = (id, width, height) =>
@@ -187,6 +187,10 @@ export const teams = [
   { id: 96, name: "Slovan Bratislava", shortName: "SLO", league: "Champions League", country: "Slovakia", logoUrl: "https://r2.thesportsdb.com/images/media/team/badge/uwyvtr1421448947.png", crestUrl: "https://r2.thesportsdb.com/images/media/team/badge/uwyvtr1421448947.png", primaryColor: "#87CEEB", secondaryColor: "#FFFFFF" },
   { id: 97, name: "Levante", shortName: "LEV", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Levante%20UD.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Levante%20UD.png", primaryColor: "#666666", secondaryColor: "#ffffff" },
   { id: 98, name: "Racing Santander", shortName: "RAC", league: "La Liga", country: "Spain", logoUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Racing%20Santander.png", crestUrl: "https://raw.githubusercontent.com/luukhopman/football-logos/master/logos/Spain%20-%20LaLiga/Racing%20Santander.png", primaryColor: "#666666", secondaryColor: "#ffffff" },
+
+  { id: 99, name: "Fenerbahçe", shortName: "FEN", logoUrl: null, primaryColor: "#555555", league: "Unknown" },
+  { id: 100, name: "Deportivo A Coruña", shortName: "DEP", logoUrl: null, primaryColor: "#555555", league: "Unknown" },
+  { id: 101, name: "Royal Antwerp", shortName: "ANT", logoUrl: null, primaryColor: "#555555", league: "Unknown" },
 
   // ── National Teams ──────────────────────────────────────────────────────────
   { id: 10001, name: "Spain", shortName: "ESP", league: "International", country: "Spain", logoUrl: "https://flagcdn.com/w80/es.png", crestUrl: "https://flagcdn.com/w80/es.png", primaryColor: "#EF4444", secondaryColor: "#F59E0B", manager: "Luis de la Fuente" },
@@ -436,7 +440,7 @@ export const matches = [
     status: "live", minute: 58,
     pressureHome: 58, pressureAway: 42,
     matchDateUtc: getRelativeIso(0, 15, 30),
-    league: "La Liga", venue: "Santiago BernabÃ©u", referee: "JesÃºs Gil Manzano",
+    league: "La Liga", venue: "Santiago Bernabéu", referee: "Jesús Gil Manzano",
     lastSynced: new Date().toISOString(),
   },
   {
@@ -446,7 +450,7 @@ export const matches = [
     status: "upcoming", minute: 0,
     pressureHome: 50, pressureAway: 50,
     matchDateUtc: getRelativeIso(0, 18, 0),
-    league: "La Liga", venue: "Estadi OlÃ­mpic LluÃ­s Companys", referee: "Ricardo de Burgos",
+    league: "La Liga", venue: "Estadi Olímpic Lluís Companys", referee: "Ricardo de Burgos",
     lastSynced: new Date().toISOString(),
   },
   {
@@ -456,7 +460,7 @@ export const matches = [
     status: "upcoming", minute: 0,
     pressureHome: 50, pressureAway: 50,
     matchDateUtc: getRelativeIso(0, 21, 0),
-    league: "La Liga", venue: "Santiago BernabÃ©u", referee: "Mateu Lahoz",
+    league: "La Liga", venue: "Santiago Bernabéu", referee: "Mateu Lahoz",
     lastSynced: new Date().toISOString(),
   },
   {
@@ -488,7 +492,7 @@ export const matches = [
     status: "upcoming", minute: 0,
     pressureHome: 50, pressureAway: 50,
     matchDateUtc: getRelativeIso(1, 17, 0),
-    league: "La Liga", venue: "Santiago BernabÃ©u", referee: "Mateu Lahoz",
+    league: "La Liga", venue: "Santiago Bernabéu", referee: "Mateu Lahoz",
     lastSynced: new Date().toISOString(),
   },
   {
@@ -598,7 +602,7 @@ export const matches = [
 ];
 
 /* =============================================================================
-   MOCK DATA EXTENSION (CHUNK 1 â€” DATA AUDIT & STANDINGS COMPLETION)
+   MOCK DATA EXTENSION (CHUNK 1 — DATA AUDIT & STANDINGS COMPLETION)
    
    SUMMARY OF TEAMS REUSED VS NEWLY ADDED:
    
@@ -626,7 +630,7 @@ export const matches = [
         Bologna (67), Torino (68), Udinese (69), Genoa (70), Cagliari (71), Parma (72),
         Hellas Verona (73), Como (74), Empoli (75), Monza (76), Lecce (77), Venezia (78)
         
-   5. Champions League (36 Teams Total â€” Swiss League Single-Table Format):
+   5. Champions League (36 Teams Total — Swiss League Single-Table Format):
       - Reused European Clubs (18): Liverpool (3), Barcelona (9), Arsenal (1), Inter Milan (12),
         Atletico Madrid (8), Bayer Leverkusen (47), Aston Villa (17), Atalanta (62),
         Borussia Dortmund (11), Real Madrid (7), Bayern Munich (13), Man City (2), Juventus (15),
@@ -795,22 +799,22 @@ export const topScorers = {
   ],
   "La Liga": [
     { rank: 1, name: "Robert Lewandowski", team: t(9), goals: 19, matches: 22, playerPhotoUrl: player("Robert Lewandowski", "004D98") },
-    { rank: 2, name: "Kylian MbappÃ©", team: t(7), goals: 16, matches: 21, playerPhotoUrl: player("Kylian Mbappe", "FEBE10") },
+    { rank: 2, name: "Kylian Mbappé", team: t(7), goals: 16, matches: 21, playerPhotoUrl: player("Kylian Mbappe", "FEBE10") },
     { rank: 3, name: "Raphinha", team: t(9), goals: 13, matches: 23, playerPhotoUrl: player("Raphinha", "A50044") },
-    { rank: 4, name: "VinÃ­cius JÃºnior", team: t(7), goals: 12, matches: 20, playerPhotoUrl: player("Vinicius Junior", "00529F") },
+    { rank: 4, name: "Vinícius Júnior", team: t(7), goals: 12, matches: 20, playerPhotoUrl: player("Vinicius Junior", "00529F") },
     { rank: 5, name: "Antoine Griezmann", team: t(8), goals: 11, matches: 22, playerPhotoUrl: player("Antoine Griezmann", "CB3524") },
   ],
   "Bundesliga": [
     { rank: 1, name: "Harry Kane", team: t(13), goals: 21, matches: 20, playerPhotoUrl: player("Harry Kane", "DC052D") },
     { rank: 2, name: "Omar Marmoush", team: t(48), goals: 15, matches: 19, playerPhotoUrl: player("Omar Marmoush", "D10000") },
     { rank: 3, name: "Victor Boniface", team: t(47), goals: 12, matches: 18, playerPhotoUrl: player("Victor Boniface", "E32221") },
-    { rank: 4, name: "LoÃ¯s Openda", team: t(14), goals: 11, matches: 20, playerPhotoUrl: player("Lois Openda", "DD013F") },
+    { rank: 4, name: "Loïs Openda", team: t(14), goals: 11, matches: 20, playerPhotoUrl: player("Lois Openda", "DD013F") },
     { rank: 5, name: "Serhou Guirassy", team: t(11), goals: 10, matches: 19, playerPhotoUrl: player("Serhou Guirassy", "FDE100") },
   ],
   "Serie A": [
     { rank: 1, name: "Mateo Retegui", team: t(62), goals: 16, matches: 22, playerPhotoUrl: player("Mateo Retegui", "0055A5") },
     { rank: 2, name: "Marcus Thuram", team: t(12), goals: 13, matches: 23, playerPhotoUrl: player("Marcus Thuram", "0068A8") },
-    { rank: 3, name: "Lautaro MartÃ­nez", team: t(12), goals: 12, matches: 21, playerPhotoUrl: player("Lautaro Martinez", "0068A8") },
+    { rank: 3, name: "Lautaro Martínez", team: t(12), goals: 12, matches: 21, playerPhotoUrl: player("Lautaro Martinez", "0068A8") },
     { rank: 4, name: "DuÅ¡an VlahoviÄ‡", team: t(15), goals: 11, matches: 22, playerPhotoUrl: player("Dusan Vlahovic", "000000") },
     { rank: 5, name: "Ademola Lookman", team: t(62), goals: 10, matches: 20, playerPhotoUrl: player("Ademola Lookman", "0055A5") },
   ],
@@ -818,7 +822,7 @@ export const topScorers = {
     { rank: 1, name: "Robert Lewandowski", team: t(9), goals: 9, matches: 8, playerPhotoUrl: player("Robert Lewandowski", "004D98") },
     { rank: 2, name: "Harry Kane", team: t(13), goals: 8, matches: 8, playerPhotoUrl: player("Harry Kane", "DC052D") },
     { rank: 3, name: "Raphinha", team: t(9), goals: 7, matches: 8, playerPhotoUrl: player("Raphinha", "A50044") },
-    { rank: 4, name: "Viktor GyÃ¶keres", team: t(80), goals: 6, matches: 8, playerPhotoUrl: player("Viktor Gyokeres", "008040") },
+    { rank: 4, name: "Viktor Gyökeres", team: t(80), goals: 6, matches: 8, playerPhotoUrl: player("Viktor Gyokeres", "008040") },
     { rank: 5, name: "Erling Haaland", team: t(2), goals: 6, matches: 7, playerPhotoUrl: player("Erling Haaland", "6CABDD") },
   ],
 };
@@ -835,7 +839,7 @@ export const topAssists = {
   "La Liga": [
     { rank: 1, name: "Lamine Yamal", team: t(9), assists: 11, matches: 22, playerPhotoUrl: player("Lamine Yamal", "004D98") },
     { rank: 2, name: "Raphinha", team: t(9), assists: 9, matches: 23, playerPhotoUrl: player("Raphinha", "A50044") },
-    { rank: 3, name: "VinÃ­cius JÃºnior", team: t(7), assists: 8, matches: 20, playerPhotoUrl: player("Vinicius Junior", "00529F") },
+    { rank: 3, name: "Vinícius Júnior", team: t(7), assists: 8, matches: 20, playerPhotoUrl: player("Vinicius Junior", "00529F") },
     { rank: 4, name: "Alex Baena", team: t(33), assists: 7, matches: 21, playerPhotoUrl: player("Alex Baena", "FFE600") },
     { rank: 5, name: "Antoine Griezmann", team: t(8), assists: 6, matches: 22, playerPhotoUrl: player("Antoine Griezmann", "CB3524") },
   ],
@@ -850,7 +854,7 @@ export const topAssists = {
     { rank: 1, name: "Nuno Tavares", team: t(64), assists: 8, matches: 18, playerPhotoUrl: player("Nuno Tavares", "87CEEB") },
     { rank: 2, name: "Ademola Lookman", team: t(62), assists: 7, matches: 20, playerPhotoUrl: player("Ademola Lookman", "0055A5") },
     { rank: 3, name: "Federico Dimarco", team: t(12), assists: 6, matches: 22, playerPhotoUrl: player("Federico Dimarco", "0068A8") },
-    { rank: 4, name: "Rafael LeÃ£o", team: t(16), assists: 6, matches: 21, playerPhotoUrl: player("Rafael Leao", "AC122A") },
+    { rank: 4, name: "Rafael Leão", team: t(16), assists: 6, matches: 21, playerPhotoUrl: player("Rafael Leao", "AC122A") },
     { rank: 5, name: "Khvicha Kvaratskhelia", team: t(63), assists: 5, matches: 23, playerPhotoUrl: player("Khvicha Kvaratskhelia", "0080FF") },
   ],
   "Champions League": [
@@ -858,7 +862,7 @@ export const topAssists = {
     { rank: 2, name: "Florian Wirtz", team: t(47), assists: 4, matches: 8, playerPhotoUrl: player("Florian Wirtz", "E32221") },
     { rank: 3, name: "Bukayo Saka", team: t(1), assists: 4, matches: 8, playerPhotoUrl: player("Bukayo Saka", "EF0107") },
     { rank: 4, name: "Achraf Hakimi", team: t(89), assists: 4, matches: 8, playerPhotoUrl: player("Achraf Hakimi", "001C46") },
-    { rank: 5, name: "VinÃ­cius JÃºnior", team: t(7), assists: 4, matches: 8, playerPhotoUrl: player("Vinicius Junior", "00529F") },
+    { rank: 5, name: "Vinícius Júnior", team: t(7), assists: 4, matches: 8, playerPhotoUrl: player("Vinicius Junior", "00529F") },
   ],
 };
 
@@ -1135,6 +1139,213 @@ export const transfers = [
     transferDate: '2025-07-18',
     sourceName: 'Fabrizio Romano',
   },
+  // ── Barcelona Transfers (ids 16–27) ─────────────────────────
+  // Confirmed
+  {
+    id: 16,
+    player: 'Gabriel Jesus',
+    playerPhoto: transferPhoto('Gabriel Jesus'),
+    position: 'ST',
+    age: 29,
+    fromTeam: t(2),
+    toTeam: t(9),
+    fee: '€10M',
+    transferType: 'permanent',
+    tier: 1,
+    status: 'confirmed',
+    league: 'La Liga',
+    timestamp: '14d ago',
+    transferDate: '2025-08-01',
+    sourceName: 'Fabrizio Romano',
+  },
+  {
+    id: 17,
+    player: 'Dominik Livaković',
+    playerPhoto: transferPhoto('Dominik Livaković'),
+    position: 'GK',
+    age: 30,
+    fromTeam: t(99),
+    toTeam: t(9),
+    fee: '€2M',
+    transferType: 'permanent',
+    tier: 1,
+    status: 'confirmed',
+    league: 'La Liga',
+    timestamp: '18d ago',
+    transferDate: '2025-07-28',
+    sourceName: 'Sky Sports',
+  },
+  {
+    id: 18,
+    player: 'Mirza Catovic',
+    playerPhoto: transferPhoto('Mirza Catovic'),
+    position: 'DM',
+    age: 21,
+    fromTeam: t(49),
+    toTeam: t(9),
+    fee: 'LOAN',
+    transferType: 'loan',
+    tier: 2,
+    status: 'confirmed',
+    league: 'La Liga',
+    timestamp: '12d ago',
+    transferDate: '2025-08-03',
+    sourceName: 'Kicker',
+  },
+  {
+    id: 19,
+    player: 'Héctor Fort',
+    playerPhoto: transferPhoto('Héctor Fort'),
+    position: 'RWB',
+    age: 21,
+    fromTeam: t(9),
+    toTeam: t(32),
+    fee: '€8.5M',
+    transferType: 'permanent',
+    tier: 1,
+    status: 'confirmed',
+    league: 'La Liga',
+    timestamp: '13d ago',
+    transferDate: '2025-08-02',
+    sourceName: 'Mundo Deportivo',
+  },
+  {
+    id: 20,
+    player: 'Marc Casadó',
+    playerPhoto: transferPhoto('Marc Casadó'),
+    position: 'DM',
+    age: 22,
+    fromTeam: t(9),
+    toTeam: t(100),
+    fee: 'LOAN',
+    transferType: 'loan',
+    tier: 2,
+    status: 'confirmed',
+    league: 'La Liga',
+    timestamp: '12d ago',
+    transferDate: '2025-08-03',
+    sourceName: 'Sport',
+  },
+  {
+    id: 21,
+    player: 'Guille Fernández',
+    playerPhoto: transferPhoto('Guille Fernández'),
+    position: 'CM',
+    age: 22,
+    fromTeam: t(9),
+    toTeam: t(35),
+    fee: '€4M',
+    transferType: 'permanent',
+    tier: 2,
+    status: 'confirmed',
+    league: 'La Liga',
+    timestamp: '12d ago',
+    transferDate: '2025-08-03',
+    sourceName: 'Marca',
+  },
+  {
+    id: 22,
+    player: 'Toni Fernández',
+    playerPhoto: transferPhoto('Toni Fernández'),
+    position: 'ST',
+    age: 20,
+    fromTeam: t(9),
+    toTeam: t(78),
+    fee: 'LOAN',
+    transferType: 'loan',
+    tier: 2,
+    status: 'confirmed',
+    league: 'Serie A',
+    timestamp: '12d ago',
+    transferDate: '2025-08-03',
+    sourceName: 'La Gazzetta dello Sport',
+  },
+  {
+    id: 23,
+    player: 'Álvaro Cortés',
+    playerPhoto: transferPhoto('Álvaro Cortés'),
+    position: 'CB',
+    age: 22,
+    fromTeam: t(9),
+    toTeam: t(101),
+    fee: '€3.5M',
+    transferType: 'permanent',
+    tier: 2,
+    status: 'confirmed',
+    league: 'La Liga',
+    timestamp: '12d ago',
+    transferDate: '2025-08-03',
+    sourceName: 'Mundo Deportivo',
+  },
+  // Rumors
+  {
+    id: 24,
+    player: 'Marcus Rashford',
+    playerPhoto: transferPhoto('Marcus Rashford'),
+    position: 'LW',
+    age: 27,
+    fromTeam: t(6),
+    toTeam: t(9),
+    fee: 'UNDISCLOSED',
+    transferType: 'loan',
+    tier: 3,
+    status: 'rumor',
+    league: 'La Liga',
+    timestamp: '1d ago',
+    transferDate: '2025-08-14',
+    sourceName: 'Daily Mail',
+  },
+  {
+    id: 25,
+    player: 'Ansu Fati',
+    playerPhoto: transferPhoto('Ansu Fati'),
+    position: 'LW',
+    age: 22,
+    fromTeam: t(9),
+    toTeam: null,
+    fee: 'UNDISCLOSED',
+    transferType: 'permanent',
+    tier: 3,
+    status: 'rumor',
+    league: 'La Liga',
+    timestamp: '3d ago',
+    transferDate: '2025-08-12',
+    sourceName: 'Sport',
+  },
+  {
+    id: 26,
+    player: 'Dušan Vlahović',
+    playerPhoto: transferPhoto('Dušan Vlahović'),
+    position: 'ST',
+    age: 25,
+    fromTeam: t(15),
+    toTeam: t(9),
+    fee: '€70M',
+    transferType: 'permanent',
+    tier: 2,
+    status: 'rumor',
+    league: 'La Liga',
+    timestamp: '2d ago',
+    transferDate: '2025-08-13',
+    sourceName: 'Tuttosport',
+  },
+  {
+    id: 27,
+    player: 'Ferran Torres',
+    playerPhoto: transferPhoto('Ferran Torres'),
+    position: 'RW',
+    age: 25,
+    fromTeam: t(9),
+    toTeam: null,
+    fee: '€20M',
+    transferType: 'permanent',
+    tier: 3,
+    status: 'rumor',
+    league: 'La Liga',
+    timestamp: '4d ago',
+    transferDate: '2025-08-11',
+    sourceName: 'Mundo Deportivo',
+  },
 ];
 
 export const news = [
@@ -1233,8 +1444,8 @@ export const news = [
   // â”€â”€ INJURIES (3 entries) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   {
     id: 307,
-    headline: "Bellingham Ruled Out of El Clasico After Training Ground Scare â€” Ancelotti",
-    title:    "Bellingham Ruled Out of El Clasico After Training Ground Scare â€” Ancelotti",
+    headline: "Bellingham Ruled Out of El Clasico After Training Ground Scare — Ancelotti",
+    title:    "Bellingham Ruled Out of El Clasico After Training Ground Scare — Ancelotti",
     category: "INJURIES",
     source: "Sky Sports",
     sourceUrl: "https://www.skysports.com",
@@ -1649,7 +1860,7 @@ export const savedFormations = [
       { playerName: "Gabriel", position: "DEF", x: 0.38, y: 0.82 },
       { playerName: "Timber", position: "DEF", x: 0.18, y: 0.78 },
       { playerName: "Rice", position: "MID", x: 0.5, y: 0.6 },
-      { playerName: "Ã˜degaard", position: "MID", x: 0.68, y: 0.5 },
+      { playerName: "Ødegaard", position: "MID", x: 0.68, y: 0.5 },
       { playerName: "Merino", position: "MID", x: 0.32, y: 0.5 },
       { playerName: "Saka", position: "FWD", x: 0.82, y: 0.25 },
       { playerName: "Havertz", position: "FWD", x: 0.5, y: 0.15 },
