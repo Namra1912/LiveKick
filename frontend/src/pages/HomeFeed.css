@@ -251,6 +251,27 @@
   }
 }
 
+/* Phone width: the date selector no longer fits beside the heading on one
+   line — wrap it onto its own row instead of letting it run off-screen. */
+@media (max-width: 420px) {
+  .home-feed__heading-row {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .date-selector {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .date-selector__group {
+    flex: 1;
+  }
+  .date-selector__btn {
+    flex: 1;
+    padding: 6px var(--space-2);
+    text-align: center;
+  }
+}
+
 /* ── Reduced-motion override ────────────────────────────────── */
 /* For users with prefers-reduced-motion: strip the translate but
    keep a very brief opacity fade (120ms) so the page appears

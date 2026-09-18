@@ -3,7 +3,7 @@
 /* Single outer card containing all three columns */
 .top-performers-card {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   background: var(--color-surface, #0d1520);
   border: 1px solid var(--color-border, #1e2a35);
   border-radius: 14px;
@@ -167,4 +167,20 @@
   color: var(--color-primary, #f1f5f9);
   background: transparent;
   padding: 0;
+}
+
+/* Below tablet width, three side-by-side columns leave each one too narrow
+   to read — stack them and switch the divider from a vertical rule to a
+   horizontal one between stacked columns. */
+@media (max-width: 640px) {
+  .top-performers-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .top-performers-column {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border, #1e2a35);
+  }
+  .top-performers-column:last-child {
+    border-bottom: none;
+  }
 }

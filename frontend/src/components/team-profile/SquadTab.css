@@ -4,10 +4,17 @@
   width: 100%;
   border-top: 1px solid var(--color-border, #1e2a35);
   padding-top: 20px;
+  /* Same horizontal-scroll-strip pattern as StandingsTable / the tab bars —
+     table-layout:fixed + 7 columns has no room to shrink further, so on
+     narrow screens it scrolls instead of squeezing every cell's text
+     into an overlapping mess. */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .squad-table {
   width: 100%;
+  min-width: 640px;
   border-collapse: collapse;
   table-layout: fixed;
 }

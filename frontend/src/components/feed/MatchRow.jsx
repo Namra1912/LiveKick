@@ -110,7 +110,8 @@ export default function MatchRow({ match, isFavorited = false, onToggleFav, anim
             className="match-row__team-name match-row__team-name--home"
             onClick={(e) => handleTeamClick(e, match.homeTeam.id)}
           >
-            {match.homeTeam.name}
+            <span className="match-row__team-name-full">{match.homeTeam.name}</span>
+            <span className="match-row__team-name-short">{match.homeTeam.shortName ?? match.homeTeam.name}</span>
           </button>
           {/* Crest size=28 (up from 20). No backing plate behind image — bare transparent PNG, exactly as designed.
                Confirmed: backing plate fully removed from Crest.css (.crest--img has background: transparent only). */}
@@ -146,7 +147,8 @@ export default function MatchRow({ match, isFavorited = false, onToggleFav, anim
             className="match-row__team-name match-row__team-name--away"
             onClick={(e) => handleTeamClick(e, match.awayTeam.id)}
           >
-            {match.awayTeam.name}
+            <span className="match-row__team-name-full">{match.awayTeam.name}</span>
+            <span className="match-row__team-name-short">{match.awayTeam.shortName ?? match.awayTeam.name}</span>
           </button>
         </div>
 

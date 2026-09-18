@@ -213,6 +213,11 @@
   padding: 0 var(--space-4) var(--space-3);
 }
 
+/* Team name — full label hidden / short label shown only on phone widths (below) */
+.match-row__team-name-short {
+  display: none;
+}
+
 /* Responsive match row adjustments for mobile */
 @media (max-width: 640px) {
   .match-row__main {
@@ -229,5 +234,71 @@
   }
   .match-row__status {
     width: 44px;
+  }
+}
+
+/* Phone-width tier: the fixed-width status/score/star chrome plus two full team
+   names no longer fits next to the icon-rail sidebar — swap to the shortName
+   code (e.g. "ARS"), the same abbreviation already used by PressureBar, instead
+   of clipping or forcing horizontal scroll. */
+@media (max-width: 480px) {
+  .match-row__main {
+    padding: var(--space-2) 6px;
+    gap: var(--space-1);
+  }
+  .match-row__home,
+  .match-row__away {
+    gap: 6px;
+  }
+  .match-row__status {
+    width: 34px;
+  }
+  .match-row__status-upcoming {
+    font-size: 8px;
+    letter-spacing: 0.02em;
+    white-space: normal;
+    word-break: break-all;
+    line-height: 1.15;
+    text-align: center;
+  }
+  .match-row__team-name-full {
+    display: none;
+  }
+  .match-row__team-name-short {
+    display: inline;
+  }
+  .match-row__team-name {
+    font-size: 13px;
+    max-width: none;
+    letter-spacing: -0.02em;
+  }
+  .match-row__league-tag {
+    max-width: 56px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+  .match-row__kickoff-slot,
+  .match-row__main .score-box {
+    min-width: 44px;
+    padding: 3px var(--space-1);
+    font-size: 12px;
+  }
+  /* Kickoff time ("11:00 PM") wraps at its natural space onto two lines
+     instead of forcing a wide single-line slot that starves the team names.
+     A fixed width (not just min-width) forces the wrap deterministically —
+     flexbox otherwise prefers to keep the text on one line when space allows,
+     which re-introduces the overflow this rule exists to prevent. */
+  .match-row__kickoff-slot {
+    width: 44px;
+    flex-shrink: 0;
+    white-space: normal;
+    line-height: 1.25;
+    letter-spacing: 0;
+  }
+  .match-row__star-btn {
+    margin-left: 0;
   }
 }

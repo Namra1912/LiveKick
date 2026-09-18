@@ -2,7 +2,10 @@
 
 .team-form-row {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  /* minmax(0, ...) — a bare `1fr` track's minimum is its content's min-content
+     width, which forces this (and every ancestor grid/flex box up the tree)
+     wider than the viewport on narrow screens instead of letting text wrap. */
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
   gap: 16px;
   width: 100%;
 }
@@ -74,7 +77,7 @@
 
 .team-form-row .team-form-card__chips {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -241,4 +244,20 @@
   color: var(--color-faint, #475569);
   text-align: center;
   padding: 16px;
+}
+
+/* Phone width: the Team Form and Next Match cards no longer have room to sit
+   side by side — stack them full-width instead of squeezing both. */
+@media (max-width: 560px) {
+  .team-form-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Slightly narrower still: 5 form-result chips per row is too tight —
+   drop to 3 per row so each chip stays legible. */
+@media (max-width: 400px) {
+  .team-form-row .team-form-card__chips {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
