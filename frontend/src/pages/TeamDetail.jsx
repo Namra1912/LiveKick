@@ -16,9 +16,10 @@ import TeamNews from '../components/team-profile/TeamNews';
 import TeamNewsTab from '../components/team-profile/TeamNewsTab';
 import FixturesTab from '../components/team-profile/FixturesTab';
 import SquadTab from '../components/team-profile/SquadTab';
+import TransfersTab from '../components/team-profile/TransfersTab';
 import { useFollowedTeams } from '../context/FollowedTeamsContext';
 import { useLenisScroll } from '../hooks/useLenisScroll';
-import { teams, leagues, news, matches, squads } from '../data/mockData';
+import { teams, leagues, news, matches, squads, transfers } from '../data/mockData';
 import './TeamDetail.css';
 
 const TABS = [
@@ -101,24 +102,6 @@ export default function TeamDetail() {
     setIndicatorStyle({ left: offsetLeft, width: offsetWidth });
   }, [activeTab]);
 
-  // IntersectionObserver for section reveal animations — fires once per element
-  useEffect(() => {
-    const targets = document.querySelectorAll('.section-reveal');
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.08 }
-    );
-    targets.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [activeTab]); // re-run when tab changes so newly mounted sections get observed
-
   const breadcrumbItems = [
     { label: 'Home', path: '/' },
     { label: 'Teams', path: '/' },
@@ -188,7 +171,7 @@ export default function TeamDetail() {
                   {/* ── Center Column (Top to Bottom) ────────────────────── */}
                   <div className="team-profile__center-col">
                     {/* 1. Team Form */}
-                    <div className="section-reveal" style={{ transitionDelay: '0ms' }}>
+                    <div className="section-reveal" style={{ '--reveal-delay': '0ms' }}>
                       <TeamForm team={team} />
                     </div>
 
@@ -196,18 +179,18 @@ export default function TeamDetail() {
                     <div
                       className="section-reveal team-profile__table-embed"
                       data-highlight-team={team.id}
-                      style={{ transitionDelay: '60ms' }}
+                      style={{ '--reveal-delay': '60ms' }}
                     >
                       <StandingsTable league={activeLeague} highlightTeamId={team.id} />
                     </div>
 
                     {/* 3. Top Performers */}
-                    <div className="section-reveal" style={{ transitionDelay: '120ms' }}>
+                    <div className="section-reveal" style={{ '--reveal-delay': '120ms' }}>
                       <TopPerformers team={team} />
                     </div>
 
                     {/* 4. Team News Card */}
-                    <div className="section-reveal" style={{ transitionDelay: '180ms' }}>
+                    <div className="section-reveal" style={{ '--reveal-delay': '180ms' }}>
                       <TeamNews
                         articles={teamArticles}
                         onSeeMore={() => navigate(`/teams/${id}/news`)}
@@ -215,7 +198,7 @@ export default function TeamDetail() {
                     </div>
 
                     {/* 5. About Section */}
-                    <div className="section-reveal" style={{ transitionDelay: '240ms' }}>
+                    <div className="section-reveal" style={{ '--reveal-delay': '240ms' }}>
                       <AboutSection team={team} />
                     </div>
                   </div>
@@ -223,17 +206,17 @@ export default function TeamDetail() {
                   {/* ── Right Column (Sticky, Top to Bottom) ────────────── */}
                   <aside className="team-profile__right-col">
                     {/* 1. Starting XI Pitch Graphic */}
-                    <div className="section-reveal" style={{ transitionDelay: '0ms' }}>
+                    <div className="section-reveal" style={{ '--reveal-delay': '0ms' }}>
                       <StartingXI team={team} />
                     </div>
 
                     {/* 2 & 3. Fixture Difficulty + Upcoming Fixtures */}
-                    <div className="section-reveal" style={{ transitionDelay: '60ms' }}>
+                    <div className="section-reveal" style={{ '--reveal-delay': '60ms' }}>
                       <FixtureDifficultyCard team={team} />
                     </div>
 
                     {/* 4. Stadium Info Card */}
-                    <div className="section-reveal" style={{ transitionDelay: '120ms' }}>
+                    <div className="section-reveal" style={{ '--reveal-delay': '120ms' }}>
                       <StadiumInfoCard team={team} />
                     </div>
                   </aside>
@@ -263,12 +246,7 @@ export default function TeamDetail() {
               )}
 
               {activeTab === 'TRANSFERS' && (
-                <section className="team-profile__content">
-                  <div className="team-profile__placeholder" role="status">
-                    <span className="team-profile__placeholder-title">TRANSFERS</span>
-                    <p className="team-profile__placeholder-sub">Coming soon</p>
-                  </div>
-                </section>
+                <TransfersTab team={team} transfers={transfers} />
               )}
 
               {activeTab === 'STATS' && (
