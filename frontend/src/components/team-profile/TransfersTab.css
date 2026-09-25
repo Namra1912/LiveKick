@@ -2,66 +2,103 @@
 
 .ttab {
   display: flex;
-  gap: 20px;
+  gap: var(--space-5);
   align-items: flex-start;
 }
 
 /* ── LEFT PANEL ── */
 .ttab__panel {
-  width: 200px;
+  width: 220px;
   flex-shrink: 0;
   position: sticky;
   top: 20px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 14px;
+  border-radius: var(--radius-card);
+  box-shadow: var(--bezel-double);
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
 .ttab__panel-heading {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  padding: 14px 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--color-border);
-  margin: 0;
+  background: var(--color-surface-elevated);
+}
+
+.ttab__panel-heading-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.ttab__panel-heading-left svg {
+  color: var(--color-pitch-green);
+  flex-shrink: 0;
+}
+
+.ttab__reset-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-pitch-green);
+  cursor: pointer;
+  transition: opacity 0.12s ease;
+}
+
+.ttab__reset-btn:hover {
+  opacity: 0.8;
+  text-decoration: underline;
 }
 
 .ttab__panel-section {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border-dim);
 }
 .ttab__panel-section:last-child { border-bottom: none; }
 
 .ttab__panel-label {
   display: block;
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 700;
   color: var(--color-faint);
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  margin-bottom: 10px;
+  margin-bottom: var(--space-3);
   font-family: var(--font-body);
 }
 
-/* In/Out/All toggle */
+/* In/Out/All toggle — segmented pill, matches DateSelector's group/btn pattern */
 .ttab__toggle-row {
   display: flex;
-  gap: 0;
+  gap: var(--space-1);
+  padding: 3px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-base);
   border: 1px solid var(--color-border);
-  border-radius: 7px;
-  overflow: hidden;
   width: 100%;
 }
 .ttab__toggle-btn {
   flex: 1;
   padding: 6px 4px;
   border: none;
+  border-radius: var(--radius-pill);
   background: transparent;
-  color: var(--color-faint);
+  color: var(--color-secondary);
   font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 600;
@@ -70,12 +107,12 @@
 }
 .ttab__toggle-btn:hover { color: var(--color-primary); }
 .ttab__toggle-btn--active {
-  background: var(--color-base);
-  color: var(--color-primary);
+  background: var(--color-pitch-green);
+  color: var(--color-pitch-bg);
+  font-weight: 700;
 }
 
 /* This Window stats */
-.ttab__panel-section--stats { }
 .ttab__stat-row {
   display: flex;
   justify-content: space-between;
@@ -96,31 +133,40 @@
   font-size: 0.875rem;
 }
 .ttab__stat-val--green { color: var(--color-pitch-green); }
-.ttab__stat-val--red { color: #ef4444; }
+.ttab__stat-val--red { color: var(--color-live-red); }
 
 /* ── RIGHT MAIN ── */
 .ttab__main {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
-/* Confirmed/Rumors status bar */
+/* Confirmed/Rumors status bar — same segmented-pill language as the panel's
+   In/Out/All toggle, sized up since it's the primary filter for this view. */
 .ttab__status-bar {
   display: flex;
   align-items: center;
-  margin-bottom: 4px;
 }
 .ttab__status-toggle {
   display: flex;
+  gap: var(--space-1);
+  padding: 3px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  overflow: hidden;
 }
 .ttab__status-btn {
-  padding: 7px 20px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px var(--space-4);
   border: none;
+  border-radius: var(--radius-pill);
   background: transparent;
-  color: var(--color-faint);
+  color: var(--color-secondary);
   font-family: var(--font-body);
   font-size: 0.8125rem;
   font-weight: 600;
@@ -131,8 +177,40 @@
 .ttab__status-btn:hover { color: var(--color-primary); }
 .ttab__status-btn--active {
   background: var(--color-pitch-green);
-  color: var(--color-base);
+  color: var(--color-pitch-bg);
   font-weight: 700;
+}
+.ttab__status-count {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.12);
+  color: inherit;
+}
+.ttab__status-btn:not(.ttab__status-btn--active) .ttab__status-count {
+  background: var(--color-surface-elevated);
+  color: var(--color-faint);
+}
+
+/* Double-bezel card wrapping the header + rows, so the list reads as one
+   composed panel instead of loose elements on the page background. */
+.ttab__card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--bezel-double);
+  overflow: hidden;
+  padding: 0 var(--space-2) var(--space-2);
+}
+
+.ttab__header {
+  margin: 0 calc(var(--space-2) * -1);
+  padding-left: calc(var(--space-4) - var(--space-2));
+  padding-right: calc(var(--space-4) - var(--space-2));
+  background: var(--color-surface-elevated);
+  border-bottom: 1px solid var(--color-border);
 }
 
 /* Direction accent wrapper */

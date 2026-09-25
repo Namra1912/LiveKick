@@ -1,6 +1,6 @@
 // src/components/team-profile/TransfersTab.jsx
 import { useState, useMemo } from 'react';
-import { ChevronUp, ChevronDown, ArrowUpDown } from 'lucide-react';
+import { ChevronUp, ChevronDown, ArrowUpDown, SlidersHorizontal } from 'lucide-react';
 import FeeRangeSlider from '../transfers/FeeRangeSlider';
 import TransferCard from '../transfers/TransferCard';
 import './TransfersTab.css';
@@ -70,6 +70,20 @@ export default function TransfersTab({ team, transfers: allTransfers }) {
     return result;
   }, [teamTransfers, statusFilter, directionFilter, feeRange, sortKey, sortDir, team.id]);
 
+  const statusCounts = useMemo(() => ({
+    confirmed: teamTransfers.filter((t) => t.status === 'confirmed').length,
+    rumor: teamTransfers.filter((t) => t.status === 'rumor').length,
+  }), [teamTransfers]);
+
+  const hasActiveFilters =
+    directionFilter !== 'all' || feeRange.min > 0 || feeRange.max < 150;
+
+  const handleResetFilters = () => {
+    setDirectionFilter('all');
+    setFeeRange({ min: 0, max: 150 });
+    setVisibleCount(8);
+  };
+
   const handleSort = (key) => {
     if (sortKey === key) {
       setSortDir((d) => (d === 'desc' ? 'asc' : 'desc'));
@@ -115,7 +129,21 @@ export default function TransfersTab({ team, transfers: allTransfers }) {
     <div className="ttab">
       {/* ── LEFT PANEL ── */}
       <aside className="ttab__panel">
-        <h3 className="ttab__panel-heading">Edit</h3>
+        <div className="ttab__panel-heading">
+          <span className="ttab__panel-heading-left">
+            <SlidersHorizontal size={13} strokeWidth={2.25} />
+            Filters
+          </span>
+          {hasActiveFilters && (
+            <button
+              type="button"
+              className="ttab__reset-btn"
+              onClick={handleResetFilters}
+            >
+              Reset
+            </button>
+          )}
+        </div>
 
         {/* In / Out / All */}
         <div className="ttab__panel-section">
@@ -202,94 +230,98 @@ export default function TransfersTab({ team, transfers: allTransfers }) {
                 }}
               >
                 {s.label}
+                <span className="ttab__status-count">{statusCounts[s.key]}</span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Column headers — copy from TransferFeed */}
-        <div className="transfer-feed__header">
-          <span className="transfer-feed__col">FROM → TO</span>
-          <span className="transfer-feed__col">PLAYER</span>
-          <button
-            type="button"
-            className={`transfer-feed__sort-btn transfer-feed__sort-btn--right ${
-              sortKey === 'fee' ? 'transfer-feed__sort-btn--active' : ''
-            }`}
-            onClick={() => handleSort('fee')}
-          >
-            <span>FEE</span>
-            {sortKey === 'fee' ? (
-              sortDir === 'desc' ? (
-                <ChevronDown size={11} />
+        {/* Card frame around header + rows so the list reads as one panel */}
+        <div className="ttab__card">
+          {/* Column headers — copy from TransferFeed */}
+          <div className="transfer-feed__header ttab__header">
+            <span className="transfer-feed__col">FROM → TO</span>
+            <span className="transfer-feed__col">PLAYER</span>
+            <button
+              type="button"
+              className={`transfer-feed__sort-btn transfer-feed__sort-btn--right ${
+                sortKey === 'fee' ? 'transfer-feed__sort-btn--active' : ''
+              }`}
+              onClick={() => handleSort('fee')}
+            >
+              <span>FEE</span>
+              {sortKey === 'fee' ? (
+                sortDir === 'desc' ? (
+                  <ChevronDown size={11} />
+                ) : (
+                  <ChevronUp size={11} />
+                )
               ) : (
-                <ChevronUp size={11} />
-              )
-            ) : (
-              <ArrowUpDown size={9} className="transfer-feed__sort-neutral" />
-            )}
-          </button>
-          <span className="transfer-feed__col transfer-feed__col--center">
-            TIER
-          </span>
-          <button
-            type="button"
-            className={`transfer-feed__sort-btn transfer-feed__sort-btn--right ${
-              sortKey === 'date' ? 'transfer-feed__sort-btn--active' : ''
-            }`}
-            onClick={() => handleSort('date')}
-          >
-            <span>DATE</span>
-            {sortKey === 'date' ? (
-              sortDir === 'desc' ? (
-                <ChevronDown size={11} />
+                <ArrowUpDown size={9} className="transfer-feed__sort-neutral" />
+              )}
+            </button>
+            <span className="transfer-feed__col transfer-feed__col--center">
+              TIER
+            </span>
+            <button
+              type="button"
+              className={`transfer-feed__sort-btn transfer-feed__sort-btn--right ${
+                sortKey === 'date' ? 'transfer-feed__sort-btn--active' : ''
+              }`}
+              onClick={() => handleSort('date')}
+            >
+              <span>DATE</span>
+              {sortKey === 'date' ? (
+                sortDir === 'desc' ? (
+                  <ChevronDown size={11} />
+                ) : (
+                  <ChevronUp size={11} />
+                )
               ) : (
-                <ChevronUp size={11} />
-              )
-            ) : (
-              <ArrowUpDown size={9} className="transfer-feed__sort-neutral" />
-            )}
-          </button>
+                <ArrowUpDown size={9} className="transfer-feed__sort-neutral" />
+              )}
+            </button>
+          </div>
+
+          {/* Empty state */}
+          {filtered.length === 0 && (
+            <div className="tf-feed__empty">
+              <p className="tf-feed__empty-text">
+                No {statusFilter === 'confirmed' ? 'confirmed transfers' : 'rumors'}{' '}
+                found
+                {directionFilter !== 'all'
+                  ? ` (${directionFilter === 'in' ? 'incoming' : 'outgoing'} only)`
+                  : ''}
+              </p>
+            </div>
+          )}
+
+          {/* Rows with direction accent */}
+          {visibleItems.map((item) => (
+            <div
+              key={item.id}
+              className={`ttab-row-wrap ttab-row-wrap--${getDirection(item)}`}
+            >
+              <TransferCard item={item} />
+            </div>
+          ))}
+
+          {/* Footer */}
+          {filtered.length > 0 && (
+            <div className="tf-feed__footer">
+              {hasMore ? (
+                <button
+                  className="tf-feed__load-more"
+                  onClick={() => setVisibleCount((v) => v + 8)}
+                >
+                  Load More
+                </button>
+              ) : (
+                <p className="tf-feed__caught-up">All transfers loaded</p>
+              )}
+            </div>
+          )}
         </div>
-
-        {/* Empty state */}
-        {filtered.length === 0 && (
-          <div className="tf-feed__empty">
-            <p className="tf-feed__empty-text">
-              No {statusFilter === 'confirmed' ? 'confirmed transfers' : 'rumors'}{' '}
-              found
-              {directionFilter !== 'all'
-                ? ` (${directionFilter === 'in' ? 'incoming' : 'outgoing'} only)`
-                : ''}
-            </p>
-          </div>
-        )}
-
-        {/* Rows with direction accent */}
-        {visibleItems.map((item) => (
-          <div
-            key={item.id}
-            className={`ttab-row-wrap ttab-row-wrap--${getDirection(item)}`}
-          >
-            <TransferCard item={item} />
-          </div>
-        ))}
-
-        {/* Footer */}
-        {filtered.length > 0 && (
-          <div className="tf-feed__footer">
-            {hasMore ? (
-              <button
-                className="tf-feed__load-more"
-                onClick={() => setVisibleCount((v) => v + 8)}
-              >
-                Load More
-              </button>
-            ) : (
-              <p className="tf-feed__caught-up">All transfers loaded</p>
-            )}
-          </div>
-        )}
       </div>
     </div>
   );
