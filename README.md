@@ -94,9 +94,11 @@ LiveKick enforces a strict visual design tokens system stored in `tokens.css`:
 
 ```
 LiveKick/
-├── docs/                                  # Architectural Specs, Context & PRDs
-│   ├── LIVEKICK_APP_CONTEXT.md
-│   └── TRANSFER_RADAR_CONTEXT.md
+├── docs/                                  # Architecture, product & technical specs
+│   ├── ARCHITECTURE.md                    # Codebase structure, routing, data layer, known issues
+│   ├── PRD.md                             # Product requirements & current build status
+│   ├── TRD.md                             # Technical requirements, stack decisions, backend spec
+│   └── Designs/                           # Reference mockups
 ├── frontend/                              # React 19 + Vite Frontend Application
 │   ├── src/
 │   │   ├── assets/                        # Brand logos, crests & media assets

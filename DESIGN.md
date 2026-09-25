@@ -1,5 +1,5 @@
 # LiveKick — Semantic Design System (`DESIGN.md`)
-**Last synced against codebase: August 3, 2026**
+**Last synced against codebase: September 26, 2026**
 
 > **This file is the single source of truth.** Every token named here exists,
 > verbatim, in `frontend/src/styles/tokens.css`. If you change a value in one
@@ -150,3 +150,19 @@ Reference screens — the Home Feed mock is the current implementation target; t
     - **Date Selector**: Currently UI/state-driven (switching Yesterday/Today/Tomorrow updates local active state, but backend match data filtering by date is pending API integration).
     - **Global Search**: Phase 0 stub modal (`SearchModal.jsx` opens via shortcut `/` or topnav click, but full search index and query filtering logic are not yet wired).
 - **Match Detail & Lineups**, **Tactical Lineup Lab**, **Prediction League**, **Transfer Radar**, **Team & Player Profiles**, **Standings & News**, **Auth & Search** — not yet built; apply every rule in this doc when building them so the app doesn't drift again.
+
+## Restraint Principles (the anti-AI-slop discipline)
+
+Decided against FotMob as a reference point — not to copy its look, but because its actual execution is the clearest existing proof of what "premium sports UI" means in practice: **restraint, not decoration.** Every rule below is derived from comparing LiveKick's execution against that reference, and applies to every page, not just the one it was first caught on.
+
+1. **One shared card component, used everywhere, never redefined per section.** A page can have a dozen boxes (Team Form, Next Match, League Table, Stadium Info, any future widget) and still look calm, as long as every box visibly shares the same background tone, border, radius, and padding scale. If a component file defines its own card background/border/radius instead of importing the shared one, that's the drift point to fix — not the box count.
+2. **Radius has three tiers with meaning, not one soft number everywhere.** `--radius-badge` (4px, near-flat) for data rows and status cells, `--radius-card` (14px) for cards/panels, `--radius-pill` (9999px) reserved *only* for true segmented controls, status pills, and search — never for a primary button, crest, or generic container. Excessive uniform rounding is one of the fastest tells of an unconsidered, generated-looking interface.
+3. **No decorative glow, no gradient washes.** Depth comes from the double-bezel card treatment (border + inset shadow + outer shadow) and the surface luminance steps (`--color-base` → `--color-surface` → `--color-surface-elevated` → `--color-surface-hover`) — never from radial background glows, box-shadow bloom on buttons/badges, or gradient fills on flat elements. `--glow-live` is the one earned exception (the live-pulse dot only) — it is not a pattern to extend to other elements.
+4. **Color is reserved for one meaning at a time, never decorative.** Pitch green means win/positive/active-brand-action and nothing else on a given screen — never simultaneously a border color, a hover tint, a background fill, *and* a results color on the same page. Gold is exclusively Matchday Coins currency. Pick the narrowest correct usage and stop.
+5. **One badge/pill style, differentiated by label text, not by color.** If several stats (rating, goals, assists) share a UI pattern, they share one badge treatment — the label does the differentiating.
+6. **Density comes from alignment discipline, not just small text.** Tight rows still align to a strict grid: consistent row height, right-aligned numeric columns, consistent header weight across every table on the site.
+7. **No invented UI elements that don't exist for a reason.** Before adding any box, badge, ring, or decoration, ask "why does this exist?" (state indication, feedback, spatial consistency). If the honest answer is "it looked like it needed something there," cut it — decoration without a stated purpose is exactly what makes an interface read as generated rather than designed.
+8. **One motion system.** A single easing curve and duration set for hover/press feedback (fast, no bounce, nothing under ~120ms feels sluggish, nothing needs to exceed ~200ms for a UI micro-interaction) — not a different easing per component. Motion earns its place the same way decoration does: every transition needs an answer to "why does this move."
+9. **Real content carries the personality; chrome has none.** Crests, real photos, competition badges are where visual interest should live. Containers, stat cards, and pitch graphics stay flat and quiet enough that real assets are what draws the eye.
+
+Applying this is not "remove boxes" or "go minimal for its own sake" — FotMob has plenty of boxes and still looks calm. It's checking new and existing UI against these nine rules whenever a screen starts to feel boxy, loud, or AI-generated despite matching a reasonable layout spec.
