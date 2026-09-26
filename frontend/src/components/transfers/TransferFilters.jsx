@@ -1,4 +1,5 @@
 // src/components/transfers/TransferFilters.jsx
+import { motion } from 'framer-motion';
 import './TransferFilters.css';
 
 const TABS = [
@@ -24,6 +25,13 @@ export default function TransferFilters({ activeTab, onTabChange }) {
               onClick={() => onTabChange(tab.key)}
             >
               {tab.label}
+              {isActive && (
+                <motion.div
+                  className="tf-tab__indicator"
+                  layoutId="tf-tab-indicator"
+                  transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                />
+              )}
             </button>
           );
         })}

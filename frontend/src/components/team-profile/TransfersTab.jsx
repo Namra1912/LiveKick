@@ -1,8 +1,10 @@
 // src/components/team-profile/TransfersTab.jsx
 import { useState, useMemo } from 'react';
 import { ChevronUp, ChevronDown, ArrowUpDown, SlidersHorizontal } from 'lucide-react';
+import { motion } from 'framer-motion';
 import FeeRangeSlider from '../transfers/FeeRangeSlider';
 import TransferCard from '../transfers/TransferCard';
+import { listItem } from '../../lib/motion';
 import './TransfersTab.css';
 
 export default function TransfersTab({ team, transfers: allTransfers }) {
@@ -297,13 +299,17 @@ export default function TransfersTab({ team, transfers: allTransfers }) {
           )}
 
           {/* Rows with direction accent */}
-          {visibleItems.map((item) => (
-            <div
+          {visibleItems.map((item, i) => (
+            <motion.div
               key={item.id}
               className={`ttab-row-wrap ttab-row-wrap--${getDirection(item)}`}
+              initial="hidden"
+              animate="show"
+              variants={listItem}
+              transition={{ ...listItem.show.transition, delay: Math.min(i, 8) * 0.03 }}
             >
               <TransferCard item={item} />
-            </div>
+            </motion.div>
           ))}
 
           {/* Footer */}

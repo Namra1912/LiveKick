@@ -1,5 +1,7 @@
 import { ChevronUp, ChevronDown, ArrowUpDown, Filter } from 'lucide-react';
+import { motion } from 'framer-motion';
 import TransferCard from './TransferCard';
+import { listItem } from '../../lib/motion';
 import './TransferFeed.css';
 
 export default function TransferFeed({
@@ -61,9 +63,18 @@ export default function TransferFeed({
             </button>
           </div>
 
-          {/* Cards */}
-          {items.map((item) => (
-            <TransferCard key={item.id} item={item} />
+          {/* Cards — each one animates in on mount only; already-mounted rows
+              that survive a filter/sort change don't replay (keyed by item.id). */}
+          {items.map((item, i) => (
+            <motion.div
+              key={item.id}
+              initial="hidden"
+              animate="show"
+              variants={listItem}
+              transition={{ ...listItem.show.transition, delay: Math.min(i, 8) * 0.03 }}
+            >
+              <TransferCard item={item} />
+            </motion.div>
           ))}
 
           {/* Footer */}

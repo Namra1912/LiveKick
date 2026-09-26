@@ -22,6 +22,7 @@
 }
 
 .tf-tab {
+  position: relative;
   font-family: var(--font-body);
   font-size: 12px;
   letter-spacing: 0.06em;
@@ -29,12 +30,11 @@
   padding: var(--space-2) var(--space-1);
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
   color: var(--color-secondary);
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition: color 0.15s ease;
   margin-bottom: -1px;
 }
 
@@ -44,8 +44,18 @@
 
 .tf-tab--active {
   color: var(--color-pitch-green);
-  border-bottom-color: var(--color-pitch-green);
   font-weight: 700;
+}
+
+/* Animated sliding underline — a single Framer Motion element (layoutId)
+   that glides between tabs instead of each tab's border snapping on/off. */
+.tf-tab__indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--color-pitch-green);
 }
 
 .tf-tab:focus-visible {

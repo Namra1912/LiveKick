@@ -1,5 +1,6 @@
 // src/pages/Transfers.jsx
 import { useState, useMemo, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import AppLayout from '../components/layout/AppLayout';
 import SearchModal from '../components/search/SearchModal';
 import Breadcrumb from '../components/shared/Breadcrumb';
@@ -7,6 +8,7 @@ import TransferFilters from '../components/transfers/TransferFilters';
 import TransferFeed from '../components/transfers/TransferFeed';
 import TransferSidebar from '../components/transfers/TransferSidebar';
 import { transfers } from '../data/mockData';
+import { pageIn } from '../lib/motion';
 import './Transfers.css';
 
 export default function Transfers() {
@@ -211,7 +213,12 @@ export default function Transfers() {
   return (
     <>
       <AppLayout onSearchOpen={() => setIsSearchOpen(true)}>
-        <main className="transfers__center">
+        <motion.main
+          className="transfers__center"
+          initial="hidden"
+          animate="show"
+          variants={pageIn}
+        >
           <Breadcrumb items={[{ label: 'Home', path: '/' }, { label: 'Transfers' }]} />
 
           <div className="transfers__header">
@@ -230,10 +237,16 @@ export default function Transfers() {
             onSort={handleHeaderSort}
             onReset={handleResetFilters}
           />
-        </main>
+        </motion.main>
 
         {/* Right panel sidebar */}
-        <aside className="transfers__right" aria-label="Transfer filters and stats">
+        <motion.aside
+          className="transfers__right"
+          aria-label="Transfer filters and stats"
+          initial="hidden"
+          animate="show"
+          variants={pageIn}
+        >
           <TransferSidebar
             selectedTeamLeagues={selectedTeamLeagues}
             onTeamLeaguesChange={(items) => {
@@ -263,7 +276,7 @@ export default function Transfers() {
             onResetFilters={handleResetFilters}
             topDeals={topDeals}
           />
-        </aside>
+        </motion.aside>
       </AppLayout>
 
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
