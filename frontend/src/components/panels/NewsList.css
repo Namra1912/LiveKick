@@ -3,7 +3,11 @@
    ============================================================ */
 
 .news-list {
-  /* section wrapper */
+  /* Flush section — no card wrapper. Distinguishes this list from the two
+     hero cards above it (MOTD, Predictor) instead of stacking a third
+     identical bordered box; a top rule is enough to separate the section. */
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
 }
 
 /* Header row */
@@ -11,7 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
 }
 
 .news-list__title {
@@ -48,43 +52,37 @@
   border-radius: var(--radius-badge); /* Standardized 4px -> --radius-badge */
 }
 
-/* News items container — subtle border noise reduction */
 .news-list__items {
-  border-radius: var(--radius-card);
-  border: 1px solid var(--color-border);
-  background-color: var(--color-surface);
-  box-shadow: var(--bezel-double);
-  padding: 0 var(--space-3);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-.news-list__items:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--bezel-double-hover);
-}
-
-/* Individual news item */
+/* Individual news item — flush row, no shared card chrome. Padding shifts
+   right on hover instead of the whole list lifting, so each row reads as
+   its own affordance rather than part of one big hover target. */
 .news-item {
   display: flex;
   align-items: flex-start;
   gap: var(--space-3);
-  padding: var(--space-3) 0;
+  padding: var(--space-3) var(--space-2);
+  margin: 0 calc(var(--space-2) * -1);
+  border-radius: var(--radius-badge);
   cursor: pointer;
-  transition: opacity 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .news-item:hover {
-  opacity: 0.95;
+  background-color: var(--color-surface-hover);
 }
 
 .news-item:focus-visible {
   outline: 2px solid var(--color-pitch-green);
   outline-offset: 2px;
-  border-radius: var(--radius-badge); /* Standardized 4px -> --radius-badge */
+  border-radius: var(--radius-badge);
 }
 
 .news-item + .news-item {
-  border-top: 1px solid var(--color-border-dim);
+  margin-top: 2px;
 }
 
 /* Thumbnail container */

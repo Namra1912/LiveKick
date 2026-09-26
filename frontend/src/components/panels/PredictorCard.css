@@ -2,12 +2,15 @@
    PredictorCard.css — Teaser Card for Home Feed Panel
    ============================================================ */
 
-/* ── Card Container (Item 5 & 6: Double-Bezel Depth & Spacing) ── */
+/* ── Card Container ──────────────────────────────────────────
+   Deliberately lighter than MatchOfTheDayCard's --bezel-double hero
+   treatment (flat shadow-sm, no inset bezel) so this reads as the
+   secondary module beneath it, not a visual twin. */
 .predictor-card {
   border-radius: var(--radius-card);
   border: 1px solid var(--color-border);
   background-color: var(--color-surface);
-  box-shadow: var(--bezel-double);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
   cursor: pointer;
   outline: none;
@@ -21,7 +24,7 @@
 
 .predictor-card:hover {
   border-color: rgba(0, 179, 112, 0.35);
-  box-shadow: var(--bezel-double-hover);
+  box-shadow: var(--shadow-md);
 }
 
 .predictor-card:focus-visible {
