@@ -13,6 +13,7 @@
   background: var(--color-surface, #0d1520);
   border: 1px solid var(--color-border, #1e2a35);
   border-radius: 14px;
+  box-shadow: var(--shadow-card);
   padding: 14px;
   display: flex;
   flex-direction: column;
@@ -195,6 +196,7 @@
   background: var(--color-surface, #0d1520);
   border: 1px solid var(--color-border, #1e2a35);
   border-radius: 14px;
+  box-shadow: var(--shadow-card);
   padding: 18px;
   display: flex;
   flex-direction: column;
