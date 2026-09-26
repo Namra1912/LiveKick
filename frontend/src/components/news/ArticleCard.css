@@ -14,14 +14,15 @@
   overflow: hidden;
   text-decoration: none;
   background: var(--color-surface);
-  /* Hover: background shift only — no scale, no shadow bloom */
-  transition: background 0.15s ease;
+  transition: background var(--motion-fast) ease, transform var(--motion-fast) var(--ease-out-strong), box-shadow var(--motion-fast) var(--ease-out-strong);
   cursor: pointer;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .article-card:hover {
     background: var(--color-surface-hover);
+    transform: translateY(-3px);
+    box-shadow: var(--bezel-double-hover);
   }
 }
 

@@ -141,11 +141,13 @@
   --motion-base:      220ms;   /* entrances, panel/tab transitions */
   --motion-slow:      320ms;   /* page-level mount transitions only */
 
-  /* Shadows & Elevation */
-  --shadow-sm:        0 1px 3px rgba(0, 0, 0, 0.35);
-  --shadow-md:        0 4px 12px rgba(0, 0, 0, 0.45);
-  --shadow-card:      0 6px 16px rgba(0, 0, 0, 0.5);
-  --shadow-popover:   0 16px 40px rgba(0, 0, 0, 0.65);
+  /* Shadows & Elevation — layered (near + far distance) so depth reads as
+     a real lit surface rather than one flat drop shadow. Neutral only;
+     color is never used for elevation, per DESIGN.md restraint rules. */
+  --shadow-sm:        0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md:        0 2px 4px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.35);
+  --shadow-card:      0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 16px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.25);
+  --shadow-popover:   0 4px 8px rgba(0, 0, 0, 0.4), 0 16px 40px rgba(0, 0, 0, 0.55);
 
   /* Inset Physical Bezel Panel Treatment — top-left dark inner drop + bottom-right subtle rim highlight */
   --shadow-inset:         inset 2px 2px 6px rgba(0, 0, 0, 0.7), inset -1px -1px 0px rgba(255, 255, 255, 0.07);
