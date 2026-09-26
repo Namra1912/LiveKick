@@ -2,8 +2,8 @@
 import { useParams } from 'react-router-dom';
 import { User } from 'lucide-react';
 import AppLayout from '../components/layout/AppLayout';
+import StubPage from '../components/shared/StubPage';
 import { transfers, topScorers, topAssists, squads } from '../data/mockData';
-import './PlayerDetail.css';
 
 export default function PlayerDetail() {
   const { id } = useParams();
@@ -105,50 +105,43 @@ export default function PlayerDetail() {
       : `${player.name}`
     : 'Player Profile';
 
+  const monoLine = player
+    ? [
+        isCoach ? 'Coach' : player.position,
+        player.age ? `${player.age} yrs` : null,
+        player.nationality || player.team,
+      ]
+        .filter(Boolean)
+        .join(' · ')
+    : null;
+
+  const statsLine =
+    player && (player.goals != null || player.assists != null || player.rating != null)
+      ? [
+          player.rating ? `Rating: ${player.rating}` : null,
+          player.goals != null ? `Goals: ${player.goals}` : null,
+          player.assists != null ? `Assists: ${player.assists}` : null,
+        ]
+          .filter(Boolean)
+          .join(' | ')
+      : null;
+
   return (
     <AppLayout>
-      <main className="stub-page">
-        <div className="stub-page__panel">
-          <div className="stub-page__icon">
-            <User size={22} strokeWidth={1.75} />
-          </div>
-          <h1 className="stub-page__heading">{headingText}</h1>
-          {player && (
-            <p className="stub-page__mono">
-              {[
-                isCoach ? 'Coach' : player.position,
-                player.age ? `${player.age} yrs` : null,
-                player.nationality || player.team,
-              ]
-                .filter(Boolean)
-                .join(' · ')}
-            </p>
-          )}
-
-          {isCoach ? (
-            <p className="stub-page__body">Manager profile coming in Phase 1.</p>
-          ) : (
-            <>
-              {player && (player.goals != null || player.assists != null || player.rating != null) && (
-                <p className="stub-page__mono" style={{ marginTop: '12px' }}>
-                  {[
-                    player.rating ? `Rating: ${player.rating}` : null,
-                    player.goals != null ? `Goals: ${player.goals}` : null,
-                    player.assists != null ? `Assists: ${player.assists}` : null,
-                  ]
-                    .filter(Boolean)
-                    .join(' | ')}
-                </p>
-              )}
-              <p className="stub-page__body">Full player profile coming in Phase 1.</p>
-            </>
-          )}
-          <span className="stub-page__badge">
-            <span className="stub-page__badge-dot" />
-            Coming soon
-          </span>
-        </div>
-      </main>
+      <StubPage icon={<User size={22} strokeWidth={1.75} />} heading={headingText} monoLine={monoLine}>
+        {isCoach ? (
+          <p className="stub-page__body">Manager profile coming in Phase 1.</p>
+        ) : (
+          <>
+            {statsLine && (
+              <p className="stub-page__mono" style={{ marginTop: '12px' }}>
+                {statsLine}
+              </p>
+            )}
+            <p className="stub-page__body">Full player profile coming in Phase 1.</p>
+          </>
+        )}
+      </StubPage>
     </AppLayout>
   );
 }

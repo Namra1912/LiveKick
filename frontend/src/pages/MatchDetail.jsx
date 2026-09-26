@@ -2,8 +2,8 @@
 import { useParams } from 'react-router-dom';
 import { Goal } from 'lucide-react';
 import AppLayout from '../components/layout/AppLayout';
+import StubPage from '../components/shared/StubPage';
 import { matches } from '../data/mockData';
-import '../styles/StubPage.css';
 
 export default function MatchDetail() {
   const { id } = useParams();
@@ -11,30 +11,19 @@ export default function MatchDetail() {
 
   return (
     <AppLayout>
-      <main className="stub-page">
-        <div className="stub-page__panel">
-          <div className="stub-page__icon">
-            <Goal size={22} strokeWidth={1.75} />
-          </div>
-          <h1 className="stub-page__heading">
-            {match
-              ? `${match.homeTeam.name} vs ${match.awayTeam.name}`
-              : 'Match Detail'}
-          </h1>
-          {match && (
-            <p className="stub-page__mono">
-              {match.homeScore} – {match.awayScore} · {match.status === 'live' ? `${match.minute}'` : match.status.toUpperCase()}
-            </p>
-          )}
-          <p className="stub-page__body">
-            Full match detail (timeline, lineups, stats) coming in Phase 1.
-          </p>
-          <span className="stub-page__badge">
-            <span className="stub-page__badge-dot" />
-            Coming soon
-          </span>
-        </div>
-      </main>
+      <StubPage
+        icon={<Goal size={22} strokeWidth={1.75} />}
+        heading={match ? `${match.homeTeam.name} vs ${match.awayTeam.name}` : 'Match Detail'}
+        monoLine={
+          match
+            ? `${match.homeScore} – ${match.awayScore} · ${match.status === 'live' ? `${match.minute}'` : match.status.toUpperCase()}`
+            : null
+        }
+      >
+        <p className="stub-page__body">
+          Full match detail (timeline, lineups, stats) coming in Phase 1.
+        </p>
+      </StubPage>
     </AppLayout>
   );
 }
