@@ -1,8 +1,10 @@
 // src/components/team-profile/SquadTab.jsx
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Flag from '../shared/Flag';
 import { nationTeamId } from '../../data/mockData';
+import { listItem } from '../../lib/motion';
 import './SquadTab.css';
 
 // Preset colors for initials avatars (deterministic based on player.id % 6)
@@ -234,7 +236,7 @@ export default function SquadTab({ team, squad = [] }) {
           </tr>
         </thead>
         <tbody className="squad-table__body">
-          {sortedSquad.map((player) => {
+          {sortedSquad.map((player, i) => {
             const initials = getInitials(player.name);
             const avatarBg = AVATAR_COLORS[Math.abs(player.id) % AVATAR_COLORS.length];
             const hasPhoto = player.photoUrl && !failedImages[player.id];
@@ -242,9 +244,13 @@ export default function SquadTab({ team, squad = [] }) {
             const nationId = nationTeamId(player.nationality);
 
             return (
-              <tr
+              <motion.tr
                 key={player.id}
                 className={`squad-table__row ${roleGroupClass}`}
+                initial="hidden"
+                animate="show"
+                variants={listItem}
+                transition={{ ...listItem.show.transition, delay: Math.min(i, 10) * 0.025 }}
               >
                 <td className="squad-table__td squad-table__td--player">
                   <div
@@ -348,7 +354,7 @@ export default function SquadTab({ team, squad = [] }) {
                 <td className="squad-table__td squad-table__td--right squad-table__td--value">
                   {player.transferValue ?? '—'}
                 </td>
-              </tr>
+              </motion.tr>
             );
           })}
         </tbody>
