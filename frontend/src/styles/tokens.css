@@ -131,6 +131,16 @@
   --space-5:  20px;
   --space-6:  24px;
 
+  /* Motion — ONE shared easing/duration system for the whole app.
+     Never declare a bespoke ease/duration in a component file; reference these.
+     --ease-out-strong: promoted from Sidebar.css, which already had this exactly right.
+     --ease-in-out-ui:  promoted from Sidebar.css (collapsible/accordion transitions). */
+  --ease-out-strong:  cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-ui:   cubic-bezier(0.77, 0, 0.175, 1);
+  --motion-fast:      140ms;   /* hover/press micro-interactions */
+  --motion-base:      220ms;   /* entrances, panel/tab transitions */
+  --motion-slow:      320ms;   /* page-level mount transitions only */
+
   /* Shadows & Elevation */
   --shadow-sm:        0 1px 3px rgba(0, 0, 0, 0.35);
   --shadow-md:        0 4px 12px rgba(0, 0, 0, 0.45);
