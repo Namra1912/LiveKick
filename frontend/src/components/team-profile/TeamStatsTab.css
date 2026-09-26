@@ -1,0 +1,232 @@
+/* src/components/team-profile/TeamStatsTab.css */
+
+.team-stats-tab {
+  --team-color: var(--color-pitch-green);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-top: 1px solid var(--color-border, #1e2a35);
+  padding-top: 24px;
+}
+
+.stats-section-title {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-primary, #f1f5f9);
+  margin: 0 0 16px 0;
+}
+
+/* Shared card shell — same elevation as every other card on this page */
+.stats-record-card,
+.stats-performance-card,
+.stats-squad-card {
+  background: var(--color-surface, #0d1520);
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  padding: 20px;
+}
+
+/* ── Season Record ────────────────────────────────────────────────────── */
+.stats-record-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 4px;
+}
+
+.stats-record-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 8px;
+  border-right: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
+}
+
+.stats-record-tile:last-child {
+  border-right: none;
+}
+
+.stats-record-tile__value {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary, #f1f5f9);
+  letter-spacing: 0.01em;
+}
+
+.stats-record-tile__sep {
+  color: var(--color-faint, #475569);
+  margin: 0 2px;
+  font-weight: 500;
+}
+
+.stats-record-tile__value--win { color: var(--color-pitch-green, #00B370); }
+.stats-record-tile__value--draw { color: var(--color-secondary, #94a3b8); }
+.stats-record-tile__value--loss { color: var(--color-live-red, #f87171); }
+
+.stats-record-tile__label {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-faint, #475569);
+  text-align: center;
+}
+
+/* ── Team Performance ─────────────────────────────────────────────────── */
+.stats-performance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stats-performance-row__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.stats-performance-row__label {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  color: var(--color-secondary, #94a3b8);
+}
+
+.stats-performance-row__value {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--team-color);
+}
+
+.stats-performance-row__track {
+  height: 6px;
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--color-surface-elevated, #111820);
+  overflow: hidden;
+}
+
+.stats-performance-row__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--team-color);
+  opacity: 0.85;
+  transition: width 400ms var(--ease-out-strong, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+/* ── Squad Stats table ────────────────────────────────────────────────── */
+.stats-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.stats-table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.stats-table__th {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-faint, #475569);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 10px 10px 10px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--color-border, #1e2a35);
+}
+
+.stats-table__th--center { text-align: center; }
+
+.stats-table__th--sortable {
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.stats-table__th--sortable:hover,
+.stats-table__th--active {
+  color: var(--color-primary, #f1f5f9);
+}
+
+.stats-table__row {
+  cursor: pointer;
+  border-bottom: 1px solid rgba(30, 42, 53, 0.5);
+  border-left: 3px solid transparent;
+  transition: background-color 120ms ease, border-left-color 120ms ease;
+}
+
+.stats-table__row:last-child { border-bottom: none; }
+
+.stats-table__row:hover {
+  background-color: rgba(255, 255, 255, 0.025);
+}
+
+.stats-table__row--gk { border-left-color: rgba(245, 158, 11, 0.55); }
+.stats-table__row--def { border-left-color: rgba(59, 130, 246, 0.55); }
+.stats-table__row--mid { border-left-color: rgba(0, 179, 112, 0.55); }
+.stats-table__row--fwd { border-left-color: rgba(236, 72, 153, 0.55); }
+
+.stats-table__td {
+  padding: 10px;
+  vertical-align: middle;
+}
+
+.stats-table__td--center { text-align: center; }
+
+.stats-table__td--player {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.stats-table__player-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary, #f1f5f9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stats-table__player-pos {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.6875rem;
+  color: var(--color-faint, #475569);
+}
+
+.stats-table__nation {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: var(--color-secondary, #94a3b8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stats-table__td--rating {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-weight: 700;
+  color: var(--team-color);
+}
+
+@media (max-width: 640px) {
+  .stats-record-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .stats-record-tile {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
+  }
+}

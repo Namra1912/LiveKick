@@ -2,7 +2,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BarChart3 } from 'lucide-react';
 import AppLayout from '../components/layout/AppLayout';
 import Breadcrumb from '../components/shared/Breadcrumb';
 import Crest from '../components/shared/Crest';
@@ -20,6 +19,7 @@ import TeamNewsTab from '../components/team-profile/TeamNewsTab';
 import FixturesTab from '../components/team-profile/FixturesTab';
 import SquadTab from '../components/team-profile/SquadTab';
 import TransfersTab from '../components/team-profile/TransfersTab';
+import TeamStatsTab from '../components/team-profile/TeamStatsTab';
 import { useFollowedTeams } from '../context/FollowedTeamsContext';
 import { useLenisScroll } from '../hooks/useLenisScroll';
 import { teams, leagues, news, matches, squads, transfers, standings } from '../data/mockData';
@@ -304,21 +304,17 @@ export default function TeamDetail() {
               )}
 
               {activeTab === 'STATS' && (
-                <section className="team-profile__content team-profile__content--centered">
-                  <div className="stub-page__panel" role="status">
-                    <div className="stub-page__icon">
-                      <BarChart3 size={22} strokeWidth={1.75} />
-                    </div>
-                    <h2 className="stub-page__heading">Team Stats</h2>
-                    <p className="stub-page__body">
-                      Season-wide shooting, passing, and defensive stats coming in Phase 1.
-                    </p>
-                    <span className="stub-page__badge">
-                      <span className="stub-page__badge-dot" />
-                      Coming soon
-                    </span>
-                  </div>
-                </section>
+                <TeamStatsTab
+                  team={team}
+                  squad={
+                    squads[team.id] ??
+                    (team.league === 'International' || team.country === team.name
+                      ? Object.values(squads)
+                          .flat()
+                          .filter((p) => !p.isCoach && p.nationality?.toLowerCase() === team.name.toLowerCase())
+                      : [])
+                  }
+                />
               )}
               </motion.div>
             </AnimatePresence>
