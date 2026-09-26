@@ -10,26 +10,11 @@
   width: 100%;
   max-width: 440px;
 
-  /* Glassmorphism — surface at 88% opacity so bg glow bleeds through */
-  background-color: rgba(17, 24, 32, 0.88);   /* --color-surface-elevated at 88% */
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: var(--color-surface-elevated, #111820);
+  border: 1px solid var(--color-border, #1e2a35);
   border-radius: var(--radius-card, 14px);
   padding: 32px 28px;
-
-  /* Outer glow — card looks lit from the scene behind it */
-  box-shadow:
-    0 0 0 1px rgba(0, 179, 112, 0.06),
-    0 8px 32px rgba(0, 0, 0, 0.55),
-    0 0 60px rgba(0, 179, 112, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-
-  transition:
-    box-shadow 0.3s ease,
-    transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.28s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   overflow: hidden;
 }
 
@@ -48,7 +33,6 @@
   border-radius: var(--radius-pill, 9999px);
   z-index: 10;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(0, 179, 112, 0.4);
   animation: toastFade 0.3s ease-out;
 }
 
@@ -131,10 +115,9 @@
 }
 
 .auth-segmented-btn--active {
-  background-color: #182720;
+  background-color: var(--color-surface, #0d1520);
   color: var(--color-primary, #f1f5f9);
   border: 1px solid var(--color-border-focus, #00B370);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 /* Error Banner */
@@ -249,19 +232,15 @@
   letter-spacing: 0.03em;
   cursor: pointer;
   outline: none;
-  transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
-  box-shadow: 0 4px 14px rgba(0, 179, 112, 0.3);
+  transition: background-color 0.18s ease, transform 0.18s ease;
 }
 
 .auth-primary-btn:hover:not(:disabled) {
   background-color: var(--color-pitch-hover, #00cc80);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0, 179, 112, 0.42);
 }
 
 .auth-primary-btn:active:not(:disabled) {
   transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(0, 179, 112, 0.25);
 }
 
 .auth-primary-btn:disabled {
@@ -272,7 +251,6 @@
 
 .auth-primary-btn--success {
   background-color: var(--color-pitch-green, #00B370) !important;
-  box-shadow: 0 0 24px rgba(0, 179, 112, 0.5) !important;
 }
 
 /* OTP Info Row */
@@ -341,7 +319,6 @@
 .auth-success-icon-ring {
   color: var(--color-pitch-green, #00B370);
   margin-bottom: 16px;
-  filter: drop-shadow(0 0 16px rgba(0, 179, 112, 0.5));
   /* Scale-in, no spring overshoot — confident, not playful/bouncy */
   animation: successBounce 0.32s cubic-bezier(0.23, 1, 0.32, 1);
 }
