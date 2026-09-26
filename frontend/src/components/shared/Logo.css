@@ -53,11 +53,9 @@
 
 .livekick-logo--xl .livekick-logo__img {
   height: 72px;
-  filter: drop-shadow(0 0 16px rgba(0, 179, 112, 0.4));
 }
 
 .livekick-logo--xl .livekick-logo__wordmark {
   font-size: 48px;
   letter-spacing: -0.01em;
-  text-shadow: 0 0 20px rgba(0, 179, 112, 0.4);
 }

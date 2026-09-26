@@ -6,6 +6,7 @@ export default function AuthBackground() {
     <div className="auth-bg">
       <div className="auth-bg__base" />
       <div className="auth-bg__grid" />
+      <div className="auth-bg__vignette" />
     </div>
   );
 }
