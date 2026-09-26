@@ -204,45 +204,47 @@
   min-width: 80px;
 }
 
-/* ── SCORE PILLS & MATCH TIME ──────────────────────────────────────────── */
+/* ── SCORE PILLS & MATCH TIME ──────────────────────────────────────────────
+   Reuses the app's retro-scoreboard digit language (.score-box in
+   index.css, seen on every match row app-wide) instead of a translucent
+   colored pill that reads as a generic "badge" and matched nothing else
+   in the product. Outcome (W/D/L) now reads via the digit color only,
+   same restrained pattern the pitch-scoreboard identity already uses. */
 .fixtures-tab .match-score-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 64px;
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 4px;
-  letter-spacing: 0.03em;
+  padding: 5px 12px;
+  border-radius: var(--radius-badge);
+  letter-spacing: 0.04em;
   white-space: nowrap;
+  background-color: var(--color-scoreboard-bg);
+  border: 1px solid var(--color-scoreboard-border);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6);
 }
 
 .fixtures-tab .match-score-pill--win,
 .fixtures-tab .score-pill--w {
-  background: rgba(0, 179, 112, 0.15);
-  border: 1px solid rgba(0, 179, 112, 0.4);
   color: var(--color-pitch-green, #00B370);
 }
 
 .fixtures-tab .match-score-pill--loss,
 .fixtures-tab .score-pill--l {
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.35);
-  color: #ef4444;
+  color: var(--color-live-red, #f87171);
 }
 
 .fixtures-tab .match-score-pill--draw,
 .fixtures-tab .score-pill--d {
-  background: rgba(100, 116, 139, 0.15);
-  border: 1px solid rgba(100, 116, 139, 0.35);
-  color: #94a3b8;
+  color: var(--color-scoreboard-digit-dim);
 }
 
 .fixtures-tab .match-score-pill--live {
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #ef4444;
+  color: var(--color-live-red, #f87171);
+  border-color: rgba(245, 185, 66, 0.45);
   gap: 5px;
 }
 
@@ -374,10 +376,11 @@
   padding-top: 14px;
 }
 
+/* Each row is now a real home-vs-away split bar instead of two bare
+   numbers either side of a label — the comparison reads visually instead
+   of requiring the reader to do the math themselves. */
 .fixtures-tab .next-match-stat-row {
-  display: flex;
-  align-items: center;
-  padding: 11px 0;
+  padding: 10px 0;
   border-bottom: 1px solid rgba(30, 42, 53, 0.6);
 }
 
@@ -385,38 +388,59 @@
   border-bottom: none;
 }
 
+.fixtures-tab .next-match-stat-row__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
 .fixtures-tab .next-match-stat-row__value {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
   font-size: 0.9375rem;
   font-weight: 700;
-  min-width: 44px;
   text-align: left;
+  flex: none;
+}
+
+.fixtures-tab .next-match-stat-row__value--away {
+  text-align: right;
 }
 
 .fixtures-tab .next-match-stat-row__label {
   flex: 1;
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: var(--color-faint, #475569);
   padding: 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.fixtures-tab .next-match-stat-row__right {
-  min-width: 44px;
+.fixtures-tab .next-match-stat-row__bar {
   display: flex;
-  justify-content: flex-end;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--color-surface-elevated, #111820);
+  gap: 2px;
 }
 
-.fixtures-tab .next-match-stat-row__badge {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  font-size: 0.625rem;
-  font-weight: 800;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.fixtures-tab .next-match-stat-row__bar-home,
+.fixtures-tab .next-match-stat-row__bar-away {
+  height: 100%;
+  transition: width 300ms var(--ease-out-strong, cubic-bezier(0.23, 1, 0.32, 1));
+  opacity: 0.85;
+}
+
+.fixtures-tab .next-match-stat-row__bar-home {
+  border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+}
+
+.fixtures-tab .next-match-stat-row__bar-away {
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  margin-left: auto;
 }
 
 @media (max-width: 900px) {

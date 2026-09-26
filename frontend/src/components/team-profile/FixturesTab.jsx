@@ -42,6 +42,30 @@ function formatNextMatchDate(dateUtc) {
   return `${month} ${dayNum}`;
 }
 
+function ordinal(n) {
+  if (n === '—' || n == null || !Number.isFinite(Number(n))) return n ?? '—';
+  const num = Number(n);
+  const s = ['th', 'st', 'nd', 'rd'];
+  const v = num % 100;
+  return num + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+// Splits a stat row into a home/away comparison bar. For "rank" a lower
+// number is better, so the comparison is inverted; returns an even 50/50
+// split when either side isn't a real number (e.g. '—').
+function splitBar(homeVal, awayVal, { lowerIsBetter = false } = {}) {
+  const h = Number(homeVal);
+  const a = Number(awayVal);
+  if (!Number.isFinite(h) || !Number.isFinite(a) || h + a === 0) {
+    return { home: 50, away: 50 };
+  }
+  const hw = lowerIsBetter ? 1 / Math.max(h, 0.5) : h;
+  const aw = lowerIsBetter ? 1 / Math.max(a, 0.5) : a;
+  const total = hw + aw;
+  const homePct = Math.round((hw / total) * 100);
+  return { home: homePct, away: 100 - homePct };
+}
+
 export default function FixturesTab({ team, matches = [], leagues = [] }) {
   const navigate = useNavigate();
 
@@ -347,64 +371,41 @@ export default function FixturesTab({ team, matches = [], leagues = [] }) {
               </div>
             </div>
 
-            {/* Stats Rows (Directly after divider with no team label header) */}
+            {/* Stats Rows — each is now a real home-vs-away comparison bar
+                instead of two numbers either side of a label, so the split
+                is readable at a glance instead of requiring the reader to
+                compare digits themselves. */}
             <div className="next-match-card__stats">
-              {/* Row 1: Table position */}
-              <div className="next-match-stat-row">
-                <span
-                  className="next-match-stat-row__value"
-                  style={{ color: homePrimaryColor }}
-                >
-                  {homeStats.rank}
-                </span>
-                <span className="next-match-stat-row__label">Table position</span>
-                <div className="next-match-stat-row__right">
-                  <span
-                    className="next-match-stat-row__badge"
-                    style={{ backgroundColor: awayPrimaryColor }}
-                  >
-                    {awayStats.rank}
-                  </span>
-                </div>
-              </div>
-
-              {/* Row 2: Goals per match */}
-              <div className="next-match-stat-row">
-                <span
-                  className="next-match-stat-row__value"
-                  style={{ color: homePrimaryColor }}
-                >
-                  {homeStats.gpm}
-                </span>
-                <span className="next-match-stat-row__label">Goals per match</span>
-                <div className="next-match-stat-row__right">
-                  <span
-                    className="next-match-stat-row__badge"
-                    style={{ backgroundColor: awayPrimaryColor }}
-                  >
-                    {awayStats.gpm}
-                  </span>
-                </div>
-              </div>
-
-              {/* Row 3: Goals conceded per match */}
-              <div className="next-match-stat-row">
-                <span
-                  className="next-match-stat-row__value"
-                  style={{ color: homePrimaryColor }}
-                >
-                  {homeStats.cpm}
-                </span>
-                <span className="next-match-stat-row__label">Goals conceded per match</span>
-                <div className="next-match-stat-row__right">
-                  <span
-                    className="next-match-stat-row__badge"
-                    style={{ backgroundColor: awayPrimaryColor }}
-                  >
-                    {awayStats.cpm}
-                  </span>
-                </div>
-              </div>
+              {[
+                { label: 'Table position', home: homeStats.rank, away: awayStats.rank, lowerIsBetter: true },
+                { label: 'Goals per match', home: homeStats.gpm, away: awayStats.gpm },
+                { label: 'Goals conceded per match', home: homeStats.cpm, away: awayStats.cpm },
+              ].map((stat) => {
+                const bar = splitBar(stat.home, stat.away, { lowerIsBetter: stat.lowerIsBetter });
+                return (
+                  <div className="next-match-stat-row" key={stat.label}>
+                    <div className="next-match-stat-row__top">
+                      <span className="next-match-stat-row__value" style={{ color: homePrimaryColor }}>
+                        {stat.lowerIsBetter ? ordinal(stat.home) : stat.home}
+                      </span>
+                      <span className="next-match-stat-row__label">{stat.label}</span>
+                      <span className="next-match-stat-row__value next-match-stat-row__value--away" style={{ color: awayPrimaryColor }}>
+                        {stat.lowerIsBetter ? ordinal(stat.away) : stat.away}
+                      </span>
+                    </div>
+                    <div className="next-match-stat-row__bar">
+                      <span
+                        className="next-match-stat-row__bar-home"
+                        style={{ width: `${bar.home}%`, backgroundColor: homePrimaryColor }}
+                      />
+                      <span
+                        className="next-match-stat-row__bar-away"
+                        style={{ width: `${bar.away}%`, backgroundColor: awayPrimaryColor }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

@@ -22,10 +22,17 @@ import SquadTab from '../components/team-profile/SquadTab';
 import TransfersTab from '../components/team-profile/TransfersTab';
 import { useFollowedTeams } from '../context/FollowedTeamsContext';
 import { useLenisScroll } from '../hooks/useLenisScroll';
-import { teams, leagues, news, matches, squads, transfers } from '../data/mockData';
+import { teams, leagues, news, matches, squads, transfers, standings } from '../data/mockData';
 import { listItem, panelFade } from '../lib/motion';
 import '../styles/StubPage.css';
 import './TeamDetail.css';
+
+function ordinal(n) {
+  if (n == null) return '—';
+  const s = ['th', 'st', 'nd', 'rd'];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
 
 const TABS = [
   { id: 'OVERVIEW',   label: 'OVERVIEW'  },
@@ -65,6 +72,13 @@ export default function TeamDetail() {
   const activeLeague = useMemo(() => {
     return leagues.find((l) => l.name === team.league) ?? leagues[1];
   }, [team]);
+
+  // This team's row in its own league table — powers the header stat strip
+  const leagueStanding = useMemo(() => {
+    return standings[team.league]?.find((r) => r.team.id === team.id) ?? null;
+  }, [team]);
+
+  const teamColor = team.primaryColor || 'var(--color-pitch-green)';
 
   // Filter news articles for this team (overview card)
   const teamArticles = useMemo(() => {
@@ -119,17 +133,40 @@ export default function TeamDetail() {
             {/* Breadcrumb Navigation */}
             <Breadcrumb items={breadcrumbItems} />
 
-            {/* Clean Header Card */}
-            <header className="team-header__card">
+            {/* Header Card — tinted with the team's own brand color, not a
+                generic dark rectangle every team shares */}
+            <header className="team-header__card" style={{ '--team-color': teamColor }}>
               <div className="team-header__main">
-                <Crest
-                  logoUrl={team.logoUrl ?? team.crestUrl}
-                  name={team.name}
-                  size={60}
-                />
+                <div className="team-header__crest-ring">
+                  <Crest
+                    logoUrl={team.logoUrl ?? team.crestUrl}
+                    name={team.name}
+                    size={64}
+                  />
+                </div>
                 <div className="team-header__info">
                   <h1 className="team-header__name">{team.name}</h1>
                   <p className="team-header__subtitle">{team.league}</p>
+                  {leagueStanding && (
+                    <div className="team-header__stat-strip">
+                      <div className="team-header__stat">
+                        <span className="team-header__stat-value">{ordinal(leagueStanding.position)}</span>
+                        <span className="team-header__stat-label">Position</span>
+                      </div>
+                      <div className="team-header__stat-divider" />
+                      <div className="team-header__stat">
+                        <span className="team-header__stat-value">{leagueStanding.points}</span>
+                        <span className="team-header__stat-label">Points</span>
+                      </div>
+                      <div className="team-header__stat-divider" />
+                      <div className="team-header__stat">
+                        <span className="team-header__stat-value">
+                          {leagueStanding.won}-{leagueStanding.drawn}-{leagueStanding.lost}
+                        </span>
+                        <span className="team-header__stat-label">W-D-L</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
