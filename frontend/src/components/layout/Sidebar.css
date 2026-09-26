@@ -737,7 +737,6 @@
 
 .sidebar__live-btn:hover {
   filter: brightness(1.1);
-  box-shadow: 0 0 12px rgba(0, 179, 112, 0.35);
 }
 
 .sidebar__live-btn:active {
@@ -748,7 +747,6 @@
   background-color: rgba(248, 113, 113, 0.2);
   border-color: var(--color-live-red);
   color: var(--color-live-red-bright);
-  box-shadow: 0 0 12px rgba(248, 113, 113, 0.35);
 }
 
 .sidebar__live-btn--active .sidebar__live-dot {

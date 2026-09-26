@@ -28,18 +28,8 @@
    for Standings. StubPage.css remains active for 7 other stub pages.
    ============================================================ */
 
-/* ── Page enter animation ─────────────────────────────────── */
-/* Matches HomeFeed's hf-enter: opacity 0→1 + translateY 10px→0, 240ms  */
-@keyframes standings-enter {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Page entrance is now handled by Standings.jsx via Framer Motion (src/lib/motion.js
+   pageIn variant) — the shared JS motion system, matching HomeFeed. */
 
 /* ── Center column ─────────────────────────────────────────── */
 /* Matches .home-feed__center exactly: flex, scroll containment, padding, bg */
@@ -51,8 +41,6 @@
   padding: var(--space-5) var(--space-6);
   background-color: var(--color-base);
   background-image: var(--texture-scanline);
-  /* Mount-once enter — same pattern as HomeFeed columns */
-  animation: standings-enter 240ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 /* ── Right column ──────────────────────────────────────────── */
@@ -70,8 +58,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  /* Same enter animation as center column — both settle as one cohesive block */
-  animation: standings-enter 240ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 /* Prevent right panel direct children from shrinking (matches HomeFeed pattern) */
@@ -126,15 +112,5 @@
   }
 }
 
-/* ── Reduced-motion override ─────────────────────────────────────────────── */
-/* Strips translateY; keeps a brief opacity fade — matches HomeFeed.css pattern */
-@media (prefers-reduced-motion: reduce) {
-  @keyframes standings-enter {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  .standings__center,
-  .standings__right {
-    animation-duration: 120ms;
-  }
-}
+/* Reduced-motion is handled globally by <MotionConfig reducedMotion="user"> in
+   App.jsx — matches HomeFeed, no per-page override needed here. */

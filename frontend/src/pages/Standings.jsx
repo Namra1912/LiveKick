@@ -29,6 +29,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import AppLayout from '../components/layout/AppLayout';
 import LeagueSelector from '../components/standings/LeagueSelector';
 import StandingsTable from '../components/standings/StandingsTable';
@@ -36,6 +37,7 @@ import SearchModal from '../components/search/SearchModal';
 import TopScorersCard from '../components/standings/TopScorersCard';
 import TopAssistsCard from '../components/standings/TopAssistsCard';
 import { leagues } from '../data/mockData';
+import { pageIn } from '../lib/motion';
 import './Standings.css';
 
 // Build the valid-slug → league-object lookup once at module level.
@@ -79,22 +81,32 @@ export default function Standings() {
     <>
       <AppLayout onSearchOpen={() => setIsSearchOpen(true)}>
         {/* ── Center column ──────────────────────────────────────── */}
-        <main className="standings__center">
-
+        <motion.main
+          className="standings__center"
+          initial="hidden"
+          animate="show"
+          variants={pageIn}
+        >
           {/* League selector pill row — drives ?league URL param */}
           <LeagueSelector />
 
           {/* Core Standings Table — renders active league standings */}
           <StandingsTable league={activeLeague} />
 
-        </main>
+        </motion.main>
 
         {/* ── Right column ───────────────────────────────────────── */}
         {/* Top Scorers & Top Assists cards — stacked vertically */}
-        <aside className="standings__right" aria-label="League statistics panel">
+        <motion.aside
+          className="standings__right"
+          aria-label="League statistics panel"
+          initial="hidden"
+          animate="show"
+          variants={pageIn}
+        >
           <TopScorersCard league={activeLeague} />
           <TopAssistsCard league={activeLeague} />
-        </aside>
+        </motion.aside>
       </AppLayout>
 
       {/* Global search modal */}

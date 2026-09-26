@@ -21,7 +21,7 @@
   /* Typography */
   --color-primary:           #f1f5f9;
   --color-secondary:         #94a3b8;
-  --color-faint:             #475569;
+  --color-faint:             #5b6b80; /* lightened from #475569 — was borderline for small metadata text */
   --color-dimmer:            #334155;
 
   /* Brand */

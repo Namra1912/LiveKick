@@ -11,9 +11,11 @@
 //           team.logoUrl now comes from mockData directly.
 
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import PressureBar from './PressureBar';
 import StarIcon from '../icons/StarIcon';
 import Crest from '../shared/Crest'; // TASK D
+import { listItem } from '../../lib/motion';
 import './MatchRow.css';
 
 
@@ -82,10 +84,14 @@ export default function MatchRow({ match, isFavorited = false, onToggleFav, anim
   })();
 
   const isUpcoming = match.status === 'upcoming';
-  const delayIndex = Math.min(Math.floor(animationDelay / 35), 5);
 
   return (
-    <div className={`row-animate row-animate--delay-${delayIndex}`}>
+    <motion.div
+      initial="hidden"
+      animate="show"
+      variants={listItem}
+      transition={{ ...listItem.show.transition, delay: animationDelay / 1000 }}
+    >
       {/* Main row */}
       <div
         id={`match-row-${match.id}`}
@@ -153,14 +159,16 @@ export default function MatchRow({ match, isFavorited = false, onToggleFav, anim
         </div>
 
         {/* Star toggle */}
-        <button
+        <motion.button
+          whileTap={{ scale: 0.85 }}
+          transition={{ duration: 0.12, ease: listItem.show.transition.ease }}
           className="match-row__star-btn"
           onClick={handleStarClick}
           aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
           aria-pressed={isFavorited}
         >
           <StarIcon filled={isFavorited} size={16} />
-        </button>
+        </motion.button>
       </div>
 
       {/* Pressure bar for live matches */}
@@ -175,6 +183,6 @@ export default function MatchRow({ match, isFavorited = false, onToggleFav, anim
           />
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

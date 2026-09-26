@@ -77,22 +77,8 @@ body {
   animation: skeleton-pulse 1.6s ease-in-out infinite;
 }
 
-/* ── ROW FADE-IN ANIMATION ──────────────────────────────────── */
-@keyframes row-fade-in {
-  from { opacity: 0; transform: translateY(5px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.row-animate {
-  animation: row-fade-in 0.22s ease-out both;
-}
-
-.row-animate--delay-0 { animation-delay: 0ms; }
-.row-animate--delay-1 { animation-delay: 35ms; }
-.row-animate--delay-2 { animation-delay: 70ms; }
-.row-animate--delay-3 { animation-delay: 105ms; }
-.row-animate--delay-4 { animation-delay: 140ms; }
-.row-animate--delay-5 { animation-delay: 175ms; }
+/* Row entrance is now handled by MatchRow.jsx via Framer Motion (src/lib/motion.js
+   listItem variant) — kept as one shared JS motion system instead of this CSS one. */
 
 /* ── TEAM BADGE CREST FALLBACKS — gradient background & double border ── */
 .team-badge {
@@ -151,11 +137,11 @@ body {
   transition: all 0.15s ease;
 }
 
-/* Glow is reserved exclusively for live/happening-now status */
+/* Live state reads via the warmer border tint, not a glow bloom — glow is
+   reserved exclusively for the live-pulse dot itself (see --glow-live). */
 .score-box--live {
   border-color: rgba(245, 185, 66, 0.45);
-  text-shadow: 0 0 8px var(--color-scoreboard-glow);
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6), 0 0 8px rgba(245, 185, 66, 0.25);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.6);
 }
 
 /* Finished matches dim like a scoreboard powering down */

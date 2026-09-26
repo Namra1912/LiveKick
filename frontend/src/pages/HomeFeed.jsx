@@ -2,6 +2,7 @@
 // Home / Live Scores Feed — main page component.
 
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
+import { motion } from 'framer-motion';
 import AppLayout from '../components/layout/AppLayout';
 import DateSelector from '../components/feed/DateSelector';
 import LeagueGroup from '../components/feed/LeagueGroup';
@@ -21,6 +22,7 @@ import {
 
 import './HomeFeed.css';
 import { useLenisScroll } from '../hooks/useLenisScroll';
+import { pageIn } from '../lib/motion';
 
 const LEAGUE_MATCHDAY = {
   'Premier League': 29,
@@ -117,7 +119,7 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
 
   if (isLiveOnly) {
     return (
-      <main className="home-feed__center" ref={centerRef}>
+      <motion.main className="home-feed__center" ref={centerRef} initial="hidden" animate="show" variants={pageIn}>
         <div className="home-feed__center-content" ref={centerContentRef}>
           {/* Live Filter Header */}
           <div className="home-feed__heading-row">
@@ -159,12 +161,12 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
             </div>
           )}
         </div>
-      </main>
+      </motion.main>
     );
   }
 
   return (
-    <main className="home-feed__center" ref={centerRef}>
+    <motion.main className="home-feed__center" ref={centerRef} initial="hidden" animate="show" variants={pageIn}>
       <div className="home-feed__center-content" ref={centerContentRef}>
         {/* Section heading + date selector */}
         <div className="home-feed__heading-row">
@@ -200,7 +202,7 @@ function CenterFeed({ selectedDate, isLiveOnly, onExitLiveOnly, hasAnyLiveMatche
           })()}
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 }
 
@@ -222,13 +224,13 @@ function RightPanel() {
   );
 
   return (
-    <aside className="home-feed__right" ref={rightRef}>
+    <motion.aside className="home-feed__right" ref={rightRef} initial="hidden" animate="show" variants={pageIn}>
       <div className="home-feed__right-content" ref={rightContentRef}>
         <MatchOfTheDayCard match={featuredMatch} />
         <PredictorCard predictorMatch={activePredictor} userBalance={currentUser.matchdayCoins} />
         <NewsList newsItems={news} />
       </div>
-    </aside>
+    </motion.aside>
   );
 }
 
