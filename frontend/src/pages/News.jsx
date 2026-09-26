@@ -1,12 +1,14 @@
 // src/pages/News.jsx
 
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import AppLayout from '../components/layout/AppLayout';
 import SearchModal from '../components/search/SearchModal';
 import Breadcrumb from '../components/shared/Breadcrumb';
 import CategoryPills from '../components/news/CategoryPills';
 import ArticleCard from '../components/news/ArticleCard';
 import { news } from '../data/mockData';
+import { pageIn, listItem } from '../lib/motion';
 import './News.css';
 
 const BREADCRUMB_ITEMS = [
@@ -50,7 +52,12 @@ export default function News() {
   return (
     <>
       <AppLayout onSearchOpen={() => setIsSearchOpen(true)}>
-        <main className="news__center">
+        <motion.main
+          className="news__center"
+          initial="hidden"
+          animate="show"
+          variants={pageIn}
+        >
           <Breadcrumb items={BREADCRUMB_ITEMS} />
           <h1 className="news__title">Football News &amp; Editorial</h1>
           <CategoryPills
@@ -66,8 +73,16 @@ export default function News() {
 
           {visibleGridArticles.length > 0 && (
             <div className="news__grid">
-              {visibleGridArticles.map((article) => (
-                <ArticleCard key={article.id} article={article} />
+              {visibleGridArticles.map((article, i) => (
+                <motion.div
+                  key={article.id}
+                  initial="hidden"
+                  animate="show"
+                  variants={listItem}
+                  transition={{ ...listItem.show.transition, delay: Math.min(i, 8) * 0.03 }}
+                >
+                  <ArticleCard article={article} />
+                </motion.div>
               ))}
             </div>
           )}
@@ -87,7 +102,7 @@ export default function News() {
               )}
             </div>
           )}
-        </main>
+        </motion.main>
 
         {/* Zero-width aside — satisfies AppLayout flex structure without adding visual content */}
         <aside className="news__right-spacer" aria-hidden="true" />

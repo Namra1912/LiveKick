@@ -342,13 +342,13 @@
   color: var(--color-pitch-green, #00B370);
   margin-bottom: 16px;
   filter: drop-shadow(0 0 16px rgba(0, 179, 112, 0.5));
-  animation: successBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Scale-in, no spring overshoot — confident, not playful/bouncy */
+  animation: successBounce 0.32s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 @keyframes successBounce {
-  0%   { transform: scale(0); opacity: 0; }
-  70%  { transform: scale(1.15); }
-  100% { transform: scale(1); opacity: 1; }
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
 .auth-success-title {
