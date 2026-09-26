@@ -1,6 +1,7 @@
 // src/pages/TeamDetail.jsx — Team Profile Page
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import AppLayout from '../components/layout/AppLayout';
 import Breadcrumb from '../components/shared/Breadcrumb';
 import Crest from '../components/shared/Crest';
@@ -20,6 +21,7 @@ import TransfersTab from '../components/team-profile/TransfersTab';
 import { useFollowedTeams } from '../context/FollowedTeamsContext';
 import { useLenisScroll } from '../hooks/useLenisScroll';
 import { teams, leagues, news, matches, squads, transfers } from '../data/mockData';
+import { listItem, panelFade } from '../lib/motion';
 import './TeamDetail.css';
 
 const TABS = [
@@ -41,13 +43,11 @@ export default function TeamDetail() {
     : 'OVERVIEW';
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [indicatorStyle, setIndicatorStyle] = useState({});
   const { isFollowing, toggleFollow } = useFollowedTeams();
 
   // Scroll container refs & Lenis smooth scroll hook
   const scrollRef = useRef(null);
   const contentRef = useRef(null);
-  const tabBarRef = useRef(null);
   useLenisScroll(scrollRef, contentRef);
 
   // Find team by ID parameter, defaulting to Barcelona (id: 9)
@@ -93,14 +93,14 @@ export default function TeamDetail() {
     return () => window.removeEventListener('keydown', handler);
   }, []);
 
-  // Sliding tab indicator — updates position whenever activeTab changes
-  useEffect(() => {
-    if (!tabBarRef.current) return;
-    const activeEl = tabBarRef.current.querySelector(`[data-tab="${activeTab}"]`);
-    if (!activeEl) return;
-    const { offsetLeft, offsetWidth } = activeEl;
-    setIndicatorStyle({ left: offsetLeft, width: offsetWidth });
-  }, [activeTab]);
+  // Shared per-section entrance — spread onto a motion.div for the staggered
+  // Overview-grid reveal (replaces the old CSS --reveal-delay custom property).
+  const reveal = (ms) => ({
+    initial: 'hidden',
+    animate: 'show',
+    variants: listItem,
+    transition: { ...listItem.show.transition, delay: ms / 1000 },
+  });
 
   const breadcrumbItems = [
     { label: 'Home', path: '/' },
@@ -142,7 +142,6 @@ export default function TeamDetail() {
 
             {/* Navigation Tab Bar — position:relative for the sliding indicator */}
             <nav
-              ref={tabBarRef}
               className="team-profile__tab-bar"
               aria-label="Team section tabs"
             >
@@ -157,68 +156,83 @@ export default function TeamDetail() {
                     onClick={() => navigate(`/teams/${id}/${tabItem.id.toLowerCase()}`)}
                   >
                     {tabItem.label}
+                    {/* Shared-element sliding underline — one motion element that
+                        glides between tabs instead of a manually-measured div. */}
+                    {isActive && (
+                      <motion.div
+                        className="tab-indicator"
+                        layoutId="team-tab-indicator"
+                        transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                      />
+                    )}
                   </button>
                 );
               })}
-              {/* Sliding green indicator — absolutely positioned inside the tab bar */}
-              <div className="tab-indicator" style={indicatorStyle} />
             </nav>
 
-            {/* Tab Content Section — key forces remount → re-triggers fade animation */}
-            <div key={activeTab} className="tab-content-panel">
+            {/* Tab Content Section — cross-fades on switch via Framer Motion */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                className="tab-content-panel"
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                variants={panelFade}
+              >
               {activeTab === 'OVERVIEW' && (
                 <section className="team-profile__overview-grid">
                   {/* ── Center Column (Top to Bottom) ────────────────────── */}
                   <div className="team-profile__center-col">
                     {/* 1. Team Form */}
-                    <div className="section-reveal" style={{ '--reveal-delay': '0ms' }}>
+                    <motion.div {...reveal(0)}>
                       <TeamForm team={team} />
-                    </div>
+                    </motion.div>
 
                     {/* 2. League Table */}
-                    <div
-                      className="section-reveal team-profile__table-embed"
+                    <motion.div
+                      className="team-profile__table-embed"
                       data-highlight-team={team.id}
-                      style={{ '--reveal-delay': '60ms' }}
+                      {...reveal(60)}
                     >
                       <StandingsTable league={activeLeague} highlightTeamId={team.id} />
-                    </div>
+                    </motion.div>
 
                     {/* 3. Top Performers */}
-                    <div className="section-reveal" style={{ '--reveal-delay': '120ms' }}>
+                    <motion.div {...reveal(120)}>
                       <TopPerformers team={team} />
-                    </div>
+                    </motion.div>
 
                     {/* 4. Team News Card */}
-                    <div className="section-reveal" style={{ '--reveal-delay': '180ms' }}>
+                    <motion.div {...reveal(180)}>
                       <TeamNews
                         articles={teamArticles}
                         onSeeMore={() => navigate(`/teams/${id}/news`)}
                       />
-                    </div>
+                    </motion.div>
 
                     {/* 5. About Section */}
-                    <div className="section-reveal" style={{ '--reveal-delay': '240ms' }}>
+                    <motion.div {...reveal(240)}>
                       <AboutSection team={team} />
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* ── Right Column (Sticky, Top to Bottom) ────────────── */}
                   <aside className="team-profile__right-col">
                     {/* 1. Starting XI Pitch Graphic */}
-                    <div className="section-reveal" style={{ '--reveal-delay': '0ms' }}>
+                    <motion.div {...reveal(0)}>
                       <StartingXI team={team} />
-                    </div>
+                    </motion.div>
 
                     {/* 2 & 3. Fixture Difficulty + Upcoming Fixtures */}
-                    <div className="section-reveal" style={{ '--reveal-delay': '60ms' }}>
+                    <motion.div {...reveal(60)}>
                       <FixtureDifficultyCard team={team} />
-                    </div>
+                    </motion.div>
 
                     {/* 4. Stadium Info Card */}
-                    <div className="section-reveal" style={{ '--reveal-delay': '120ms' }}>
+                    <motion.div {...reveal(120)}>
                       <StadiumInfoCard team={team} />
-                    </div>
+                    </motion.div>
                   </aside>
                 </section>
               )}
@@ -257,7 +271,8 @@ export default function TeamDetail() {
                   </div>
                 </section>
               )}
-            </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </main>
       </AppLayout>
