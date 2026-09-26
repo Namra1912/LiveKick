@@ -226,33 +226,11 @@
   margin-top: 24px;
 }
 
-.team-profile__placeholder {
+.team-profile__content--centered {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 280px;
-  border: 1px dashed var(--color-border, #1e2a35);
-  border-radius: 14px;
-  background: var(--color-surface, #0d1520);
-  text-align: center;
-  padding: 32px;
-}
-
-.team-profile__placeholder-title {
-  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-secondary, #94a3b8);
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.team-profile__placeholder-sub {
-  font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.9375rem;
-  color: var(--color-faint, #475569);
-  margin: 0;
+  min-height: 320px;
 }
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */

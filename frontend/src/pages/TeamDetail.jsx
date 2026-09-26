@@ -2,10 +2,12 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { BarChart3 } from 'lucide-react';
 import AppLayout from '../components/layout/AppLayout';
 import Breadcrumb from '../components/shared/Breadcrumb';
 import Crest from '../components/shared/Crest';
 import SearchModal from '../components/search/SearchModal';
+import StubPage from '../components/shared/StubPage';
 import StandingsTable from '../components/standings/StandingsTable';
 import TeamForm from '../components/team-profile/TeamForm';
 import TopPerformers from '../components/team-profile/TopPerformers';
@@ -22,6 +24,7 @@ import { useFollowedTeams } from '../context/FollowedTeamsContext';
 import { useLenisScroll } from '../hooks/useLenisScroll';
 import { teams, leagues, news, matches, squads, transfers } from '../data/mockData';
 import { listItem, panelFade } from '../lib/motion';
+import '../styles/StubPage.css';
 import './TeamDetail.css';
 
 const TABS = [
@@ -264,10 +267,19 @@ export default function TeamDetail() {
               )}
 
               {activeTab === 'STATS' && (
-                <section className="team-profile__content">
-                  <div className="team-profile__placeholder" role="status">
-                    <span className="team-profile__placeholder-title">STATS</span>
-                    <p className="team-profile__placeholder-sub">Coming soon</p>
+                <section className="team-profile__content team-profile__content--centered">
+                  <div className="stub-page__panel" role="status">
+                    <div className="stub-page__icon">
+                      <BarChart3 size={22} strokeWidth={1.75} />
+                    </div>
+                    <h2 className="stub-page__heading">Team Stats</h2>
+                    <p className="stub-page__body">
+                      Season-wide shooting, passing, and defensive stats coming in Phase 1.
+                    </p>
+                    <span className="stub-page__badge">
+                      <span className="stub-page__badge-dot" />
+                      Coming soon
+                    </span>
                   </div>
                 </section>
               )}
