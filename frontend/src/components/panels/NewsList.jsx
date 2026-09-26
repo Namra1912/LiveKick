@@ -73,10 +73,14 @@ function NewsItem({ item, onClick }) {
   );
 }
 
+const VISIBLE_COUNT = 5;
+
 export default function NewsList({ newsItems }) {
   const navigate = useNavigate();
 
   if (!newsItems?.length) return null;
+
+  const visibleItems = newsItems.slice(0, VISIBLE_COUNT);
 
   const handleNavigateNews = () => {
     navigate('/news');
@@ -97,9 +101,9 @@ export default function NewsList({ newsItems }) {
         </button>
       </div>
 
-      {/* News list */}
+      {/* News list — capped, full list lives on the News page */}
       <div className="news-list__items">
-        {newsItems.map((item) => (
+        {visibleItems.map((item) => (
           <NewsItem
             key={item.id}
             item={item}
