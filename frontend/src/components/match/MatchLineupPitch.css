@@ -267,18 +267,41 @@
 }
 
 .lineup-coach {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.8125rem;
   font-weight: 600;
   color: var(--color-primary, #f1f5f9);
+}
+
+.lineup-coach span:not(.lineup-coach__avatar) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
 }
 
-.lineup-coach--home { text-align: left; }
-.lineup-coach--away { text-align: right; }
+.lineup-coach--home { justify-content: flex-start; }
+.lineup-coach--away { justify-content: flex-end; }
+
+.lineup-coach__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-surface-elevated, #111820);
+  border: 1px solid var(--color-border, #1e2a35);
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--color-secondary, #94a3b8);
+}
 
 .lineup-coach__label {
   flex-shrink: 0;

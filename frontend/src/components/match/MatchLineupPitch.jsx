@@ -88,6 +88,10 @@ function TeamHalf({ team, flipped, goalMap, assistMap }) {
   );
 }
 
+function getInitials(name) {
+  return name.split(' ').map((p) => p[0]).join('').slice(0, 2).toUpperCase();
+}
+
 function CoachRow({ homeTeam, awayTeam }) {
   const homeCoach = squads[homeTeam?.id]?.find((p) => p.isCoach);
   const awayCoach = squads[awayTeam?.id]?.find((p) => p.isCoach);
@@ -95,9 +99,15 @@ function CoachRow({ homeTeam, awayTeam }) {
 
   return (
     <div className="lineup-coach-row">
-      <span className="lineup-coach lineup-coach--home">{homeCoach?.name ?? '—'}</span>
+      <span className="lineup-coach lineup-coach--home">
+        {homeCoach && <span className="lineup-coach__avatar">{getInitials(homeCoach.name)}</span>}
+        {homeCoach?.name ?? '—'}
+      </span>
       <span className="lineup-coach__label">Coach</span>
-      <span className="lineup-coach lineup-coach--away">{awayCoach?.name ?? '—'}</span>
+      <span className="lineup-coach lineup-coach--away">
+        {awayCoach?.name ?? '—'}
+        {awayCoach && <span className="lineup-coach__avatar">{getInitials(awayCoach.name)}</span>}
+      </span>
     </div>
   );
 }
