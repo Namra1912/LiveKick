@@ -51,6 +51,10 @@ export default function MatchTeamForm({ homeTeam, awayTeam, matchId }) {
       <h2 className="match-detail__card-title match-team-form__title">Team Form</h2>
       <div className="match-team-form__grid">
         <div className="match-team-form__col">
+          <div className="match-team-form__col-head">
+            <Crest logoUrl={homeTeam.logoUrl} name={homeTeam.name} size={20} />
+            <span>{homeTeam.name}</span>
+          </div>
           {homeRows.length > 0 ? (
             homeRows.map((row) => <FormRow key={row.id} row={row} align="home" />)
           ) : (
@@ -58,6 +62,10 @@ export default function MatchTeamForm({ homeTeam, awayTeam, matchId }) {
           )}
         </div>
         <div className="match-team-form__col match-team-form__col--away">
+          <div className="match-team-form__col-head match-team-form__col-head--away">
+            <span>{awayTeam.name}</span>
+            <Crest logoUrl={awayTeam.logoUrl} name={awayTeam.name} size={20} />
+          </div>
           {awayRows.length > 0 ? (
             awayRows.map((row) => <FormRow key={row.id} row={row} align="away" />)
           ) : (
