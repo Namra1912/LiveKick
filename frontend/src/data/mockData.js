@@ -615,6 +615,15 @@ export const matchEvents = {
     { minute: 74, type: 'sub', team: 'home', playerOff: 'Robert Lewandowski', playerOn: 'Pau Víctor' },
     { minute: 81, type: 'card-yellow', team: 'home', player: 'Ronald Araújo' },
   ],
+  101: [ // Arsenal 2-1 Man City — live, currently at 74'
+    { minute: 12, type: 'goal', team: 'home', player: 'Bukayo Saka', assist: 'Martin Ødegaard' },
+    { minute: 29, type: 'card-yellow', team: 'away', player: 'Rodri' },
+    { minute: 38, type: 'goal', team: 'away', player: 'Erling Haaland', assist: 'Kevin De Bruyne' },
+    { minute: 52, type: 'card-yellow', team: 'home', player: 'Declan Rice' },
+    { minute: 63, type: 'sub', team: 'away', playerOff: 'Jack Grealish', playerOn: 'Jeremy Doku' },
+    { minute: 69, type: 'goal', team: 'home', player: 'Kai Havertz', assist: 'Bukayo Saka' },
+    { minute: 71, type: 'sub', team: 'home', playerOff: 'Kai Havertz', playerOn: 'Gabriel Jesus' },
+  ],
 };
 
 // ----------------------------------------------------- match detail: stats --
@@ -625,10 +634,24 @@ export const matchStats = {
     possessionHome: 64, possessionAway: 36,
     shotsHome: 17, shotsAway: 6,
     shotsOnTargetHome: 8, shotsOnTargetAway: 2,
+    bigChancesHome: 4, bigChancesAway: 1,
     cornersHome: 7, cornersAway: 2,
     foulsHome: 8, foulsAway: 12,
     offsidesHome: 2, offsidesAway: 1,
     passAccuracyHome: 89, passAccuracyAway: 78,
+    tacklesHome: 14, tacklesAway: 19,
+    yellowCardsHome: 1, yellowCardsAway: 1,
+  },
+  101: {
+    possessionHome: 63, possessionAway: 37,
+    shotsHome: 14, shotsAway: 11,
+    shotsOnTargetHome: 6, shotsOnTargetAway: 5,
+    bigChancesHome: 3, bigChancesAway: 2,
+    cornersHome: 6, cornersAway: 4,
+    foulsHome: 9, foulsAway: 7,
+    offsidesHome: 1, offsidesAway: 2,
+    passAccuracyHome: 87, passAccuracyAway: 90,
+    tacklesHome: 16, tacklesAway: 12,
     yellowCardsHome: 1, yellowCardsAway: 1,
   },
 };

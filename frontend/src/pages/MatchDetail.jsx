@@ -1,8 +1,8 @@
 // src/pages/MatchDetail.jsx
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Goal } from 'lucide-react';
+import { Goal, ListChecks, BarChart3, Swords, Info } from 'lucide-react';
 import AppLayout from '../components/layout/AppLayout';
 import Breadcrumb from '../components/shared/Breadcrumb';
 import StubPage from '../components/shared/StubPage';
@@ -11,8 +11,10 @@ import MatchEventsList from '../components/match/MatchEventsList';
 import MatchStatsCompare from '../components/match/MatchStatsCompare';
 import MatchLineupPitch from '../components/match/MatchLineupPitch';
 import MatchVenueCard from '../components/match/MatchVenueCard';
+import MatchStandingsSnippet from '../components/match/MatchStandingsSnippet';
+import MatchRelatedNews from '../components/match/MatchRelatedNews';
 import MatchH2H from '../components/match/MatchH2H';
-import { matches, matchEvents, matchStats } from '../data/mockData';
+import { matches, matchEvents, matchStats, standings } from '../data/mockData';
 import { pageIn, panelFade } from '../lib/motion';
 import './MatchDetail.css';
 
@@ -43,6 +45,37 @@ export default function MatchDetail() {
   const homeColor = match.homeTeam.primaryColor || '#00B370';
   const awayColor = match.awayTeam.primaryColor || '#3b82f6';
 
+  // Facts computed entirely from real data already in the app — H2H meeting
+  // count from the matches array, recent form from the live standings table.
+  const facts = useMemo(() => {
+    const list = [];
+    const priorMeetings = matches.filter(
+      (m) =>
+        m.id !== match.id &&
+        m.status === 'finished' &&
+        ((m.homeTeam.id === match.homeTeam.id && m.awayTeam.id === match.awayTeam.id) ||
+          (m.homeTeam.id === match.awayTeam.id && m.awayTeam.id === match.homeTeam.id))
+    );
+    list.push(
+      priorMeetings.length > 0
+        ? `This is meeting No. ${priorMeetings.length + 1} between ${match.homeTeam.name} and ${match.awayTeam.name}.`
+        : `${match.homeTeam.name} and ${match.awayTeam.name} have not met before in recorded matches.`
+    );
+
+    const table = standings[match.league];
+    const homeRow = table?.find((r) => r.team.id === match.homeTeam.id);
+    const awayRow = table?.find((r) => r.team.id === match.awayTeam.id);
+    if (homeRow) {
+      const wins = homeRow.form.filter((r) => r === 'W').length;
+      list.push(`${match.homeTeam.name} have won ${wins} of their last ${homeRow.form.length} league games.`);
+    }
+    if (awayRow) {
+      const wins = awayRow.form.filter((r) => r === 'W').length;
+      list.push(`${match.awayTeam.name} have won ${wins} of their last ${awayRow.form.length} league games.`);
+    }
+    return list;
+  }, [match]);
+
   const breadcrumbItems = [
     { label: 'Home', path: '/' },
     { label: 'Matches', path: '/' },
@@ -70,12 +103,26 @@ export default function MatchDetail() {
                 {activeTab === 'OVERVIEW' && (
                   <>
                     <section className="match-detail__card">
-                      <h2 className="match-detail__card-title">Match Events</h2>
+                      <h2 className="match-detail__card-title">
+                        <ListChecks size={16} strokeWidth={2} /> Match Events
+                      </h2>
                       <MatchEventsList events={events} />
                     </section>
                     <section className="match-detail__card">
-                      <h2 className="match-detail__card-title">Top Stats</h2>
+                      <h2 className="match-detail__card-title">
+                        <BarChart3 size={16} strokeWidth={2} /> Top Stats
+                      </h2>
                       <MatchStatsCompare stats={stats} homeColor={homeColor} awayColor={awayColor} limit={4} />
+                    </section>
+                    <section className="match-detail__card">
+                      <h2 className="match-detail__card-title">
+                        <Info size={16} strokeWidth={2} /> Match Facts
+                      </h2>
+                      <ul className="match-facts">
+                        {facts.map((f, i) => (
+                          <li key={i} className="match-facts__item">{f}</li>
+                        ))}
+                      </ul>
                     </section>
                   </>
                 )}
@@ -91,14 +138,18 @@ export default function MatchDetail() {
 
                 {activeTab === 'STATS' && (
                   <section className="match-detail__card">
-                    <h2 className="match-detail__card-title">Match Stats</h2>
+                    <h2 className="match-detail__card-title">
+                      <BarChart3 size={16} strokeWidth={2} /> Match Stats
+                    </h2>
                     <MatchStatsCompare stats={stats} homeColor={homeColor} awayColor={awayColor} />
                   </section>
                 )}
 
                 {activeTab === 'H2H' && (
                   <section className="match-detail__card">
-                    <h2 className="match-detail__card-title">Head-to-Head</h2>
+                    <h2 className="match-detail__card-title">
+                      <Swords size={16} strokeWidth={2} /> Head-to-Head
+                    </h2>
                     <MatchH2H match={match} />
                   </section>
                 )}
@@ -106,7 +157,9 @@ export default function MatchDetail() {
             </AnimatePresence>
 
             <aside className="match-detail__sidebar">
+              <MatchStandingsSnippet match={match} />
               <MatchVenueCard match={match} homeTeam={match.homeTeam} />
+              <MatchRelatedNews homeTeamId={match.homeTeam.id} awayTeamId={match.awayTeam.id} />
             </aside>
           </div>
         </div>

@@ -34,11 +34,20 @@
 
 .match-stat-row__label {
   flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   text-align: center;
   font-size: 0.75rem;
   color: var(--color-faint, #475569);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.match-stat-row__icon {
+  flex-shrink: 0;
+  opacity: 0.8;
 }
 
 .match-stat-row__bar {
