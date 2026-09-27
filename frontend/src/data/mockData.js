@@ -601,6 +601,38 @@ export const matches = [
   },
 ];
 
+// ---------------------------------------------------- match detail: events --
+// Minute-by-minute events for the Match Detail page. Only authored for a
+// handful of finished matches (same partial-coverage pattern as teamStats/
+// squads) — MatchDetail falls back to a graceful empty state for any match
+// without an entry here rather than fabricating events.
+export const matchEvents = {
+  140: [ // Barcelona 2-0 Girona
+    { minute: 23, type: 'goal', team: 'home', player: 'Robert Lewandowski', assist: 'Raphinha' },
+    { minute: 41, type: 'card-yellow', team: 'away', player: 'Yangel Herrera' },
+    { minute: 58, type: 'sub', team: 'home', playerOff: 'Ansu Fati', playerOn: 'Ferran Torres' },
+    { minute: 67, type: 'goal', team: 'home', player: 'Lamine Yamal', assist: 'Pedri' },
+    { minute: 74, type: 'sub', team: 'home', playerOff: 'Robert Lewandowski', playerOn: 'Pau Víctor' },
+    { minute: 81, type: 'card-yellow', team: 'home', player: 'Ronald Araújo' },
+  ],
+};
+
+// ----------------------------------------------------- match detail: stats --
+// Full head-to-toe match stats. Possession mirrors pressureHome/pressureAway
+// on the matches array so the two numbers never disagree on the page.
+export const matchStats = {
+  140: {
+    possessionHome: 64, possessionAway: 36,
+    shotsHome: 17, shotsAway: 6,
+    shotsOnTargetHome: 8, shotsOnTargetAway: 2,
+    cornersHome: 7, cornersAway: 2,
+    foulsHome: 8, foulsAway: 12,
+    offsidesHome: 2, offsidesAway: 1,
+    passAccuracyHome: 89, passAccuracyAway: 78,
+    yellowCardsHome: 1, yellowCardsAway: 1,
+  },
+};
+
 /* =============================================================================
    MOCK DATA EXTENSION (CHUNK 1 — DATA AUDIT & STANDINGS COMPLETION)
    
