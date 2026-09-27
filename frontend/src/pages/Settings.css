@@ -1,0 +1,281 @@
+/* src/pages/Settings.css */
+
+.settings-page {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  min-width: 0;
+  padding: 20px 24px 40px;
+  background-color: var(--color-base);
+  background-image: var(--texture-scanline);
+}
+
+.settings-page__inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  gap: 16px;
+}
+
+.settings-page__title {
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-primary, #f1f5f9);
+  margin: 4px 0 0;
+}
+
+.settings-card {
+  background: var(--color-surface, #0d1520);
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  padding: 18px;
+}
+
+.settings-card__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-size: 1.0625rem;
+  font-weight: 800;
+  color: var(--color-primary, #f1f5f9);
+  margin: 0 0 14px 0;
+}
+
+.settings-card__title svg {
+  color: var(--color-pitch-green, #00B370);
+  flex-shrink: 0;
+}
+
+.settings-card__empty {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  color: var(--color-faint, #475569);
+  margin: 0;
+}
+
+/* ── Profile ──────────────────────────────────────────────────────────── */
+.settings-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
+}
+
+.settings-profile__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.settings-profile__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.settings-profile__name {
+  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-primary, #f1f5f9);
+}
+
+.settings-profile__email {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  color: var(--color-faint, #475569);
+}
+
+.settings-profile__stats {
+  display: flex;
+  gap: 24px;
+}
+
+.settings-profile__stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--color-primary, #f1f5f9);
+}
+
+.settings-profile__stat svg {
+  color: var(--color-pitch-green, #00B370);
+}
+
+.settings-profile__stat-label {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-faint, #475569);
+}
+
+/* ── My Teams ─────────────────────────────────────────────────────────── */
+.settings-teams {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.settings-team-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px 5px 10px;
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--color-surface-elevated, #111820);
+  border: 1px solid var(--color-border, #1e2a35);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-primary, #f1f5f9);
+}
+
+.settings-team-chip__remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  color: var(--color-faint, #475569);
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.settings-team-chip__remove:hover {
+  color: var(--color-live-red, #f87171);
+  background: rgba(248, 113, 113, 0.12);
+}
+
+/* ── Rows (notifications / appearance) ───────────────────────────────── */
+.settings-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
+}
+
+.settings-rows > .settings-row:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.settings-row--static {
+  padding-bottom: 0;
+}
+
+.settings-row__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.settings-row__label {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary, #f1f5f9);
+}
+
+.settings-row__hint {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  color: var(--color-faint, #475569);
+}
+
+.settings-badge {
+  flex-shrink: 0;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #080c11;
+  background: var(--color-pitch-green, #00B370);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill, 9999px);
+}
+
+/* ── Toggle switch ────────────────────────────────────────────────────── */
+.settings-toggle {
+  flex-shrink: 0;
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--color-surface-elevated, #111820);
+  border: 1px solid var(--color-border, #1e2a35);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.settings-toggle--on {
+  background: var(--color-pitch-green, #00B370);
+  border-color: transparent;
+}
+
+.settings-toggle__knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-primary, #f1f5f9);
+  transition: transform 180ms var(--ease-out-strong, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.settings-toggle--on .settings-toggle__knob {
+  transform: translateX(18px);
+  background: #080c11;
+}
+
+/* ── Account ──────────────────────────────────────────────────────────── */
+.settings-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid var(--color-live-red, #f87171);
+  color: var(--color-live-red, #f87171);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 9px 16px;
+  border-radius: var(--radius-badge, 8px);
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.settings-logout:hover {
+  background: rgba(248, 113, 113, 0.1);
+}
+
+@media (max-width: 640px) {
+  .settings-page { padding: 16px 14px 32px; }
+  .settings-profile__stats { gap: 16px; }
+}
