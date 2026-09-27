@@ -3,6 +3,7 @@
 // away team's on the right — reused from the same `matches` array as the
 // rest of the app rather than a separate form dataset.
 import { useNavigate } from 'react-router-dom';
+import Crest from '../shared/Crest';
 import { matches } from '../../data/mockData';
 import './MatchTeamForm.css';
 
@@ -30,7 +31,11 @@ function FormRow({ row, align }) {
       onClick={() => navigate(`/matches/${row.id}`)}
     >
       {align === 'home' && <span className={`match-team-form__badge match-team-form__badge--${row.result}`}>{row.scoreFor} - {row.scoreAgainst}</span>}
-      <span className="match-team-form__opponent">{row.opponent.name}</span>
+      <span className="match-team-form__opponent">
+        {align === 'away' && <Crest logoUrl={row.opponent.logoUrl} name={row.opponent.name} size={18} />}
+        {row.opponent.name}
+        {align === 'home' && <Crest logoUrl={row.opponent.logoUrl} name={row.opponent.name} size={18} />}
+      </span>
       {align === 'away' && <span className={`match-team-form__badge match-team-form__badge--${row.result}`}>{row.scoreFor} - {row.scoreAgainst}</span>}
     </button>
   );

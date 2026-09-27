@@ -48,13 +48,28 @@
 }
 
 .match-team-form__opponent {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.75rem;
   color: var(--color-secondary, #94a3b8);
+}
+
+.match-team-form__opponent span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
+}
+
+.match-team-form__row--home .match-team-form__opponent {
+  flex-direction: row-reverse;
+}
+
+.match-team-form__opponent .crest {
+  flex-shrink: 0;
 }
 
 .match-team-form__badge {

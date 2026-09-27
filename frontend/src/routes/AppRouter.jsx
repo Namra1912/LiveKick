@@ -4,6 +4,7 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { FollowedTeamsProvider } from '../context/FollowedTeamsContext';
+import ScrollToTop from './ScrollToTop';
 import HomeFeed from '../pages/HomeFeed';
 import MatchDetail from '../pages/MatchDetail';
 import Standings from '../pages/Standings';
@@ -20,6 +21,7 @@ export default function AppRouter() {
   return (
     <FollowedTeamsProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           {/* Core routes */}
           <Route path="/"              element={<HomeFeed />} />
