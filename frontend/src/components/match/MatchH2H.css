@@ -22,17 +22,31 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
 
-.match-h2h__summary-value {
+.match-h2h__summary-dash {
+  width: 28px;
+  height: 28px;
+}
+
+.match-h2h__summary-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 800;
-  color: var(--color-pitch-green, #00B370);
+  color: #080c11;
+  background: var(--color-pitch-green, #00B370);
 }
 
-.match-h2h__summary-value--draw {
+.match-h2h__summary-circle--draw {
+  background: var(--color-surface-elevated, #111820);
+  border: 1px solid var(--color-border, #1e2a35);
   color: var(--color-secondary, #94a3b8);
 }
 

@@ -7,10 +7,12 @@ import './MatchRelatedNews.css';
 export default function MatchRelatedNews({ homeTeamId, awayTeamId }) {
   const navigate = useNavigate();
 
+  // Skips the first match — that one is already featured as the Overview
+  // tab's Match Review card, so the sidebar doesn't repeat it.
   const articles = useMemo(() => {
     return news
       .filter((a) => a.teamId === homeTeamId || a.teamId === awayTeamId)
-      .slice(0, 3);
+      .slice(1, 4);
   }, [homeTeamId, awayTeamId]);
 
   if (articles.length === 0) return null;

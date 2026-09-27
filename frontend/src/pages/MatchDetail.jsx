@@ -2,11 +2,12 @@
 import { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Goal, ListChecks, BarChart3, Swords, Info } from 'lucide-react';
+import { Goal, ListChecks, BarChart3, Swords } from 'lucide-react';
 import AppLayout from '../components/layout/AppLayout';
 import Breadcrumb from '../components/shared/Breadcrumb';
 import StubPage from '../components/shared/StubPage';
 import MatchHeader from '../components/match/MatchHeader';
+import MatchReviewCard from '../components/match/MatchReviewCard';
 import MatchEventsList from '../components/match/MatchEventsList';
 import MatchStatsCompare from '../components/match/MatchStatsCompare';
 import MatchLineupPitch from '../components/match/MatchLineupPitch';
@@ -14,6 +15,7 @@ import MatchTableTab from '../components/match/MatchTableTab';
 import MatchVenueCard from '../components/match/MatchVenueCard';
 import MatchRoundFixtures from '../components/match/MatchRoundFixtures';
 import MatchRelatedNews from '../components/match/MatchRelatedNews';
+import MatchInsights from '../components/match/MatchInsights';
 import MatchH2H from '../components/match/MatchH2H';
 import { matches, matchEvents, matchStats, standings } from '../data/mockData';
 import { pageIn, panelFade } from '../lib/motion';
@@ -104,6 +106,7 @@ export default function MatchDetail() {
               >
                 {activeTab === 'OVERVIEW' && (
                   <>
+                    <MatchReviewCard homeTeamId={match.homeTeam.id} awayTeamId={match.awayTeam.id} />
                     <section className="match-detail__card">
                       <h2 className="match-detail__card-title">
                         <ListChecks size={16} strokeWidth={2} /> Match Events
@@ -115,16 +118,6 @@ export default function MatchDetail() {
                         <BarChart3 size={16} strokeWidth={2} /> Top Stats
                       </h2>
                       <MatchStatsCompare stats={stats} homeColor={homeColor} awayColor={awayColor} limit={4} />
-                    </section>
-                    <section className="match-detail__card">
-                      <h2 className="match-detail__card-title">
-                        <Info size={16} strokeWidth={2} /> Match Facts
-                      </h2>
-                      <ul className="match-facts">
-                        {facts.map((f, i) => (
-                          <li key={i} className="match-facts__item">{f}</li>
-                        ))}
-                      </ul>
                     </section>
                   </>
                 )}
@@ -162,6 +155,7 @@ export default function MatchDetail() {
 
             <aside className="match-detail__sidebar">
               <MatchVenueCard match={match} homeTeam={match.homeTeam} />
+              <MatchInsights facts={facts} />
               <MatchRoundFixtures match={match} />
               <MatchRelatedNews homeTeamId={match.homeTeam.id} awayTeamId={match.awayTeam.id} />
             </aside>

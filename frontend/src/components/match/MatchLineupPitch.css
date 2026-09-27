@@ -120,6 +120,10 @@
 .lineup-player:hover { transform: translateY(-2px); }
 .lineup-player:hover .lineup-player__name { color: var(--color-pitch-green, #00B370); }
 
+.lineup-player__avatar-wrap {
+  position: relative;
+}
+
 .lineup-player__avatar {
   width: 32px;
   height: 32px;
@@ -136,6 +140,24 @@
 }
 
 .lineup-player:hover .lineup-player__avatar { background: #21362c; }
+
+.lineup-player__rating {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 1px 3.5px;
+  border-radius: 3px;
+  line-height: 1;
+  background: #f59e0b;
+  color: #080c11;
+}
+
+.lineup-player__rating--high {
+  background: var(--color-pitch-green, #00B370);
+}
 
 .lineup-player__name {
   font-family: var(--font-body, 'Inter', sans-serif);

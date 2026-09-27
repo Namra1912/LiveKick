@@ -44,7 +44,14 @@ function TeamHalf({ team, flipped }) {
               className="lineup-player"
               onClick={() => navigate(`/players/${p.id}`)}
             >
-              <span className="lineup-player__avatar">{p.shirtNumber}</span>
+              <span className="lineup-player__avatar-wrap">
+                <span className="lineup-player__avatar">{p.shirtNumber}</span>
+                {p.rating != null && (
+                  <span className={`lineup-player__rating ${p.rating >= 8 ? 'lineup-player__rating--high' : ''}`}>
+                    {p.rating.toFixed(1)}
+                  </span>
+                )}
+              </span>
               <span className="lineup-player__name">{p.name.split(' ').pop()}</span>
             </button>
           ))}
