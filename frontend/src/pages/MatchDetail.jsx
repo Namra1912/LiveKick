@@ -10,6 +10,7 @@ import MatchHeader from '../components/match/MatchHeader';
 import MatchReviewCard from '../components/match/MatchReviewCard';
 import MatchEventsList from '../components/match/MatchEventsList';
 import MatchStatsCompare from '../components/match/MatchStatsCompare';
+import MatchOverviewPanel from '../components/match/MatchOverviewPanel';
 import MatchLineupPitch from '../components/match/MatchLineupPitch';
 import MatchTableTab from '../components/match/MatchTableTab';
 import MatchHighlightsCard from '../components/match/MatchHighlightsCard';
@@ -114,10 +115,7 @@ export default function MatchDetail() {
                   <>
                     <MatchReviewCard homeTeamId={match.homeTeam.id} awayTeamId={match.awayTeam.id} />
                     <section className="match-detail__card">
-                      <h2 className="match-detail__card-title">
-                        <BarChart3 size={16} strokeWidth={2} /> Match Overview
-                      </h2>
-                      <MatchStatsCompare stats={stats} homeColor={homeColor} awayColor={awayColor} limit={3} />
+                      <MatchOverviewPanel stats={stats} match={match} homeColor={homeColor} awayColor={awayColor} />
                     </section>
                     <section className="match-detail__card">
                       <h2 className="match-detail__card-title">

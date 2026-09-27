@@ -632,6 +632,8 @@ export const matchEvents = {
 export const matchStats = {
   140: {
     possessionHome: 64, possessionAway: 36,
+    xGHome: 2.91, xGAway: 0.52,
+    touchesInBoxHome: 26, touchesInBoxAway: 9,
     shotsHome: 17, shotsAway: 6,
     shotsOnTargetHome: 8, shotsOnTargetAway: 2,
     bigChancesHome: 4, bigChancesAway: 1,
@@ -644,6 +646,8 @@ export const matchStats = {
   },
   101: {
     possessionHome: 63, possessionAway: 37,
+    xGHome: 2.18, xGAway: 1.64,
+    touchesInBoxHome: 21, touchesInBoxAway: 17,
     shotsHome: 14, shotsAway: 11,
     shotsOnTargetHome: 6, shotsOnTargetAway: 5,
     bigChancesHome: 3, bigChancesAway: 2,
@@ -654,6 +658,23 @@ export const matchStats = {
     tacklesHome: 16, tacklesAway: 12,
     yellowCardsHome: 1, yellowCardsAway: 1,
   },
+};
+
+// ---------------------------------------------- match detail: momentum ------
+// Per-minute attacking-momentum swing, positive = home team on top, negative
+// = away — the shape a future live-momentum feed would send. Hand-authored
+// to track the real goal/card minutes in matchEvents above rather than
+// random noise, for the matches that have full stat coverage.
+export const matchMomentum = {
+  140: [
+    0, 12, 28, 18, -8, -22, 35, 52, 40, 22, 15, -10, 8, 30, 45, 38, 20, 10,
+    -15, -30, 25, 48, 60, 42, 18, 5, -12, 20, 38, 55, 44, 26, 10, -6, 18, 32,
+  ],
+  101: [
+    0, -8, 18, 30, 15, -20, -35, -15, 10, 25, -18, -45, -60, -38, -20, 5, 22,
+    -10, -30, -15, 12, 28, 20, 8, -14, -25, -10, 15, 34, 48, 30, 12, -8, 20,
+    36, 22,
+  ],
 };
 
 // ------------------------------------------------- match detail: highlights --
