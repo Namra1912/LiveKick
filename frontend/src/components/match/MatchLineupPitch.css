@@ -238,31 +238,73 @@
   margin-top: 1px;
 }
 
-.lineup-player__contrib-icon {
-  font-size: 0.6875rem;
+.lineup-player__contrib-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 1px 4px;
+  border-radius: var(--radius-pill, 9999px);
   line-height: 1;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  color: #080c11;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* ── Substitutes bench ───────────────────────────────────────────────── */
-.match-lineup-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.lineup-player__contrib-badge--goal { background: var(--color-pitch-green, #00B370); }
+.lineup-player__contrib-badge--assist { background: #f5b942; }
+
+/* ── Coach row — a thin divider strip between the pitch and the bench
+   section, matching the reference's single continuous card. ───────────── */
+.lineup-coach-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 4px;
+  border-top: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
 }
 
+.lineup-coach {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary, #f1f5f9);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.lineup-coach--home { text-align: left; }
+.lineup-coach--away { text-align: right; }
+
+.lineup-coach__label {
+  flex-shrink: 0;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-faint, #475569);
+}
+
+/* ── Substitutes — same card, divider on top instead of a separate box ──── */
 .match-lineup-benches {
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
+}
+
+.match-lineup-benches__cols {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 0 16px;
 }
 
-.lineup-bench {
-  background: var(--color-surface, #0d1520);
-  border: 1px solid var(--color-border, #1e2a35);
-  border-radius: 14px;
-  box-shadow: var(--shadow-card);
-  padding: 16px;
+.match-lineup-benches__cols .lineup-bench:last-child {
+  border-left: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
+  padding-left: 16px;
 }
 
 .lineup-bench__title {
@@ -272,7 +314,8 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-faint, #475569);
-  margin: 0 0 10px 0;
+  text-align: center;
+  margin: 0 0 12px 0;
 }
 
 .lineup-bench__list {
@@ -360,5 +403,11 @@
 @media (max-width: 640px) {
   .match-pitch { min-height: 520px; }
   .lineup-player__avatar { width: 28px; height: 28px; }
-  .match-lineup-benches { grid-template-columns: 1fr; }
+  .match-lineup-benches__cols { grid-template-columns: 1fr; gap: 16px 0; }
+  .match-lineup-benches__cols .lineup-bench:last-child {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
+    padding-top: 16px;
+  }
 }
