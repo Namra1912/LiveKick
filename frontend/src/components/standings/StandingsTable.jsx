@@ -43,9 +43,13 @@ import Crest from '../shared/Crest';
 import { standings } from '../../data/mockData';
 import './StandingsTable.css';
 
-export default function StandingsTable({ league, highlightTeamId }) {
+export default function StandingsTable({ league, highlightTeamId, highlightTeamIds }) {
   const leagueName = league?.name ?? 'Premier League';
   const tableData = useMemo(() => standings[leagueName] ?? [], [leagueName]);
+  const highlightSet = useMemo(
+    () => new Set(highlightTeamIds ?? (highlightTeamId ? [highlightTeamId] : [])),
+    [highlightTeamId, highlightTeamIds]
+  );
 
   return (
     <div className="standings-table__wrapper">
@@ -109,7 +113,7 @@ export default function StandingsTable({ league, highlightTeamId }) {
                   rowData={row}
                   leagueName={leagueName}
                   isLastRow={index === tableData.length - 1}
-                  isHighlighted={Boolean(highlightTeamId && row.team?.id === highlightTeamId)}
+                  isHighlighted={highlightSet.has(row.team?.id)}
                 />
               ))}
             </tbody>

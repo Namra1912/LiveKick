@@ -10,8 +10,9 @@ import MatchHeader from '../components/match/MatchHeader';
 import MatchEventsList from '../components/match/MatchEventsList';
 import MatchStatsCompare from '../components/match/MatchStatsCompare';
 import MatchLineupPitch from '../components/match/MatchLineupPitch';
+import MatchTableTab from '../components/match/MatchTableTab';
 import MatchVenueCard from '../components/match/MatchVenueCard';
-import MatchStandingsSnippet from '../components/match/MatchStandingsSnippet';
+import MatchRoundFixtures from '../components/match/MatchRoundFixtures';
 import MatchRelatedNews from '../components/match/MatchRelatedNews';
 import MatchH2H from '../components/match/MatchH2H';
 import { matches, matchEvents, matchStats, standings } from '../data/mockData';
@@ -21,6 +22,7 @@ import './MatchDetail.css';
 const TABS = [
   { id: 'OVERVIEW', label: 'Overview' },
   { id: 'LINEUPS', label: 'Lineups' },
+  { id: 'TABLE', label: 'Table' },
   { id: 'STATS', label: 'Stats' },
   { id: 'H2H', label: 'Head-to-Head' },
 ];
@@ -136,6 +138,8 @@ export default function MatchDetail() {
                   />
                 )}
 
+                {activeTab === 'TABLE' && <MatchTableTab match={match} />}
+
                 {activeTab === 'STATS' && (
                   <section className="match-detail__card">
                     <h2 className="match-detail__card-title">
@@ -157,8 +161,8 @@ export default function MatchDetail() {
             </AnimatePresence>
 
             <aside className="match-detail__sidebar">
-              <MatchStandingsSnippet match={match} />
               <MatchVenueCard match={match} homeTeam={match.homeTeam} />
+              <MatchRoundFixtures match={match} />
               <MatchRelatedNews homeTeamId={match.homeTeam.id} awayTeamId={match.awayTeam.id} />
             </aside>
           </div>
