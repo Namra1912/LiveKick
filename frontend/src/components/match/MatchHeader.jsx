@@ -1,6 +1,6 @@
 // src/components/match/MatchHeader.jsx
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, Calendar, MapPin, Clock } from 'lucide-react';
+import { ChevronLeft, Calendar, MapPin, Goal } from 'lucide-react';
 import Crest from '../shared/Crest';
 import { formatKickoffTime } from '../../utils/matchHelpers';
 import { leagues, matchEvents } from '../../data/mockData';
@@ -22,13 +22,13 @@ export default function MatchHeader({ match, tabs, activeTab, onTabChange }) {
   const statusLabel = isLive ? `${match.minute}'` : isFinished ? 'Full time' : null;
   const leagueObj = leagues.find((l) => l.name === match.league);
 
-  // Compact scorer summary next to the score, grouped per player so a
-  // brace/hat-trick shows as one line with both minutes instead of
-  // repeating the name — same as the reference's goal-list treatment.
-  const scorers = (() => {
+  // Scorer summary split by side (home column / away column), grouped per
+  // player so a brace/hat-trick shows as one line with all its minutes —
+  // matches the reference's two-column goal list either side of the score.
+  const groupScorers = (team) => {
     const events = matchEvents[match.id];
     if (!events) return [];
-    const goals = events.filter((e) => e.type === 'goal');
+    const goals = events.filter((e) => e.type === 'goal' && e.team === team);
     const byPlayer = new Map();
     goals.forEach((g) => {
       if (!byPlayer.has(g.player)) byPlayer.set(g.player, []);
@@ -38,7 +38,9 @@ export default function MatchHeader({ match, tabs, activeTab, onTabChange }) {
       player,
       minutes: minutes.sort((a, b) => a - b),
     }));
-  })();
+  };
+  const homeScorers = groupScorers('home');
+  const awayScorers = groupScorers('away');
 
   return (
     <header className="match-header">
@@ -103,11 +105,18 @@ export default function MatchHeader({ match, tabs, activeTab, onTabChange }) {
         </button>
       </div>
 
-      {scorers.length > 0 && (
+      {(homeScorers.length > 0 || awayScorers.length > 0) && (
         <div className="match-header__scorers">
-          <Clock size={13} strokeWidth={1.75} className="match-header__scorers-icon" />
-          <div className="match-header__scorers-list">
-            {scorers.map((s) => (
+          <div className="match-header__scorers-col match-header__scorers-col--home">
+            {homeScorers.map((s) => (
+              <span key={s.player} className="match-header__scorer">
+                {s.player} {s.minutes.map((m) => `${m}'`).join(', ')}
+              </span>
+            ))}
+          </div>
+          <Goal size={16} strokeWidth={1.75} className="match-header__scorers-icon" />
+          <div className="match-header__scorers-col match-header__scorers-col--away">
+            {awayScorers.map((s) => (
               <span key={s.player} className="match-header__scorer">
                 {s.player} {s.minutes.map((m) => `${m}'`).join(', ')}
               </span>
