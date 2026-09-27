@@ -50,23 +50,21 @@ export default function MatchH2H({ match }) {
       <div className="match-h2h__summary">
         <Crest logoUrl={match.homeTeam.logoUrl} name={match.homeTeam.name} size={44} />
 
-        <div className="match-h2h__summary-circles">
-          <div className="match-h2h__summary-stat">
-            <span className="match-h2h__summary-circle" style={{ backgroundColor: match.homeTeam.primaryColor }}>
-              {record.homeWins}
-            </span>
-            <span className="match-h2h__summary-label">Wins</span>
-          </div>
-          <div className="match-h2h__summary-stat">
-            <span className="match-h2h__summary-circle match-h2h__summary-circle--draw">{record.draws}</span>
-            <span className="match-h2h__summary-label">Draws</span>
-          </div>
-          <div className="match-h2h__summary-stat">
-            <span className="match-h2h__summary-circle" style={{ backgroundColor: match.awayTeam.primaryColor }}>
-              {record.awayWins}
-            </span>
-            <span className="match-h2h__summary-label">Wins</span>
-          </div>
+        <div className="match-h2h__summary-stat">
+          <span className="match-h2h__summary-circle" style={{ backgroundColor: match.homeTeam.primaryColor }}>
+            {record.homeWins}
+          </span>
+          <span className="match-h2h__summary-label">Wins</span>
+        </div>
+        <div className="match-h2h__summary-stat">
+          <span className="match-h2h__summary-circle match-h2h__summary-circle--draw">{record.draws}</span>
+          <span className="match-h2h__summary-label">Draws</span>
+        </div>
+        <div className="match-h2h__summary-stat">
+          <span className="match-h2h__summary-circle" style={{ backgroundColor: match.awayTeam.primaryColor }}>
+            {record.awayWins}
+          </span>
+          <span className="match-h2h__summary-label">Wins</span>
         </div>
 
         <Crest logoUrl={match.awayTeam.logoUrl} name={match.awayTeam.name} size={44} />

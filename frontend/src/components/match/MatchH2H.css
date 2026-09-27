@@ -12,17 +12,10 @@
 .match-h2h__summary {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding-bottom: 18px;
+  justify-content: space-evenly;
+  padding: 4px 0 18px;
   margin-bottom: 18px;
   border-bottom: 1px solid var(--color-border, #1e2a35);
-}
-
-.match-h2h__summary-circles {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
 }
 
 .match-h2h__summary-stat {
