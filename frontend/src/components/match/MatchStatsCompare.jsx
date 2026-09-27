@@ -10,6 +10,7 @@ const POSSESSION_ROW = { home: 'possessionHome', away: 'possessionAway', label: 
 const STAT_GROUPS = [
   {
     title: 'Attacking',
+    icon: Target,
     rows: [
       { home: 'xGHome', away: 'xGAway', label: 'Expected Goals (xG)', icon: Radar, decimals: 2 },
       { home: 'shotsHome', away: 'shotsAway', label: 'Total Shots', icon: Target },
@@ -21,12 +22,14 @@ const STAT_GROUPS = [
   },
   {
     title: 'Passing',
+    icon: CheckCircle2,
     rows: [
       { home: 'passAccuracyHome', away: 'passAccuracyAway', label: 'Pass Accuracy', suffix: '%', icon: CheckCircle2 },
     ],
   },
   {
     title: 'Defense & Duels',
+    icon: Shield,
     rows: [
       { home: 'tacklesHome', away: 'tacklesAway', label: 'Tackles', icon: Shield },
       { home: 'interceptionsHome', away: 'interceptionsAway', label: 'Interceptions', icon: Shield },
@@ -37,6 +40,7 @@ const STAT_GROUPS = [
   },
   {
     title: 'Discipline',
+    icon: ShieldAlert,
     rows: [
       { home: 'foulsHome', away: 'foulsAway', label: 'Fouls', icon: ShieldAlert },
       { home: 'offsidesHome', away: 'offsidesAway', label: 'Offsides', icon: ArrowUpRight },
@@ -48,14 +52,18 @@ const STAT_GROUPS = [
 function StatValue({ value, suffix, isWinner, color, align }) {
   return (
     <span
-      className={`match-stat-value match-stat-value--${align} ${isWinner ? 'match-stat-value--pill' : ''}`}
-      style={isWinner ? { backgroundColor: color, color: '#080c11' } : { color }}
+      className={`match-stat-value match-stat-value--${align} ${isWinner ? 'match-stat-value--lead' : ''}`}
+      style={{ color: isWinner ? color : undefined }}
     >
       {value}{suffix ?? ''}
     </span>
   );
 }
 
+// Every row carries its own proportion bar — the share each side holds of
+// this particular stat, not just a pill on whichever number is bigger.
+// Percentage-suffixed stats (already 0-100) use their own value directly;
+// everything else is normalized against the row's home+away total.
 function StatRow({ row, stats, homeColor, awayColor }) {
   const rawHome = stats[row.home];
   const rawAway = stats[row.away];
@@ -66,14 +74,25 @@ function StatRow({ row, stats, homeColor, awayColor }) {
   const homeWins = rawHome > rawAway;
   const awayWins = rawAway > rawHome;
 
+  const isPercent = row.suffix === '%';
+  const total = rawHome + rawAway;
+  const homePct = isPercent ? Math.min(100, rawHome) : total > 0 ? (rawHome / total) * 100 : 50;
+  const awayPct = isPercent ? Math.min(100, rawAway) : 100 - homePct;
+
   return (
     <div className="match-stat-row">
-      <StatValue value={homeVal} suffix={row.suffix} isWinner={homeWins} color={homeColor} align="home" />
-      <span className="match-stat-row__label">
-        {Icon && <Icon size={12} strokeWidth={2} className="match-stat-row__icon" />}
-        {row.label}
-      </span>
-      <StatValue value={awayVal} suffix={row.suffix} isWinner={awayWins} color={awayColor} align="away" />
+      <div className="match-stat-row__values">
+        <StatValue value={homeVal} suffix={row.suffix} isWinner={homeWins} color={homeColor} align="home" />
+        <span className="match-stat-row__label">
+          {Icon && <Icon size={12} strokeWidth={2} className="match-stat-row__icon" />}
+          {row.label}
+        </span>
+        <StatValue value={awayVal} suffix={row.suffix} isWinner={awayWins} color={awayColor} align="away" />
+      </div>
+      <div className="match-stat-row__bar">
+        <span className="match-stat-row__bar-home" style={{ width: `${homePct}%`, backgroundColor: homeColor }} />
+        <span className="match-stat-row__bar-away" style={{ width: `${awayPct}%`, backgroundColor: awayColor }} />
+      </div>
     </div>
   );
 }
@@ -103,9 +122,13 @@ export default function MatchStatsCompare({ stats, homeColor, awayColor, limit }
       {STAT_GROUPS.map((group) => {
         const visibleRows = group.rows.filter((r) => stats[r.home] != null && stats[r.away] != null);
         if (visibleRows.length === 0) return null;
+        const GroupIcon = group.icon;
         return (
           <div className="match-stats-compare__group" key={group.title}>
-            <h3 className="match-stats-compare__group-title">{group.title}</h3>
+            <h3 className="match-stats-compare__group-title">
+              {GroupIcon && <GroupIcon size={13} strokeWidth={2} />}
+              {group.title}
+            </h3>
             {visibleRows.map((row) => (
               <StatRow key={row.label} row={row} stats={stats} homeColor={homeColor} awayColor={awayColor} />
             ))}
