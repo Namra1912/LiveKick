@@ -20,6 +20,7 @@ import MatchRoundFixtures from '../components/match/MatchRoundFixtures';
 import MatchRelatedNews from '../components/match/MatchRelatedNews';
 import MatchInsights from '../components/match/MatchInsights';
 import MatchH2H from '../components/match/MatchH2H';
+import MatchPlayerStatsTable from '../components/match/MatchPlayerStatsTable';
 import MatchTeamForm from '../components/match/MatchTeamForm';
 import MatchNextFixture from '../components/match/MatchNextFixture';
 import { matches, matchEvents, matchStats, standings } from '../data/mockData';
@@ -160,12 +161,23 @@ export default function MatchDetail() {
                 {activeTab === 'TABLE' && <MatchTableTab match={match} />}
 
                 {activeTab === 'STATS' && (
-                  <section className="match-detail__card">
-                    <h2 className="match-detail__card-title">
-                      <BarChart3 size={16} strokeWidth={2} /> Match Stats
-                    </h2>
-                    <MatchStatsCompare stats={stats} homeColor={homeColor} awayColor={awayColor} />
-                  </section>
+                  <>
+                    <section className="match-detail__card">
+                      <h2 className="match-detail__card-title">
+                        <BarChart3 size={16} strokeWidth={2} /> Match Stats
+                      </h2>
+                      <MatchStatsCompare stats={stats} homeColor={homeColor} awayColor={awayColor} />
+                    </section>
+                    <section className="match-detail__card">
+                      <MatchPlayerStatsTable
+                        homeTeam={match.homeTeam}
+                        awayTeam={match.awayTeam}
+                        matchId={match.id}
+                        matchStatus={match.status}
+                        matchMinute={match.minute}
+                      />
+                    </section>
+                  </>
                 )}
 
                 {activeTab === 'H2H' && (
