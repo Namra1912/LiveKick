@@ -8,24 +8,26 @@ import './MatchRoundFixtures.css';
 export default function MatchRoundFixtures({ match }) {
   const navigate = useNavigate();
 
-  const others = useMemo(() => {
+  // Includes the match being viewed, so it shows highlighted in context
+  // among its round instead of being excluded from its own round list.
+  const roundMatches = useMemo(() => {
     return matches
-      .filter((m) => m.id !== match.id && m.league === match.league)
+      .filter((m) => m.league === match.league)
       .sort((a, b) => new Date(a.matchDateUtc) - new Date(b.matchDateUtc))
-      .slice(0, 5);
+      .slice(0, 6);
   }, [match]);
 
-  if (others.length === 0) return null;
+  if (roundMatches.length === 0) return null;
 
   return (
     <div className="match-round-fixtures">
       <h2 className="match-detail__card-title">{match.league}</h2>
       <div className="match-round-fixtures__list">
-        {others.map((m) => (
+        {roundMatches.map((m) => (
           <button
             type="button"
             key={m.id}
-            className="match-round-fixtures__row"
+            className={`match-round-fixtures__row ${m.id === match.id ? 'match-round-fixtures__row--active' : ''}`}
             onClick={() => navigate(`/matches/${m.id}`)}
           >
             <div className="match-round-fixtures__team">

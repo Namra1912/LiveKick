@@ -1,0 +1,128 @@
+/* src/components/match/MatchHighlightsCard.css */
+
+.match-highlights {
+  background: var(--color-surface, #0d1520);
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  padding: 18px;
+}
+
+.match-highlights .match-detail__card-title {
+  margin-bottom: 2px;
+}
+
+.match-highlights__source {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-faint, #475569);
+  margin-bottom: 12px;
+}
+
+.match-highlights__thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--color-surface-elevated, #111820);
+}
+
+.match-highlights__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 400ms var(--ease-out-strong, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.match-highlights__thumb:hover .match-highlights__bg {
+  transform: scale(1.06);
+}
+
+.match-highlights__thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(8, 12, 17, 0.85) 0%, rgba(8, 12, 17, 0.15) 45%, transparent 65%);
+}
+
+/* Angled ribbon badge — a subtle notch on the trailing edge instead of a
+   plain rounded rect, closer to the reference's flag-shaped highlight tag */
+.match-highlights__ribbon {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  z-index: 2;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: var(--color-live-red, #f87171);
+  padding: 4px 12px 4px 10px;
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 0% 100%);
+}
+
+.match-highlights__score {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.match-highlights__score-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* Digit chip reuses the app's scoreboard identity (dark LED-style box) —
+   the side that won gets its own team color instead, the loser stays
+   the neutral scoreboard tone, same convention as the match header. */
+.match-highlights__score-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  background: var(--color-scoreboard-bg, #050403);
+  color: var(--color-scoreboard-digit, #f5b942);
+  border: 1px solid var(--color-scoreboard-border, #2a2210);
+}
+
+.match-highlights__play {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(8, 12, 17, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  transition: transform 200ms var(--ease-out-strong, cubic-bezier(0.23, 1, 0.32, 1)), background-color 200ms ease;
+}
+
+.match-highlights__thumb:hover .match-highlights__play {
+  transform: translateY(-50%) scale(1.1);
+  background: var(--color-pitch-green, #00B370);
+  border-color: var(--color-pitch-green, #00B370);
+  color: #080c11;
+}

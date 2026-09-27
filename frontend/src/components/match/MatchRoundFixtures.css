@@ -32,6 +32,14 @@
   background-color: var(--color-surface-hover, rgba(255, 255, 255, 0.03));
 }
 
+.match-round-fixtures__row--active {
+  background-color: rgba(0, 179, 112, 0.08);
+}
+
+.match-round-fixtures__row--active:hover {
+  background-color: rgba(0, 179, 112, 0.13);
+}
+
 .match-round-fixtures__row + .match-round-fixtures__row {
   border-top: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
 }

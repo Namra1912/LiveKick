@@ -12,7 +12,9 @@ import MatchEventsList from '../components/match/MatchEventsList';
 import MatchStatsCompare from '../components/match/MatchStatsCompare';
 import MatchLineupPitch from '../components/match/MatchLineupPitch';
 import MatchTableTab from '../components/match/MatchTableTab';
+import MatchHighlightsCard from '../components/match/MatchHighlightsCard';
 import MatchVenueCard from '../components/match/MatchVenueCard';
+import MatchRefereeCard from '../components/match/MatchRefereeCard';
 import MatchRoundFixtures from '../components/match/MatchRoundFixtures';
 import MatchRelatedNews from '../components/match/MatchRelatedNews';
 import MatchInsights from '../components/match/MatchInsights';
@@ -51,6 +53,8 @@ export default function MatchDetail() {
 
   // Facts computed entirely from real data already in the app — H2H meeting
   // count from the matches array, recent form from the live standings table.
+  // Each fact is tagged to whichever team it's about (or 'neutral' for
+  // facts about both), driving the crest icon + accent color per card.
   const facts = useMemo(() => {
     const list = [];
     const priorMeetings = matches.filter(
@@ -60,22 +64,24 @@ export default function MatchDetail() {
         ((m.homeTeam.id === match.homeTeam.id && m.awayTeam.id === match.awayTeam.id) ||
           (m.homeTeam.id === match.awayTeam.id && m.awayTeam.id === match.homeTeam.id))
     );
-    list.push(
-      priorMeetings.length > 0
-        ? `This is meeting No. ${priorMeetings.length + 1} between ${match.homeTeam.name} and ${match.awayTeam.name}.`
-        : `${match.homeTeam.name} and ${match.awayTeam.name} have not met before in recorded matches.`
-    );
+    list.push({
+      team: 'neutral',
+      text:
+        priorMeetings.length > 0
+          ? `This is meeting No. ${priorMeetings.length + 1} between ${match.homeTeam.name} and ${match.awayTeam.name}.`
+          : `${match.homeTeam.name} and ${match.awayTeam.name} have not met before in recorded matches.`,
+    });
 
     const table = standings[match.league];
     const homeRow = table?.find((r) => r.team.id === match.homeTeam.id);
     const awayRow = table?.find((r) => r.team.id === match.awayTeam.id);
     if (homeRow) {
       const wins = homeRow.form.filter((r) => r === 'W').length;
-      list.push(`${match.homeTeam.name} have won ${wins} of their last ${homeRow.form.length} league games.`);
+      list.push({ team: 'home', text: `${match.homeTeam.name} have won ${wins} of their last ${homeRow.form.length} league games.` });
     }
     if (awayRow) {
       const wins = awayRow.form.filter((r) => r === 'W').length;
-      list.push(`${match.awayTeam.name} have won ${wins} of their last ${awayRow.form.length} league games.`);
+      list.push({ team: 'away', text: `${match.awayTeam.name} have won ${wins} of their last ${awayRow.form.length} league games.` });
     }
     return list;
   }, [match]);
@@ -154,9 +160,11 @@ export default function MatchDetail() {
             </AnimatePresence>
 
             <aside className="match-detail__sidebar">
+              <MatchHighlightsCard match={match} />
               <MatchVenueCard match={match} homeTeam={match.homeTeam} />
-              <MatchInsights facts={facts} />
+              <MatchRefereeCard referee={match.referee} league={match.league} />
               <MatchRoundFixtures match={match} />
+              <MatchInsights facts={facts} match={match} />
               <MatchRelatedNews homeTeamId={match.homeTeam.id} awayTeamId={match.awayTeam.id} />
             </aside>
           </div>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import Crest from '../shared/Crest';
 import { formatKickoffTime } from '../../utils/matchHelpers';
+import { leagues } from '../../data/mockData';
 import './MatchHeader.css';
 
 function formatMatchDate(iso) {
@@ -24,6 +25,8 @@ export default function MatchHeader({ match, tabs, activeTab, onTabChange }) {
     ? 'Full time'
     : `${formatMatchDate(match.matchDateUtc)}, ${formatKickoffTime(match.matchDateUtc)}`;
 
+  const leagueObj = leagues.find((l) => l.name === match.league);
+
   return (
     <header className="match-header">
       <button type="button" className="match-header__back" onClick={() => navigate(-1)}>
@@ -32,6 +35,9 @@ export default function MatchHeader({ match, tabs, activeTab, onTabChange }) {
       </button>
 
       <div className="match-header__league-row">
+        {leagueObj?.logoUrl && (
+          <Crest logoUrl={leagueObj.logoUrl} name={match.league} size={16} />
+        )}
         <span className="match-header__league">{match.league}</span>
         {match.venue && <span className="match-header__venue">{match.venue}</span>}
       </div>

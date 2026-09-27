@@ -656,6 +656,37 @@ export const matchStats = {
   },
 };
 
+// ------------------------------------------------- match detail: highlights --
+// Placeholder for the real highlight clip the future API will provide per
+// match. youtubeUrl is a real, working link (a YouTube search for the
+// fixture) rather than a fabricated video id that would 404 - swap for the
+// actual clip URL once the API is wired up.
+export const matchHighlights = {
+  140: {
+    youtubeUrl: 'https://www.youtube.com/results?search_query=Barcelona+vs+Girona+highlights',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&auto=format&fit=crop&q=80',
+  },
+  101: {
+    youtubeUrl: 'https://www.youtube.com/results?search_query=Arsenal+vs+Man+City+highlights',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&auto=format&fit=crop&q=80',
+  },
+};
+
+// --------------------------------------------------- match detail: venue ----
+// Attendance is specific to the individual match, not the team's home
+// ground — kept separate from team.capacity rather than assumed from it.
+export const matchVenueInfo = {
+  140: { attendance: 98247, surface: 'Grass' },
+  101: { attendance: 60312, surface: 'Grass' },
+};
+
+// ------------------------------------------------- match detail: referee ----
+// Season-wide averages for referees appearing in curated matches above.
+export const refereeStats = {
+  'César Soto Grado': { cardsPerMatch: 4.2, foulsPerMatch: 21.5, photoUrl: null },
+  'Michael Oliver': { cardsPerMatch: 3.6, foulsPerMatch: 19.8, photoUrl: null },
+};
+
 /* =============================================================================
    MOCK DATA EXTENSION (CHUNK 1 — DATA AUDIT & STANDINGS COMPLETION)
    

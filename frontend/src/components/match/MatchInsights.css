@@ -11,28 +11,33 @@
 .match-insights__list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+/* Each insight is its own boxed card with a team-colored left accent and
+   crest icon, not a plain bullet — matches the reference's per-fact card
+   treatment instead of a flat list. */
 .match-insights__item {
-  position: relative;
-  padding-left: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--color-surface-elevated, #111820);
+  border-left: 3px solid var(--color-border, #1e2a35);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.match-insights__item span {
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.8125rem;
-  line-height: 1.5;
+  line-height: 1.45;
   color: var(--color-secondary, #94a3b8);
 }
 
-.match-insights__item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 7px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--color-pitch-green, #00B370);
+.match-insights__item .crest {
+  flex-shrink: 0;
+  margin-top: 1px;
 }

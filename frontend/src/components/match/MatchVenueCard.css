@@ -8,18 +8,25 @@
   padding: 18px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .match-venue-card__row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
+}
+
+.match-venue-card__row:first-child {
+  align-items: flex-start;
 }
 
 .match-venue-card__icon {
   color: var(--color-faint, #475569);
   flex-shrink: 0;
+}
+
+.match-venue-card__row:first-child .match-venue-card__icon {
   margin-top: 2px;
 }
 
@@ -37,19 +44,63 @@
   margin: 2px 0 0 0;
 }
 
+/* Inline label ... value row — matches the reference's single-line
+   "Capacity   49,430" layout instead of a stacked label/value block. */
+.match-venue-card__stat-block {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .match-venue-card__label {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-faint, #475569);
-  margin: 0 0 2px 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-secondary, #94a3b8);
+  margin: 0;
 }
 
 .match-venue-card__value {
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-primary, #f1f5f9);
   margin: 0;
+}
+
+/* Attendance percentage bar with a floating pill badge riding the fill's
+   trailing edge, same as the reference. */
+.match-venue-card__pct-track {
+  position: relative;
+  height: 6px;
+  margin: 2px 0 8px 28px;
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--color-surface-elevated, #111820);
+}
+
+.match-venue-card__pct-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--color-pitch-green, #00B370);
+  transition: width 400ms var(--ease-out-strong, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.match-venue-card__pct-badge {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill, 9999px);
+  background: var(--color-pitch-green, #00B370);
+  color: #080c11;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.625rem;
+  font-weight: 800;
 }
