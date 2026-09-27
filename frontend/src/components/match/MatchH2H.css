@@ -62,7 +62,6 @@
 .match-h2h__list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
 }
 
 .match-h2h__row {
@@ -72,11 +71,16 @@
   width: 100%;
   background: none;
   border: none;
-  border-radius: var(--radius-badge, 8px);
-  padding: 10px 8px;
+  border-top: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
+  border-radius: 0;
+  padding: 11px 6px;
   cursor: pointer;
   text-align: left;
   transition: background-color 150ms ease;
+}
+
+.match-h2h__list > .match-h2h__row:first-child {
+  border-top: none;
 }
 
 .match-h2h__row:hover {
@@ -91,7 +95,7 @@
 
 .match-h2h__row-teams {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr auto 1fr auto;
   align-items: center;
   gap: 10px;
 }
@@ -117,4 +121,20 @@
   font-weight: 700;
   color: var(--color-secondary, #94a3b8);
   white-space: nowrap;
+}
+
+.match-h2h__row-league {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-faint, #475569);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .match-h2h__row-teams { grid-template-columns: 1fr auto 1fr; }
+  .match-h2h__row-league { display: none; }
 }

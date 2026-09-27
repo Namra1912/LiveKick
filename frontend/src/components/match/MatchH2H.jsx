@@ -1,7 +1,7 @@
 // src/components/match/MatchH2H.jsx
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { matches as allMatches } from '../../data/mockData';
+import { matches as allMatches, leagues } from '../../data/mockData';
 import Crest from '../shared/Crest';
 import './MatchH2H.css';
 
@@ -70,29 +70,36 @@ export default function MatchH2H({ match }) {
       </div>
 
       <div className="match-h2h__list">
-        {meetings.map((m) => (
-          <button
-            type="button"
-            key={m.id}
-            className="match-h2h__row"
-            onClick={() => navigate(`/matches/${m.id}`)}
-          >
-            <span className="match-h2h__date">
-              {new Date(m.matchDateUtc).toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })}
-            </span>
-            <div className="match-h2h__row-teams">
-              <span className="match-h2h__row-team">
-                <Crest logoUrl={m.homeTeam.logoUrl} name={m.homeTeam.name} size={20} />
-                {m.homeTeam.shortName}
+        {meetings.map((m) => {
+          const leagueObj = leagues.find((l) => l.name === m.league);
+          return (
+            <button
+              type="button"
+              key={m.id}
+              className="match-h2h__row"
+              onClick={() => navigate(`/matches/${m.id}`)}
+            >
+              <span className="match-h2h__date">
+                {new Date(m.matchDateUtc).toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' })}
               </span>
-              <span className="match-h2h__row-score">{m.homeScore} – {m.awayScore}</span>
-              <span className="match-h2h__row-team match-h2h__row-team--away">
-                {m.awayTeam.shortName}
-                <Crest logoUrl={m.awayTeam.logoUrl} name={m.awayTeam.name} size={20} />
-              </span>
-            </div>
-          </button>
-        ))}
+              <div className="match-h2h__row-teams">
+                <span className="match-h2h__row-team">
+                  <Crest logoUrl={m.homeTeam.logoUrl} name={m.homeTeam.name} size={20} />
+                  {m.homeTeam.shortName}
+                </span>
+                <span className="match-h2h__row-score">{m.homeScore} – {m.awayScore}</span>
+                <span className="match-h2h__row-team match-h2h__row-team--away">
+                  {m.awayTeam.shortName}
+                  <Crest logoUrl={m.awayTeam.logoUrl} name={m.awayTeam.name} size={20} />
+                </span>
+                <span className="match-h2h__row-league">
+                  {leagueObj?.logoUrl && <Crest logoUrl={leagueObj.logoUrl} name={m.league} size={14} />}
+                  {m.league}
+                </span>
+              </div>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
