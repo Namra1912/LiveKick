@@ -107,19 +107,26 @@ function PossessionBar({ stats, homeColor, awayColor }) {
   const homeVal = stats[POSSESSION_ROW.home];
   const awayVal = stats[POSSESSION_ROW.away];
   if (homeVal == null || awayVal == null) return null;
+  const homeLeads = homeVal > awayVal;
 
   return (
     <div className="match-possession">
-      <div className="match-possession__top">
-        <span className="match-stat-value match-stat-value--home" style={{ color: homeColor }}>{homeVal}%</span>
-        <span className="match-stat-row__label">
-          <Disc3 size={12} strokeWidth={2} className="match-stat-row__icon" /> Possession
+      <span className="match-possession__label">
+        <Disc3 size={12} strokeWidth={2} className="match-stat-row__icon" /> Ball Possession
+      </span>
+      <div className="match-possession__pills">
+        <span
+          className={`match-possession__pill ${homeLeads ? 'match-possession__pill--lead' : ''}`}
+          style={{ flexGrow: homeVal, backgroundColor: homeLeads ? homeColor : undefined, color: homeLeads ? '#080c11' : homeColor }}
+        >
+          {homeVal}%
         </span>
-        <span className="match-stat-value match-stat-value--away" style={{ color: awayColor }}>{awayVal}%</span>
-      </div>
-      <div className="match-possession__bar">
-        <span className="match-possession__bar-home" style={{ width: `${homeVal}%`, backgroundColor: homeColor }} />
-        <span className="match-possession__bar-away" style={{ width: `${awayVal}%`, backgroundColor: awayColor }} />
+        <span
+          className={`match-possession__pill ${!homeLeads ? 'match-possession__pill--lead' : ''}`}
+          style={{ flexGrow: awayVal, backgroundColor: !homeLeads ? awayColor : undefined, color: !homeLeads ? '#080c11' : awayColor }}
+        >
+          {awayVal}%
+        </span>
       </div>
     </div>
   );

@@ -115,15 +115,15 @@ export default function MatchDetail() {
                     <MatchReviewCard homeTeamId={match.homeTeam.id} awayTeamId={match.awayTeam.id} />
                     <section className="match-detail__card">
                       <h2 className="match-detail__card-title">
-                        <ListChecks size={16} strokeWidth={2} /> Match Events
+                        <BarChart3 size={16} strokeWidth={2} /> Match Overview
                       </h2>
-                      <MatchEventsList events={events} />
+                      <MatchStatsCompare stats={stats} homeColor={homeColor} awayColor={awayColor} limit={3} />
                     </section>
                     <section className="match-detail__card">
                       <h2 className="match-detail__card-title">
-                        <BarChart3 size={16} strokeWidth={2} /> Top Stats
+                        <ListChecks size={16} strokeWidth={2} /> Match Events
                       </h2>
-                      <MatchStatsCompare stats={stats} homeColor={homeColor} awayColor={awayColor} limit={4} />
+                      <MatchEventsList events={events} />
                     </section>
                   </>
                 )}

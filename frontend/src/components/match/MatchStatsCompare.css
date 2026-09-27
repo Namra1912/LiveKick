@@ -17,37 +17,48 @@
 
 /* ── Possession — the one hero stat that keeps a bar ────────────────────── */
 .match-possession {
-  padding-bottom: 14px;
-  margin-bottom: 10px;
+  padding-bottom: 16px;
+  margin-bottom: 12px;
   border-bottom: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
 }
 
-.match-possession__top {
+.match-possession__label {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 8px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-secondary, #94a3b8);
+  margin-bottom: 10px;
 }
 
-.match-possession__bar {
+/* ── Twin possession pills — each side's share of the ball rendered as its
+   own capsule (leading side filled, trailing side outlined), sized by
+   flex-grow so the split reads at a glance without a continuous bar. ──── */
+.match-possession__pills {
   display: flex;
-  height: 6px;
+  gap: 6px;
+}
+
+.match-possession__pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  padding: 8px 4px;
   border-radius: var(--radius-pill, 9999px);
-  overflow: hidden;
   background: var(--color-surface-elevated, #111820);
-  gap: 2px;
+  border: 1px solid var(--color-border, #1e2a35);
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  transition: flex-grow 400ms var(--ease-out-strong, cubic-bezier(0.23, 1, 0.32, 1));
 }
 
-.match-possession__bar-home,
-.match-possession__bar-away {
-  height: 100%;
-  opacity: 0.85;
-  transition: width 400ms var(--ease-out-strong, cubic-bezier(0.23, 1, 0.32, 1));
+.match-possession__pill--lead {
+  border-color: transparent;
 }
-
-.match-possession__bar-home { border-radius: var(--radius-pill, 9999px) 0 0 var(--radius-pill, 9999px); }
-.match-possession__bar-away { border-radius: 0 var(--radius-pill, 9999px) var(--radius-pill, 9999px) 0; margin-left: auto; }
 
 /* ── Grouped stat sections ────────────────────────────────────────────── */
 .match-stats-compare__group {
