@@ -121,6 +121,23 @@
 }
 
 /* ── Squad Stats table ────────────────────────────────────────────────── */
+.stats-squad-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.stats-squad-header .stats-section-title {
+  margin-bottom: 0;
+}
+
+.stats-squad-count {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.75rem;
+  color: var(--color-faint, #475569);
+}
+
 .stats-table-scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -155,7 +172,14 @@
 
 .stats-table__th--sortable:hover,
 .stats-table__th--active {
-  color: var(--color-primary, #f1f5f9);
+  color: var(--team-color, var(--color-primary, #f1f5f9));
+}
+
+.stats-table__th-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
 }
 
 .stats-table__row {
@@ -165,10 +189,17 @@
   transition: background-color 120ms ease, border-left-color 120ms ease;
 }
 
+/* Faint zebra striping — the squad list runs 20+ rows deep, so a resting
+   eye needs a scan aid, not just a hover highlight that only helps the
+   one row under the cursor. */
+.stats-table__row:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.012);
+}
+
 .stats-table__row:last-child { border-bottom: none; }
 
 .stats-table__row:hover {
-  background-color: rgba(255, 255, 255, 0.025);
+  background-color: rgba(255, 255, 255, 0.035);
 }
 
 .stats-table__row--gk { border-left-color: rgba(245, 158, 11, 0.55); }
@@ -183,10 +214,42 @@
 
 .stats-table__td--center { text-align: center; }
 
-.stats-table__td--player {
+.stats-table__player-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.stats-table__avatar-img,
+.stats-table__avatar-initials {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stats-table__avatar-img {
+  object-fit: cover;
+  background: var(--color-surface-elevated, #111820);
+}
+
+.stats-table__avatar-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #080c11;
+}
+
+.stats-table__player-info {
   display: flex;
   flex-direction: column;
   gap: 1px;
+  min-width: 0;
 }
 
 .stats-table__player-name {

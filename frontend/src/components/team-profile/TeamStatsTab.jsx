@@ -2,11 +2,21 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BarChart3 } from 'lucide-react';
+import { BarChart3, ChevronDown, ChevronUp } from 'lucide-react';
 import { teamStats as allTeamStats } from '../../data/mockData';
 import { listItem } from '../../lib/motion';
 import Flag from '../shared/Flag';
 import './TeamStatsTab.css';
+
+// Same deterministic avatar-color assignment as SquadTab, so a player's
+// initials chip is the same color everywhere they appear in the app.
+const AVATAR_COLORS = ['#00B370', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6'];
+function getInitials(name) {
+  if (!name) return '';
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
 
 // Each metric's realistic ceiling — the bar fills relative to this, not to
 // the highest value in the dataset, so a single team's page never implies
@@ -68,6 +78,11 @@ export default function TeamStatsTab({ team, squad = [] }) {
       setSortDir('desc');
     }
   };
+
+  const sortIcon = (key) =>
+    sortKey === key ? (
+      sortDir === 'desc' ? <ChevronDown size={12} strokeWidth={2.5} /> : <ChevronUp size={12} strokeWidth={2.5} />
+    ) : null;
 
   if (!stats && outfieldSquad.length === 0) {
     return (
@@ -171,15 +186,18 @@ export default function TeamStatsTab({ team, squad = [] }) {
           variants={listItem}
           transition={{ ...listItem.show.transition, delay: 0.1 }}
         >
-          <h2 className="stats-section-title">Squad Stats</h2>
+          <div className="stats-squad-header">
+            <h2 className="stats-section-title">Squad Stats</h2>
+            <span className="stats-squad-count">{outfieldSquad.length} players</span>
+          </div>
           <div className="stats-table-scroll">
             <table className="stats-table">
               <colgroup>
-                <col style={{ width: '40%' }} />
+                <col style={{ width: '30%' }} />
                 <col style={{ width: '20%' }} />
-                <col style={{ width: '13%' }} />
-                <col style={{ width: '13%' }} />
-                <col style={{ width: '14%' }} />
+                <col style={{ width: '18%' }} />
+                <col style={{ width: '16%' }} />
+                <col style={{ width: '16%' }} />
               </colgroup>
               <thead>
                 <tr>
@@ -189,50 +207,65 @@ export default function TeamStatsTab({ team, squad = [] }) {
                     className={`stats-table__th stats-table__th--sortable stats-table__th--center ${sortKey === 'rating' ? 'stats-table__th--active' : ''}`}
                     onClick={() => handleSort('rating')}
                   >
-                    Rating
+                    <span className="stats-table__th-inner">Rating {sortIcon('rating')}</span>
                   </th>
                   <th
                     className={`stats-table__th stats-table__th--sortable stats-table__th--center ${sortKey === 'goals' ? 'stats-table__th--active' : ''}`}
                     onClick={() => handleSort('goals')}
                   >
-                    Goals
+                    <span className="stats-table__th-inner">Goals {sortIcon('goals')}</span>
                   </th>
                   <th
                     className={`stats-table__th stats-table__th--sortable stats-table__th--center ${sortKey === 'assists' ? 'stats-table__th--active' : ''}`}
                     onClick={() => handleSort('assists')}
                   >
-                    Assists
+                    <span className="stats-table__th-inner">Assists {sortIcon('assists')}</span>
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {sortedSquad.map((p, i) => (
-                  <motion.tr
-                    key={p.id}
-                    className={`stats-table__row ${positionGroupClass(p.position)}`}
-                    initial="hidden"
-                    animate="show"
-                    variants={listItem}
-                    transition={{ ...listItem.show.transition, delay: Math.min(i, 10) * 0.02 }}
-                    onClick={() => navigate(`/players/${p.id}`)}
-                  >
-                    <td className="stats-table__td stats-table__td--player">
-                      <span className="stats-table__player-name">{p.name}</span>
-                      <span className="stats-table__player-pos">{p.position}</span>
-                    </td>
-                    <td className="stats-table__td">
-                      <div className="stats-table__nation">
-                        <Flag nationality={p.nationality} size={16} />
-                        <span>{p.nationality}</span>
-                      </div>
-                    </td>
-                    <td className="stats-table__td stats-table__td--center stats-table__td--rating">
-                      {p.rating != null ? p.rating.toFixed(1) : '—'}
-                    </td>
-                    <td className="stats-table__td stats-table__td--center">{p.goals ?? 0}</td>
-                    <td className="stats-table__td stats-table__td--center">{p.assists ?? 0}</td>
-                  </motion.tr>
-                ))}
+                {sortedSquad.map((p, i) => {
+                  const initials = getInitials(p.name);
+                  const avatarBg = AVATAR_COLORS[Math.abs(p.id) % AVATAR_COLORS.length];
+                  return (
+                    <motion.tr
+                      key={p.id}
+                      className={`stats-table__row ${positionGroupClass(p.position)}`}
+                      initial="hidden"
+                      animate="show"
+                      variants={listItem}
+                      transition={{ ...listItem.show.transition, delay: Math.min(i, 10) * 0.02 }}
+                      onClick={() => navigate(`/players/${p.id}`)}
+                    >
+                      <td className="stats-table__td stats-table__td--player">
+                        <div className="stats-table__player-group">
+                          {p.photoUrl ? (
+                            <img src={p.photoUrl} alt="" className="stats-table__avatar-img" />
+                          ) : (
+                            <span className="stats-table__avatar-initials" style={{ backgroundColor: avatarBg }}>
+                              {initials}
+                            </span>
+                          )}
+                          <div className="stats-table__player-info">
+                            <span className="stats-table__player-name">{p.name}</span>
+                            <span className="stats-table__player-pos">{p.position}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="stats-table__td">
+                        <div className="stats-table__nation">
+                          <Flag nationality={p.nationality} size={16} />
+                          <span>{p.nationality}</span>
+                        </div>
+                      </td>
+                      <td className="stats-table__td stats-table__td--center stats-table__td--rating">
+                        {p.rating != null ? p.rating.toFixed(1) : '—'}
+                      </td>
+                      <td className="stats-table__td stats-table__td--center">{p.goals ?? 0}</td>
+                      <td className="stats-table__td stats-table__td--center">{p.assists ?? 0}</td>
+                    </motion.tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
