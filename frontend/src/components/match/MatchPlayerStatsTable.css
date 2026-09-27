@@ -1,21 +1,65 @@
 /* src/components/match/MatchPlayerStatsTable.css */
 
+.match-player-stats__tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 10px 0 4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
+}
+
+.match-player-stats__tab {
+  flex-shrink: 0;
+  background: var(--color-surface-elevated, #111820);
+  border: 1px solid var(--color-border, #1e2a35);
+  border-radius: var(--radius-pill, 9999px);
+  color: var(--color-secondary, #94a3b8);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+}
+
+.match-player-stats__tab:hover {
+  color: var(--color-primary, #f1f5f9);
+}
+
+.match-player-stats__tab--active {
+  color: #080c11;
+  background: var(--color-pitch-green, #00B370);
+  border-color: var(--color-pitch-green, #00B370);
+}
+
+.match-player-stats__scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 4px;
+}
+
+.match-player-stats__list {
+  display: flex;
+  flex-direction: column;
+}
+
 .match-player-stats__head,
 .match-player-stats__row {
   display: grid;
-  grid-template-columns: 1fr 56px 44px 28px 28px;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .match-player-stats__head {
-  padding: 10px 6px;
+  padding: 8px 6px;
   border-bottom: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
   font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   color: var(--color-faint, #475569);
   text-align: center;
 }
@@ -24,13 +68,17 @@
   text-align: left;
 }
 
-.match-player-stats__rows {
-  display: flex;
-  flex-direction: column;
+.match-player-stats__empty {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  color: var(--color-faint, #475569);
+  text-align: center;
+  padding: 20px 0;
+  margin: 0;
 }
 
 .match-player-stats__row {
-  padding: 9px 6px;
+  padding: 8px 6px;
   background: none;
   border: none;
   border-bottom: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
@@ -88,9 +136,5 @@
 }
 
 @media (max-width: 640px) {
-  .match-player-stats__head,
-  .match-player-stats__row {
-    grid-template-columns: 1fr 46px 36px 22px 22px;
-  }
   .match-player-stats__player { font-size: 0.75rem; }
 }

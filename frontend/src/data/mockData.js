@@ -714,6 +714,10 @@ export const matchStats = {
     offsidesHome: 2, offsidesAway: 1,
     passAccuracyHome: 89, passAccuracyAway: 78,
     tacklesHome: 14, tacklesAway: 19,
+    interceptionsHome: 9, interceptionsAway: 14,
+    clearancesHome: 11, clearancesAway: 22,
+    duelsWonHome: 38, duelsWonAway: 35,
+    aerialDuelsWonHome: 9, aerialDuelsWonAway: 14,
     yellowCardsHome: 1, yellowCardsAway: 1,
   },
   101: {
@@ -747,6 +751,45 @@ export const matchMomentum = {
     -10, -30, -15, 12, 28, 20, 8, -14, -25, -10, 15, 34, 48, 30, 12, -8, 20,
     36, 22,
   ],
+};
+
+// ------------------------------------------------ match detail: player stats --
+// Per-player match figures for the Stats tab's player table. xG/xA per
+// player sum to the team totals in matchStats above (Barcelona 2.91,
+// Girona 0.52) rather than being independently invented. Only authored for
+// match 140, the one fully fleshed-out demo match with a complete lineup on
+// both sides — every other match falls back to the table's own empty state.
+export const matchPlayerStats = {
+  140: {
+    // Barcelona (home)
+    901: { xG: 0, xA: 0, shots: 0, shotsOnTarget: 0, passes: 31, accuratePasses: 29, tackles: 0, interceptions: 0, clearances: 1, duelsWon: 0, duelsTotal: 0, saves: 2, goalsConceded: 0 },
+    905: { xG: 0.15, xA: 0.07, shots: 1, shotsOnTarget: 0, passes: 58, accuratePasses: 52, tackles: 2, interceptions: 1, clearances: 2, duelsWon: 4, duelsTotal: 6 },
+    907: { xG: 0.04, xA: 0, shots: 0, shotsOnTarget: 0, passes: 64, accuratePasses: 60, tackles: 3, interceptions: 2, clearances: 5, duelsWon: 5, duelsTotal: 7 },
+    904: { xG: 0.05, xA: 0, shots: 1, shotsOnTarget: 0, passes: 71, accuratePasses: 67, tackles: 2, interceptions: 3, clearances: 4, duelsWon: 6, duelsTotal: 8 },
+    909: { xG: 0.18, xA: 0.05, shots: 1, shotsOnTarget: 1, passes: 55, accuratePasses: 49, tackles: 1, interceptions: 2, clearances: 1, duelsWon: 5, duelsTotal: 7 },
+    912: { xG: 0.21, xA: 0.29, shots: 1, shotsOnTarget: 0, passes: 78, accuratePasses: 71, tackles: 1, interceptions: 1, clearances: 0, duelsWon: 4, duelsTotal: 6 },
+    914: { xG: 0.08, xA: 0, shots: 0, shotsOnTarget: 0, passes: 66, accuratePasses: 60, tackles: 4, interceptions: 3, clearances: 1, duelsWon: 6, duelsTotal: 9 },
+    915: { xG: 0.22, xA: 0.06, shots: 2, shotsOnTarget: 1, passes: 42, accuratePasses: 36, tackles: 1, interceptions: 1, clearances: 0, duelsWon: 3, duelsTotal: 5 },
+    921: { xG: 0.44, xA: 0.38, shots: 3, shotsOnTarget: 2, passes: 39, accuratePasses: 33, tackles: 0, interceptions: 0, clearances: 0, duelsWon: 5, duelsTotal: 9 },
+    919: { xG: 0.68, xA: 0, shots: 4, shotsOnTarget: 2, passes: 19, accuratePasses: 16, tackles: 0, interceptions: 0, clearances: 0, duelsWon: 3, duelsTotal: 7 },
+    923: { xG: 0.52, xA: 0.09, shots: 3, shotsOnTarget: 2, passes: 33, accuratePasses: 28, tackles: 0, interceptions: 0, clearances: 0, duelsWon: 4, duelsTotal: 8 },
+    918: { xG: 0.31, xA: 0.04, shots: 2, shotsOnTarget: 1, passes: 14, accuratePasses: 12, tackles: 0, interceptions: 0, clearances: 0, duelsWon: 2, duelsTotal: 3 },
+    922: { xG: 0.03, xA: 0, shots: 0, shotsOnTarget: 0, passes: 6, accuratePasses: 5, tackles: 0, interceptions: 0, clearances: 0, duelsWon: 1, duelsTotal: 2 },
+    // Girona (away)
+    3401: { xG: 0, xA: 0, shots: 0, shotsOnTarget: 0, passes: 22, accuratePasses: 17, tackles: 0, interceptions: 0, clearances: 2, duelsWon: 0, duelsTotal: 0, saves: 6, goalsConceded: 2 },
+    3402: { xG: 0, xA: 0, shots: 0, shotsOnTarget: 0, passes: 28, accuratePasses: 20, tackles: 2, interceptions: 2, clearances: 3, duelsWon: 3, duelsTotal: 6 },
+    3403: { xG: 0, xA: 0, shots: 0, shotsOnTarget: 0, passes: 31, accuratePasses: 23, tackles: 2, interceptions: 3, clearances: 5, duelsWon: 4, duelsTotal: 7 },
+    3404: { xG: 0, xA: 0, shots: 0, shotsOnTarget: 0, passes: 33, accuratePasses: 25, tackles: 3, interceptions: 2, clearances: 6, duelsWon: 4, duelsTotal: 8 },
+    3405: { xG: 0, xA: 0, shots: 0, shotsOnTarget: 0, passes: 26, accuratePasses: 18, tackles: 2, interceptions: 1, clearances: 2, duelsWon: 3, duelsTotal: 6 },
+    3406: { xG: 0.02, xA: 0.03, shots: 0, shotsOnTarget: 0, passes: 34, accuratePasses: 24, tackles: 4, interceptions: 3, clearances: 1, duelsWon: 5, duelsTotal: 9 },
+    3407: { xG: 0.05, xA: 0.04, shots: 0, shotsOnTarget: 0, passes: 37, accuratePasses: 27, tackles: 3, interceptions: 2, clearances: 1, duelsWon: 4, duelsTotal: 8 },
+    3408: { xG: 0.07, xA: 0, shots: 1, shotsOnTarget: 0, passes: 19, accuratePasses: 12, tackles: 1, interceptions: 0, clearances: 0, duelsWon: 2, duelsTotal: 5 },
+    3409: { xG: 0.09, xA: 0.02, shots: 1, shotsOnTarget: 0, passes: 21, accuratePasses: 14, tackles: 1, interceptions: 1, clearances: 0, duelsWon: 3, duelsTotal: 6 },
+    3410: { xG: 0.12, xA: 0.05, shots: 2, shotsOnTarget: 1, passes: 17, accuratePasses: 10, tackles: 1, interceptions: 0, clearances: 0, duelsWon: 3, duelsTotal: 7 },
+    3411: { xG: 0.14, xA: 0, shots: 2, shotsOnTarget: 1, passes: 13, accuratePasses: 8, tackles: 1, interceptions: 0, clearances: 0, duelsWon: 2, duelsTotal: 6 },
+    3412: { xG: 0.03, xA: 0, shots: 0, shotsOnTarget: 0, passes: 5, accuratePasses: 3, tackles: 0, interceptions: 0, clearances: 0, duelsWon: 1, duelsTotal: 2 },
+    3413: { xG: 0, xA: 0, shots: 0, shotsOnTarget: 0, passes: 3, accuratePasses: 2, tackles: 0, interceptions: 0, clearances: 0, duelsWon: 0, duelsTotal: 1 },
+  },
 };
 
 // ------------------------------------------------- match detail: highlights --

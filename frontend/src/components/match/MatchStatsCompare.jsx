@@ -1,5 +1,5 @@
 // src/components/match/MatchStatsCompare.jsx
-import { Disc3, Target, Crosshair, Zap, Flag, ShieldAlert, ArrowUpRight, CheckCircle2, Shield, Square } from 'lucide-react';
+import { Disc3, Target, Crosshair, Zap, Flag, ShieldAlert, ArrowUpRight, CheckCircle2, Shield, Square, Radar, Hand, Swords } from 'lucide-react';
 import './MatchStatsCompare.css';
 
 // Possession stays the one hero stat with a bar — everything else uses a
@@ -11,17 +11,28 @@ const STAT_GROUPS = [
   {
     title: 'Attacking',
     rows: [
+      { home: 'xGHome', away: 'xGAway', label: 'Expected Goals (xG)', icon: Radar, decimals: 2 },
       { home: 'shotsHome', away: 'shotsAway', label: 'Total Shots', icon: Target },
       { home: 'shotsOnTargetHome', away: 'shotsOnTargetAway', label: 'Shots on Target', icon: Crosshair },
       { home: 'bigChancesHome', away: 'bigChancesAway', label: 'Big Chances', icon: Zap },
+      { home: 'touchesInBoxHome', away: 'touchesInBoxAway', label: 'Touches in Box', icon: Hand },
       { home: 'cornersHome', away: 'cornersAway', label: 'Corners', icon: Flag },
     ],
   },
   {
-    title: 'Passing & Defending',
+    title: 'Passing',
     rows: [
       { home: 'passAccuracyHome', away: 'passAccuracyAway', label: 'Pass Accuracy', suffix: '%', icon: CheckCircle2 },
+    ],
+  },
+  {
+    title: 'Defense & Duels',
+    rows: [
       { home: 'tacklesHome', away: 'tacklesAway', label: 'Tackles', icon: Shield },
+      { home: 'interceptionsHome', away: 'interceptionsAway', label: 'Interceptions', icon: Shield },
+      { home: 'clearancesHome', away: 'clearancesAway', label: 'Clearances', icon: Shield },
+      { home: 'duelsWonHome', away: 'duelsWonAway', label: 'Duels Won', icon: Swords },
+      { home: 'aerialDuelsWonHome', away: 'aerialDuelsWonAway', label: 'Aerial Duels Won', icon: Swords },
     ],
   },
   {
@@ -46,12 +57,14 @@ function StatValue({ value, suffix, isWinner, color, align }) {
 }
 
 function StatRow({ row, stats, homeColor, awayColor }) {
-  const homeVal = stats[row.home];
-  const awayVal = stats[row.away];
-  if (homeVal == null || awayVal == null) return null;
+  const rawHome = stats[row.home];
+  const rawAway = stats[row.away];
+  if (rawHome == null || rawAway == null) return null;
+  const homeVal = row.decimals != null ? rawHome.toFixed(row.decimals) : rawHome;
+  const awayVal = row.decimals != null ? rawAway.toFixed(row.decimals) : rawAway;
   const Icon = row.icon;
-  const homeWins = homeVal > awayVal;
-  const awayWins = awayVal > homeVal;
+  const homeWins = rawHome > rawAway;
+  const awayWins = rawAway > rawHome;
 
   return (
     <div className="match-stat-row">
