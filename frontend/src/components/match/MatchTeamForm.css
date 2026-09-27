@@ -17,50 +17,21 @@
   flex-direction: column;
 }
 
-.match-team-form__col-head {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  padding-bottom: 10px;
-  font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
-  font-size: 0.8125rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: var(--color-primary, #f1f5f9);
-}
-
-.match-team-form__col-head span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-}
-
-.match-team-form__col-head--away {
-  justify-content: flex-start;
-}
-
-.match-team-form__col-head .crest {
-  flex-shrink: 0;
-}
-
 .match-team-form__col--away {
   border-left: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
   padding-left: 20px;
 }
 
 .match-team-form__row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 8px;
-  padding: 8px 0;
+  padding: 9px 0;
   background: none;
   border: none;
   border-top: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
   cursor: pointer;
-  text-align: left;
   width: 100%;
 }
 
@@ -68,15 +39,7 @@
   border-top: none;
 }
 
-.match-team-form__row--home {
-  justify-content: flex-end;
-}
-
-.match-team-form__row--away {
-  justify-content: flex-start;
-}
-
-.match-team-form__opponent {
+.match-team-form__team {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -86,19 +49,20 @@
   color: var(--color-secondary, #94a3b8);
 }
 
-.match-team-form__opponent span {
+.match-team-form__team span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
 }
 
-.match-team-form__row--home .match-team-form__opponent {
-  flex-direction: row-reverse;
+.match-team-form__team .crest {
+  flex-shrink: 0;
 }
 
-.match-team-form__opponent .crest {
-  flex-shrink: 0;
+.match-team-form__team--right {
+  flex-direction: row-reverse;
+  text-align: right;
 }
 
 .match-team-form__badge {
@@ -124,7 +88,12 @@
 }
 
 @media (max-width: 640px) {
-  .match-team-form__grid { gap: 0 10px; }
-  .match-team-form__col--away { padding-left: 10px; }
-  .match-team-form__opponent { font-size: 0.6875rem; }
+  .match-team-form__grid { grid-template-columns: 1fr; gap: 16px 0; }
+  .match-team-form__col--away {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
+    padding-top: 6px;
+  }
+  .match-team-form__team { font-size: 0.6875rem; }
 }

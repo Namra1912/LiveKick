@@ -23,7 +23,7 @@ function splitFormation(players) {
   };
 }
 
-function TeamHalf({ team, flipped }) {
+function TeamHalf({ team, flipped, goalMap, assistMap }) {
   const navigate = useNavigate();
   const squad = squads[team?.id] ?? [];
   const startingIds = team?.lastMatchXI;
@@ -44,24 +44,42 @@ function TeamHalf({ team, flipped }) {
     <div className={`lineup-half lineup-half--${flipped ? 'away' : 'home'}`}>
       {order.map((key) => (
         <div className="lineup-row" key={key}>
-          {rows[key].map((p) => (
-            <button
-              type="button"
-              key={p.id}
-              className="lineup-player"
-              onClick={() => navigate(`/players/${p.id}`)}
-            >
-              <span className="lineup-player__avatar-wrap">
-                <span className="lineup-player__avatar">{p.shirtNumber}</span>
-                {p.rating != null && (
-                  <span className={`lineup-player__rating ${p.rating >= 8 ? 'lineup-player__rating--high' : ''}`}>
-                    {p.rating.toFixed(1)}
+          {rows[key].map((p) => {
+            const goals = goalMap.get(p.name);
+            const assists = assistMap.get(p.name);
+            return (
+              <button
+                type="button"
+                key={p.id}
+                className="lineup-player"
+                onClick={() => navigate(`/players/${p.id}`)}
+              >
+                <span className="lineup-player__avatar-wrap">
+                  <span className="lineup-player__avatar">{p.shirtNumber}</span>
+                  {p.rating != null && (
+                    <span className={`lineup-player__rating ${p.rating >= 8 ? 'lineup-player__rating--high' : ''}`}>
+                      {p.rating.toFixed(1)}
+                    </span>
+                  )}
+                </span>
+                <span className="lineup-player__name">{p.name.split(' ').pop()}</span>
+                {(goals || assists) && (
+                  <span className="lineup-player__contrib">
+                    {goals && (
+                      <span className="lineup-player__contrib-icon" title={`${goals} goal${goals > 1 ? 's' : ''}`}>
+                        ⚽{goals > 1 ? `×${goals}` : ''}
+                      </span>
+                    )}
+                    {assists && (
+                      <span className="lineup-player__contrib-icon" title={`${assists} assist${assists > 1 ? 's' : ''}`}>
+                        👟{assists > 1 ? `×${assists}` : ''}
+                      </span>
+                    )}
                   </span>
                 )}
-              </span>
-              <span className="lineup-player__name">{p.name.split(' ').pop()}</span>
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
       ))}
     </div>
@@ -122,6 +140,18 @@ export default function MatchLineupPitch({ homeTeam, awayTeam, homeFormation, aw
   const homeSubIn = new Map(subEvents.filter((e) => e.type === 'sub' && e.team === 'home').map((e) => [e.playerOn, e.minute]));
   const awaySubIn = new Map(subEvents.filter((e) => e.type === 'sub' && e.team === 'away').map((e) => [e.playerOn, e.minute]));
 
+  const countBy = (events, team, key) => {
+    const map = new Map();
+    events.filter((e) => e.type === 'goal' && e.team === team && e[key]).forEach((e) => {
+      map.set(e[key], (map.get(e[key]) ?? 0) + 1);
+    });
+    return map;
+  };
+  const homeGoals = countBy(subEvents, 'home', 'player');
+  const awayGoals = countBy(subEvents, 'away', 'player');
+  const homeAssists = countBy(subEvents, 'home', 'assist');
+  const awayAssists = countBy(subEvents, 'away', 'assist');
+
   return (
     <div className="match-lineup-wrap">
       <div className="match-lineup-card">
@@ -140,8 +170,12 @@ export default function MatchLineupPitch({ homeTeam, awayTeam, homeFormation, aw
         </div>
         <div className="match-pitch">
           <div className="match-pitch__lines">
+            <div className="match-pitch__penalty-top" />
+            <div className="match-pitch__goal-top" />
             <div className="match-pitch__center-line" />
             <div className="match-pitch__center-circle" />
+            <div className="match-pitch__penalty-bottom" />
+            <div className="match-pitch__goal-bottom" />
           </div>
           {bothMissing ? (
             <p className="lineup-half__empty lineup-half__empty--full">
@@ -149,8 +183,8 @@ export default function MatchLineupPitch({ homeTeam, awayTeam, homeFormation, aw
             </p>
           ) : (
             <>
-              <TeamHalf team={awayTeam} flipped />
-              <TeamHalf team={homeTeam} />
+              <TeamHalf team={awayTeam} flipped goalMap={awayGoals} assistMap={awayAssists} />
+              <TeamHalf team={homeTeam} goalMap={homeGoals} assistMap={homeAssists} />
             </>
           )}
         </div>

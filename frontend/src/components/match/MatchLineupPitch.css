@@ -94,6 +94,48 @@
   border-radius: 50%;
 }
 
+/* ── Penalty boxes + goal frames at both ends, same pattern as the team
+   profile's StartingXI pitch (open-ended box with no border on the pitch
+   edge), with a small goal-mouth rectangle centered on the line. ────────── */
+.match-pitch__penalty-top,
+.match-pitch__penalty-bottom {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  height: 64px;
+  border: 1px solid rgba(0, 179, 112, 0.18);
+}
+
+.match-pitch__penalty-top {
+  top: 0;
+  border-top: none;
+}
+
+.match-pitch__penalty-bottom {
+  bottom: 0;
+  border-bottom: none;
+}
+
+.match-pitch__goal-top,
+.match-pitch__goal-bottom {
+  position: absolute;
+  left: 50%;
+  width: 64px;
+  height: 8px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(0, 179, 112, 0.3);
+}
+
+.match-pitch__goal-top {
+  top: 0;
+  border-top: none;
+}
+
+.match-pitch__goal-bottom {
+  bottom: 0;
+  border-bottom: none;
+}
+
 .lineup-half {
   position: relative;
   z-index: 2;
@@ -187,6 +229,19 @@
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
   white-space: nowrap;
   transition: color 150ms ease;
+}
+
+.lineup-player__contrib {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1px;
+}
+
+.lineup-player__contrib-icon {
+  font-size: 0.6875rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
 }
 
 /* ── Substitutes bench ───────────────────────────────────────────────── */
