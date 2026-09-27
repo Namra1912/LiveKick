@@ -136,12 +136,13 @@ export default function MatchDetail() {
                       awayTeam={match.awayTeam}
                       homeFormation={match.homeTeam.formation}
                       awayFormation={match.awayTeam.formation}
+                      matchId={match.id}
                     />
                     <section className="match-detail__card">
                       <MatchTeamForm homeTeam={match.homeTeam} awayTeam={match.awayTeam} matchId={match.id} />
                     </section>
                     <section className="match-detail__card">
-                      <MatchNextFixture team={match.homeTeam} />
+                      <MatchNextFixture homeTeam={match.homeTeam} awayTeam={match.awayTeam} />
                     </section>
                   </>
                 )}
@@ -152,6 +153,7 @@ export default function MatchDetail() {
                     awayTeam={match.awayTeam}
                     homeFormation={match.homeTeam.formation}
                     awayFormation={match.awayTeam.formation}
+                    matchId={match.id}
                   />
                 )}
 

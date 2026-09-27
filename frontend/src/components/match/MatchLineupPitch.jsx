@@ -1,8 +1,15 @@
 // src/components/match/MatchLineupPitch.jsx
-import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { squads } from '../../data/mockData';
+import { ArrowUpRight } from 'lucide-react';
+import { squads, matchEvents } from '../../data/mockData';
+import Crest from '../shared/Crest';
 import './MatchLineupPitch.css';
+
+function averageRating(players) {
+  const rated = players.filter((p) => p.rating != null);
+  if (rated.length === 0) return null;
+  return (rated.reduce((sum, p) => sum + p.rating, 0) / rated.length).toFixed(1);
+}
 
 function splitFormation(players) {
   if (players.length < 11) {
@@ -61,7 +68,7 @@ function TeamHalf({ team, flipped }) {
   );
 }
 
-function Bench({ team }) {
+function Bench({ team, subInMap }) {
   const navigate = useNavigate();
   const squad = squads[team?.id] ?? [];
   const startingIds = new Set(team?.lastMatchXI ?? []);
@@ -73,28 +80,63 @@ function Bench({ team }) {
     <div className="lineup-bench">
       <h3 className="lineup-bench__title">{team.name} Substitutes</h3>
       <div className="lineup-bench__list">
-        {bench.map((p) => (
-          <button type="button" key={p.id} className="lineup-bench__player" onClick={() => navigate(`/players/${p.id}`)}>
-            <span className="lineup-bench__number">{p.shirtNumber ?? '—'}</span>
-            <span className="lineup-bench__name">{p.name}</span>
-            <span className="lineup-bench__pos">{p.position}</span>
-          </button>
-        ))}
+        {bench.map((p) => {
+          const subMinute = subInMap.get(p.name);
+          const used = subMinute != null;
+          return (
+            <button
+              type="button"
+              key={p.id}
+              className={`lineup-bench__player ${!used ? 'lineup-bench__player--unused' : ''}`}
+              onClick={() => navigate(`/players/${p.id}`)}
+            >
+              <span className="lineup-bench__number">{p.shirtNumber ?? '—'}</span>
+              <span className="lineup-bench__name">{p.name}</span>
+              <span className="lineup-bench__pos">{p.position}</span>
+              {used ? (
+                <span className="lineup-bench__sub-in">
+                  {p.rating != null && <span className="lineup-bench__sub-rating">{p.rating.toFixed(1)}</span>}
+                  <ArrowUpRight size={13} strokeWidth={2.5} />
+                  {subMinute}&apos;
+                </span>
+              ) : (
+                <span className="lineup-bench__unused-label">Unused</span>
+              )}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
 }
 
-export default function MatchLineupPitch({ homeTeam, awayTeam, homeFormation, awayFormation }) {
+export default function MatchLineupPitch({ homeTeam, awayTeam, homeFormation, awayFormation, matchId }) {
   const bothMissing = !squads[homeTeam?.id] && !squads[awayTeam?.id];
+
+  const homeXI = (homeTeam?.lastMatchXI ?? []).map((id) => squads[homeTeam.id]?.find((p) => p.id === id)).filter(Boolean);
+  const awayXI = (awayTeam?.lastMatchXI ?? []).map((id) => squads[awayTeam.id]?.find((p) => p.id === id)).filter(Boolean);
+  const homeAvg = averageRating(homeXI);
+  const awayAvg = averageRating(awayXI);
+
+  const subEvents = (matchId != null ? matchEvents[matchId] : null) ?? [];
+  const homeSubIn = new Map(subEvents.filter((e) => e.type === 'sub' && e.team === 'home').map((e) => [e.playerOn, e.minute]));
+  const awaySubIn = new Map(subEvents.filter((e) => e.type === 'sub' && e.team === 'away').map((e) => [e.playerOn, e.minute]));
 
   return (
     <div className="match-lineup-wrap">
       <div className="match-lineup-card">
         <div className="match-lineup-card__header">
-          <span className="match-lineup-card__formation">{homeFormation ?? homeTeam?.formation ?? '—'}</span>
+          <div className="match-lineup-card__side">
+            <Crest logoUrl={homeTeam?.logoUrl} name={homeTeam?.name} size={22} />
+            <span className="match-lineup-card__formation">{homeFormation ?? homeTeam?.formation ?? '—'}</span>
+            {homeAvg && <span className="match-lineup-card__rating">{homeAvg}</span>}
+          </div>
           <span className="match-lineup-card__title">Lineups</span>
-          <span className="match-lineup-card__formation">{awayFormation ?? awayTeam?.formation ?? '—'}</span>
+          <div className="match-lineup-card__side match-lineup-card__side--away">
+            {awayAvg && <span className="match-lineup-card__rating">{awayAvg}</span>}
+            <span className="match-lineup-card__formation">{awayFormation ?? awayTeam?.formation ?? '—'}</span>
+            <Crest logoUrl={awayTeam?.logoUrl} name={awayTeam?.name} size={22} />
+          </div>
         </div>
         <div className="match-pitch">
           <div className="match-pitch__lines">
@@ -116,8 +158,8 @@ export default function MatchLineupPitch({ homeTeam, awayTeam, homeFormation, aw
 
       {(squads[homeTeam?.id] || squads[awayTeam?.id]) && (
         <div className="match-lineup-benches">
-          <Bench team={homeTeam} />
-          <Bench team={awayTeam} />
+          <Bench team={homeTeam} subInMap={homeSubIn} />
+          <Bench team={awayTeam} subInMap={awaySubIn} />
         </div>
       )}
     </div>
