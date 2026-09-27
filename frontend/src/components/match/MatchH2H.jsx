@@ -49,22 +49,25 @@ export default function MatchH2H({ match }) {
     <div className="match-h2h">
       <div className="match-h2h__summary">
         <div className="match-h2h__summary-stat">
-          <Crest logoUrl={match.homeTeam.logoUrl} name={match.homeTeam.name} size={28} />
-          <span className="match-h2h__summary-circle" style={{ backgroundColor: match.homeTeam.primaryColor }}>
-            {record.homeWins}
-          </span>
+          <div className="match-h2h__summary-badge">
+            <Crest logoUrl={match.homeTeam.logoUrl} name={match.homeTeam.name} size={26} />
+            <span className="match-h2h__summary-circle" style={{ backgroundColor: match.homeTeam.primaryColor }}>
+              {record.homeWins}
+            </span>
+          </div>
           <span className="match-h2h__summary-label">Wins</span>
         </div>
         <div className="match-h2h__summary-stat">
-          <span className="match-h2h__summary-dash" aria-hidden="true" />
           <span className="match-h2h__summary-circle match-h2h__summary-circle--draw">{record.draws}</span>
           <span className="match-h2h__summary-label">Draws</span>
         </div>
         <div className="match-h2h__summary-stat">
-          <Crest logoUrl={match.awayTeam.logoUrl} name={match.awayTeam.name} size={28} />
-          <span className="match-h2h__summary-circle" style={{ backgroundColor: match.awayTeam.primaryColor }}>
-            {record.awayWins}
-          </span>
+          <div className="match-h2h__summary-badge match-h2h__summary-badge--away">
+            <span className="match-h2h__summary-circle" style={{ backgroundColor: match.awayTeam.primaryColor }}>
+              {record.awayWins}
+            </span>
+            <Crest logoUrl={match.awayTeam.logoUrl} name={match.awayTeam.name} size={26} />
+          </div>
           <span className="match-h2h__summary-label">Wins</span>
         </div>
       </div>
