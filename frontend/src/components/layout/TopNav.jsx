@@ -2,6 +2,7 @@
 // Top nav: brand badge logo + search bar + coin pill + bell + avatar
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Bell, Search } from 'lucide-react';
 import CoinIcon from '../icons/CoinIcon';
 import Logo from '../shared/Logo';
@@ -9,6 +10,7 @@ import './TopNav.css';
 
 export default function TopNav({ user, onSearchOpen }) {
   const [avatarError, setAvatarError] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="topnav">
@@ -58,6 +60,7 @@ export default function TopNav({ user, onSearchOpen }) {
           id="user-avatar-btn"
           className="topnav__avatar-btn"
           aria-label="User profile"
+          onClick={() => navigate('/profile')}
         >
           {avatarError ? (
             <div className="topnav__avatar-fallback">

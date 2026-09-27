@@ -2,11 +2,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Bell, Moon, Shield, LogOut, X, Coins, Target } from 'lucide-react';
+import { Bell, Moon, Shield, LogOut, X } from 'lucide-react';
 import AppLayout from '../components/layout/AppLayout';
 import Crest from '../components/shared/Crest';
 import { useFollowedTeams } from '../context/FollowedTeamsContext';
-import { currentUser, teams } from '../data/mockData';
+import { teams } from '../data/mockData';
 import { pageIn } from '../lib/motion';
 import './Settings.css';
 
@@ -66,42 +66,11 @@ export default function Settings() {
     .map((id) => teams.find((t) => t.id === id))
     .filter(Boolean);
 
-  const accuracy = currentUser.totalPredictions > 0
-    ? Math.round((currentUser.correctPredictions / currentUser.totalPredictions) * 100)
-    : 0;
-
   return (
     <AppLayout>
       <motion.main className="settings-page" initial="hidden" animate="show" variants={pageIn}>
         <div className="settings-page__inner">
           <h1 className="settings-page__title">Settings</h1>
-
-          {/* ── Profile ──────────────────────────────────────────── */}
-          <section className="settings-card">
-            <div className="settings-profile">
-              <img
-                className="settings-profile__avatar"
-                src={`https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=00B370&color=071a11&size=96&bold=true&format=svg`}
-                alt={currentUser.name}
-              />
-              <div className="settings-profile__info">
-                <span className="settings-profile__name">{currentUser.name}</span>
-                <span className="settings-profile__email">{currentUser.email}</span>
-              </div>
-            </div>
-            <div className="settings-profile__stats">
-              <div className="settings-profile__stat">
-                <Coins size={14} strokeWidth={2} />
-                <span>{currentUser.matchdayCoins.toLocaleString()}</span>
-                <span className="settings-profile__stat-label">Coins</span>
-              </div>
-              <div className="settings-profile__stat">
-                <Target size={14} strokeWidth={2} />
-                <span>{accuracy}%</span>
-                <span className="settings-profile__stat-label">Prediction accuracy</span>
-              </div>
-            </div>
-          </section>
 
           {/* ── My Teams ─────────────────────────────────────────── */}
           <section className="settings-card">

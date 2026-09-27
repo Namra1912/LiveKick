@@ -16,6 +16,7 @@ import News from '../pages/News';
 import TeamDetail from '../pages/TeamDetail';
 import PlayerDetail from '../pages/PlayerDetail';
 import Settings from '../pages/Settings';
+import Profile from '../pages/Profile';
 
 export default function AppRouter() {
   return (
@@ -32,6 +33,7 @@ export default function AppRouter() {
           <Route path="/tactics"       element={<TacticsLab />} />
           <Route path="/login"         element={<Login />} />
           <Route path="/settings"      element={<Settings />} />
+          <Route path="/profile"       element={<Profile />} />
 
           {/* Detail routes — navigated to from match rows, team crests, and player names */}
           <Route path="/matches/:id"   element={<MatchDetail />} />
