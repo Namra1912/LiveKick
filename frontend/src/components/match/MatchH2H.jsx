@@ -50,7 +50,7 @@ export default function MatchH2H({ match }) {
       <div className="match-h2h__summary">
         <div className="match-h2h__summary-stat">
           <div className="match-h2h__summary-badge">
-            <Crest logoUrl={match.homeTeam.logoUrl} name={match.homeTeam.name} size={26} />
+            <Crest logoUrl={match.homeTeam.logoUrl} name={match.homeTeam.name} size={44} />
             <span className="match-h2h__summary-circle" style={{ backgroundColor: match.homeTeam.primaryColor }}>
               {record.homeWins}
             </span>
@@ -66,7 +66,7 @@ export default function MatchH2H({ match }) {
             <span className="match-h2h__summary-circle" style={{ backgroundColor: match.awayTeam.primaryColor }}>
               {record.awayWins}
             </span>
-            <Crest logoUrl={match.awayTeam.logoUrl} name={match.awayTeam.name} size={26} />
+            <Crest logoUrl={match.awayTeam.logoUrl} name={match.awayTeam.name} size={44} />
           </div>
           <span className="match-h2h__summary-label">Wins</span>
         </div>
