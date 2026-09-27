@@ -2,56 +2,125 @@
 import { Disc3, Target, Crosshair, Zap, Flag, ShieldAlert, ArrowUpRight, CheckCircle2, Shield, Square } from 'lucide-react';
 import './MatchStatsCompare.css';
 
-const STAT_ROWS = [
-  { home: 'possessionHome', away: 'possessionAway', label: 'Possession', suffix: '%', icon: Disc3 },
-  { home: 'shotsHome', away: 'shotsAway', label: 'Total Shots', icon: Target },
-  { home: 'shotsOnTargetHome', away: 'shotsOnTargetAway', label: 'Shots on Target', icon: Crosshair },
-  { home: 'bigChancesHome', away: 'bigChancesAway', label: 'Big Chances', icon: Zap },
-  { home: 'cornersHome', away: 'cornersAway', label: 'Corners', icon: Flag },
-  { home: 'passAccuracyHome', away: 'passAccuracyAway', label: 'Pass Accuracy', suffix: '%', icon: CheckCircle2 },
-  { home: 'tacklesHome', away: 'tacklesAway', label: 'Tackles', icon: Shield },
-  { home: 'foulsHome', away: 'foulsAway', label: 'Fouls', icon: ShieldAlert },
-  { home: 'offsidesHome', away: 'offsidesAway', label: 'Offsides', icon: ArrowUpRight },
-  { home: 'yellowCardsHome', away: 'yellowCardsAway', label: 'Yellow Cards', icon: Square },
+// Possession stays the one hero stat with a bar — everything else uses a
+// pill on whichever side leads, grouped under section headers. Matches the
+// reference's own pattern: a bar draws the eye once, not on every row.
+const POSSESSION_ROW = { home: 'possessionHome', away: 'possessionAway', label: 'Possession', suffix: '%', icon: Disc3 };
+
+const STAT_GROUPS = [
+  {
+    title: 'Attacking',
+    rows: [
+      { home: 'shotsHome', away: 'shotsAway', label: 'Total Shots', icon: Target },
+      { home: 'shotsOnTargetHome', away: 'shotsOnTargetAway', label: 'Shots on Target', icon: Crosshair },
+      { home: 'bigChancesHome', away: 'bigChancesAway', label: 'Big Chances', icon: Zap },
+      { home: 'cornersHome', away: 'cornersAway', label: 'Corners', icon: Flag },
+    ],
+  },
+  {
+    title: 'Passing & Defending',
+    rows: [
+      { home: 'passAccuracyHome', away: 'passAccuracyAway', label: 'Pass Accuracy', suffix: '%', icon: CheckCircle2 },
+      { home: 'tacklesHome', away: 'tacklesAway', label: 'Tackles', icon: Shield },
+    ],
+  },
+  {
+    title: 'Discipline',
+    rows: [
+      { home: 'foulsHome', away: 'foulsAway', label: 'Fouls', icon: ShieldAlert },
+      { home: 'offsidesHome', away: 'offsidesAway', label: 'Offsides', icon: ArrowUpRight },
+      { home: 'yellowCardsHome', away: 'yellowCardsAway', label: 'Yellow Cards', icon: Square },
+    ],
+  },
 ];
+
+function StatValue({ value, suffix, isWinner, color, align }) {
+  return (
+    <span
+      className={`match-stat-value match-stat-value--${align} ${isWinner ? 'match-stat-value--pill' : ''}`}
+      style={isWinner ? { backgroundColor: color, color: '#080c11' } : { color }}
+    >
+      {value}{suffix ?? ''}
+    </span>
+  );
+}
+
+function StatRow({ row, stats, homeColor, awayColor }) {
+  const homeVal = stats[row.home];
+  const awayVal = stats[row.away];
+  if (homeVal == null || awayVal == null) return null;
+  const Icon = row.icon;
+  const homeWins = homeVal > awayVal;
+  const awayWins = awayVal > homeVal;
+
+  return (
+    <div className="match-stat-row">
+      <StatValue value={homeVal} suffix={row.suffix} isWinner={homeWins} color={homeColor} align="home" />
+      <span className="match-stat-row__label">
+        {Icon && <Icon size={12} strokeWidth={2} className="match-stat-row__icon" />}
+        {row.label}
+      </span>
+      <StatValue value={awayVal} suffix={row.suffix} isWinner={awayWins} color={awayColor} align="away" />
+    </div>
+  );
+}
 
 export default function MatchStatsCompare({ stats, homeColor, awayColor, limit }) {
   if (!stats) {
     return <p className="match-stats-compare__empty">Match stats haven&apos;t been recorded yet.</p>;
   }
 
-  const rows = limit ? STAT_ROWS.slice(0, limit) : STAT_ROWS;
+  // Teaser mode (Overview tab): possession bar + first group only, no
+  // section headers — keeps the Overview card short.
+  if (limit) {
+    const teaserRows = STAT_GROUPS.flatMap((g) => g.rows).slice(0, limit);
+    return (
+      <div className="match-stats-compare">
+        <PossessionBar stats={stats} homeColor={homeColor} awayColor={awayColor} />
+        {teaserRows.map((row) => (
+          <StatRow key={row.label} row={row} stats={stats} homeColor={homeColor} awayColor={awayColor} />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="match-stats-compare">
-      {rows.map((row) => {
-        const homeVal = stats[row.home];
-        const awayVal = stats[row.away];
-        if (homeVal == null || awayVal == null) return null;
-        const total = homeVal + awayVal || 1;
-        const homePct = (homeVal / total) * 100;
-        const Icon = row.icon;
+      <PossessionBar stats={stats} homeColor={homeColor} awayColor={awayColor} />
+      {STAT_GROUPS.map((group) => {
+        const visibleRows = group.rows.filter((r) => stats[r.home] != null && stats[r.away] != null);
+        if (visibleRows.length === 0) return null;
         return (
-          <div className="match-stat-row" key={row.label}>
-            <div className="match-stat-row__top">
-              <span className="match-stat-row__value" style={{ color: homeColor }}>
-                {homeVal}{row.suffix ?? ''}
-              </span>
-              <span className="match-stat-row__label">
-                {Icon && <Icon size={12} strokeWidth={2} className="match-stat-row__icon" />}
-                {row.label}
-              </span>
-              <span className="match-stat-row__value match-stat-row__value--away" style={{ color: awayColor }}>
-                {awayVal}{row.suffix ?? ''}
-              </span>
-            </div>
-            <div className="match-stat-row__bar">
-              <span className="match-stat-row__bar-home" style={{ width: `${homePct}%`, backgroundColor: homeColor }} />
-              <span className="match-stat-row__bar-away" style={{ width: `${100 - homePct}%`, backgroundColor: awayColor }} />
-            </div>
+          <div className="match-stats-compare__group" key={group.title}>
+            <h3 className="match-stats-compare__group-title">{group.title}</h3>
+            {visibleRows.map((row) => (
+              <StatRow key={row.label} row={row} stats={stats} homeColor={homeColor} awayColor={awayColor} />
+            ))}
           </div>
         );
       })}
+    </div>
+  );
+}
+
+function PossessionBar({ stats, homeColor, awayColor }) {
+  const homeVal = stats[POSSESSION_ROW.home];
+  const awayVal = stats[POSSESSION_ROW.away];
+  if (homeVal == null || awayVal == null) return null;
+
+  return (
+    <div className="match-possession">
+      <div className="match-possession__top">
+        <span className="match-stat-value match-stat-value--home" style={{ color: homeColor }}>{homeVal}%</span>
+        <span className="match-stat-row__label">
+          <Disc3 size={12} strokeWidth={2} className="match-stat-row__icon" /> Possession
+        </span>
+        <span className="match-stat-value match-stat-value--away" style={{ color: awayColor }}>{awayVal}%</span>
+      </div>
+      <div className="match-possession__bar">
+        <span className="match-possession__bar-home" style={{ width: `${homeVal}%`, backgroundColor: homeColor }} />
+        <span className="match-possession__bar-away" style={{ width: `${awayVal}%`, backgroundColor: awayColor }} />
+      </div>
     </div>
   );
 }
