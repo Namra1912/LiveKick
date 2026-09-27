@@ -20,6 +20,8 @@ import MatchRoundFixtures from '../components/match/MatchRoundFixtures';
 import MatchRelatedNews from '../components/match/MatchRelatedNews';
 import MatchInsights from '../components/match/MatchInsights';
 import MatchH2H from '../components/match/MatchH2H';
+import MatchTeamForm from '../components/match/MatchTeamForm';
+import MatchNextFixture from '../components/match/MatchNextFixture';
 import { matches, matchEvents, matchStats, standings } from '../data/mockData';
 import { pageIn, panelFade } from '../lib/motion';
 import './MatchDetail.css';
@@ -127,7 +129,19 @@ export default function MatchDetail() {
                       <h2 className="match-detail__card-title">
                         <ListChecks size={16} strokeWidth={2} /> Match Events
                       </h2>
-                      <MatchEventsList events={events} />
+                      <MatchEventsList events={events} isFinished={match.status === 'finished'} />
+                    </section>
+                    <MatchLineupPitch
+                      homeTeam={match.homeTeam}
+                      awayTeam={match.awayTeam}
+                      homeFormation={match.homeTeam.formation}
+                      awayFormation={match.awayTeam.formation}
+                    />
+                    <section className="match-detail__card">
+                      <MatchTeamForm homeTeam={match.homeTeam} awayTeam={match.awayTeam} matchId={match.id} />
+                    </section>
+                    <section className="match-detail__card">
+                      <MatchNextFixture team={match.homeTeam} />
                     </section>
                   </>
                 )}
