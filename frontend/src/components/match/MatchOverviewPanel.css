@@ -40,25 +40,41 @@
   stroke-dasharray: 3 3;
 }
 
-.match-overview__momentum-area {
-  opacity: 0.8;
-}
-
-.match-overview__momentum-area--home {
-  clip-path: inset(0 0 50% 0);
-}
-
-.match-overview__momentum-area--away {
-  clip-path: inset(50% 0 0 0);
-}
-
 .match-overview__momentum-labels {
   display: flex;
   justify-content: space-between;
-  margin-top: 6px;
+  margin-top: 8px;
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
   font-size: 0.6875rem;
+  font-weight: 600;
   color: var(--color-faint, #475569);
+}
+
+/* ── All-stats footer — bleeds to the card's edges so it reads as a
+   dedicated nav row, not just another stat line. ───────────────────────── */
+.match-overview__all-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: calc(100% + 36px);
+  margin: 16px -18px -18px;
+  padding: 14px 18px;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
+  border-radius: 0 0 14px 14px;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-secondary, #94a3b8);
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.match-overview__all-stats:hover {
+  color: var(--color-pitch-green, #00B370);
+  background: var(--color-surface-hover, rgba(255, 255, 255, 0.03));
 }
 
 /* ── Top stats column ────────────────────────────────────────────────── */
@@ -79,24 +95,30 @@
 
 .match-overview__stat-row {
   display: grid;
-  grid-template-columns: 44px 1fr 44px;
+  grid-template-columns: 48px 1fr 48px;
   align-items: center;
-  gap: 8px;
-  padding: 8px 0;
+  gap: 10px;
+  padding: 11px 0;
   border-top: 1px solid var(--color-border-dim, rgba(30, 42, 53, 0.6));
 }
 
 .match-overview__stat-label {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-size: 0.75rem;
+  font-weight: 500;
   color: var(--color-secondary, #94a3b8);
+}
+
+.match-overview__stat-label svg {
+  opacity: 0.75;
+  flex-shrink: 0;
 }
 
 .match-overview__stat-num {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--color-primary, #f1f5f9);
   justify-self: start;
@@ -104,9 +126,10 @@
 
 .match-overview__stat-num--pill {
   justify-self: end;
-  padding: 3px 10px;
-  border-radius: var(--radius-badge, 6px);
+  padding: 4px 11px;
+  border-radius: var(--radius-pill, 9999px);
   font-weight: 800;
+  font-size: 0.8125rem;
 }
 
 .match-overview__stat-num--lead {

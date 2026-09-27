@@ -115,7 +115,13 @@ export default function MatchDetail() {
                   <>
                     <MatchReviewCard homeTeamId={match.homeTeam.id} awayTeamId={match.awayTeam.id} />
                     <section className="match-detail__card">
-                      <MatchOverviewPanel stats={stats} match={match} homeColor={homeColor} awayColor={awayColor} />
+                      <MatchOverviewPanel
+                        stats={stats}
+                        match={match}
+                        homeColor={homeColor}
+                        awayColor={awayColor}
+                        onViewAllStats={() => setActiveTab('STATS')}
+                      />
                     </section>
                     <section className="match-detail__card">
                       <h2 className="match-detail__card-title">
