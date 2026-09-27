@@ -5,27 +5,36 @@
   border: 1px solid var(--color-border, #1e2a35);
   border-radius: 14px;
   box-shadow: var(--shadow-card);
-  padding: 18px 24px 0;
+  padding: 14px 24px 0;
   overflow: hidden;
 }
 
-.match-header__back {
-  display: inline-flex;
+/* ── Top row: back · league+round · (reserved right slot) ──────────────── */
+.match-header__top-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 2px;
-  background: none;
+  gap: 12px;
+  padding-bottom: 14px;
+}
+
+.match-header__back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-surface-elevated, #111820);
   border: none;
   color: var(--color-secondary, #94a3b8);
-  font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.8125rem;
-  font-weight: 600;
   cursor: pointer;
-  padding: 0 0 16px 0;
-  transition: color 150ms ease;
+  transition: color 150ms ease, background-color 150ms ease;
 }
 
 .match-header__back:hover {
   color: var(--color-primary, #f1f5f9);
+  background: var(--color-surface-hover, rgba(255, 255, 255, 0.05));
 }
 
 .match-header__league-row {
@@ -33,7 +42,6 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 18px;
 }
 
 .match-header__league {
@@ -41,49 +49,84 @@
   font-size: 0.8125rem;
   font-weight: 700;
   color: var(--color-primary, #f1f5f9);
+  white-space: nowrap;
 }
 
-.match-header__venue {
+.match-header__top-spacer {
+  width: 32px;
+}
+
+/* ── Info row: date · venue, boxed between two hairlines ────────────────── */
+.match-header__info-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  padding: 12px 0;
+  border-top: 1px solid var(--color-border, #1e2a35);
+  border-bottom: 1px solid var(--color-border, #1e2a35);
+}
+
+.match-header__info-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.75rem;
   color: var(--color-faint, #475569);
-  position: relative;
-  padding-left: 10px;
+  white-space: nowrap;
 }
 
-.match-header__venue::before {
-  content: '·';
-  position: absolute;
-  left: 3px;
+.match-header__info-item svg {
+  flex-shrink: 0;
+  opacity: 0.8;
 }
 
+/* ── Scoreline ────────────────────────────────────────────────────────── */
 .match-header__scoreline {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 16px;
-  padding-bottom: 22px;
+  padding: 22px 0;
 }
 
 .match-header__team {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  min-width: 0;
   background: none;
   border: none;
   cursor: pointer;
   padding: 4px;
 }
 
+.match-header__team--home {
+  justify-content: flex-end;
+}
+
+.match-header__team--away {
+  justify-content: flex-start;
+}
+
 .match-header__team-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-family: var(--font-display, 'Big Shoulders Display', sans-serif);
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -0.01em;
   color: var(--color-primary, #f1f5f9);
-  text-align: center;
   transition: color 150ms ease;
+}
+
+.match-header__team .crest {
+  flex-shrink: 0;
 }
 
 .match-header__team:hover .match-header__team-name {
@@ -125,6 +168,35 @@
   font-weight: 700;
 }
 
+/* ── Scorer summary ───────────────────────────────────────────────────── */
+.match-header__scorers {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  padding-bottom: 18px;
+}
+
+.match-header__scorers-icon {
+  color: var(--color-faint, #475569);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.match-header__scorers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.match-header__scorer {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.75rem;
+  color: var(--color-secondary, #94a3b8);
+  text-align: center;
+}
+
+/* ── Tabs ─────────────────────────────────────────────────────────────── */
 .match-header__tabs {
   display: flex;
   gap: 4px;
@@ -157,7 +229,29 @@
 }
 
 @media (max-width: 640px) {
-  .match-header { padding: 16px 14px 0; }
-  .match-header__team-name { font-size: 0.9375rem; }
+  .match-header { padding: 12px 14px 0; }
   .match-header__score { font-size: 1.125rem; min-width: 84px; padding: 6px 10px; }
+  .match-header__info-row { gap: 4px 10px; }
+
+  /* Not enough width for crest + full name side-by-side without either
+     clipping or truncating to nothing useful — stack instead, same
+     pattern the rest of the app already uses for compact team cells. */
+  .match-header__team {
+    flex-direction: column;
+    gap: 6px;
+    justify-content: flex-start !important;
+  }
+  /* Home's DOM order is name-then-crest (so crest sits nearest the score
+     on desktop) — reverse it here so crest is on top for both sides. */
+  .match-header__team--home {
+    flex-direction: column-reverse;
+  }
+  .match-header__team-name {
+    font-size: 0.75rem;
+    max-width: 100%;
+  }
+  .match-header__team .crest {
+    width: 34px !important;
+    height: 34px !important;
+  }
 }
